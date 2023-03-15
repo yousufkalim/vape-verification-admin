@@ -1,0 +1,71 @@
+/* .reset_password {
+  height: 100vh;
+}
+.reset_password .main-content {
+  height: 100%;
+  width: 100%;
+} */
+/* 
+.reset_password .header {
+  height: 100%;
+} */
+
+/*      FilePicker      */
+.filepicker_input {
+  display: none;
+}
+
+.filepicker_main_div {
+  width: 100%;
+  height: auto;
+  min-height: 7rem;
+  border-radius: 9px;
+  border: 1px solid #eaecf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  /* position: relative;
+  z-index: 1; */
+}
+
+.download_icon_div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text_div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #667085;
+}
+
+.delete_product_file {
+  position: absolute;
+  cursor: pointer;
+  padding-left: 5px;
+  width: 15px;
+  height: 12px;
+  top: 10px;
+  right: 10px;
+}
+.filepicker_image {
+  align-items: 'center';
+  margin-block: 5;
+  width: 100px;
+  height: 80px;
+  position: relative;
+}
+
+.filepicker_image_img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.color_field {
+  height: 110px;
+}

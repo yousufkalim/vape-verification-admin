@@ -17,8 +17,8 @@
 */
 
 // reactstrap components
-import { useState } from "react";
-import api from "api";
+import { useState } from 'react';
+import api from 'api';
 import {
   Button,
   Card,
@@ -31,91 +31,158 @@ import {
   InputGroupText,
   InputGroup,
   Row,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   let [user, setUser] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    api("post", "/admins/login", user).then((res) => {
-      localStorage.setItem("token", res.token);
-      window.location = "/admin/index";
-    });
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
+
+  const handleForgotPassword = () => {
+    if (email) {
+      api('put', `/auth/forgot/${email}`, user)
+        .then(() => {
+          setIsModalOpen(false);
+          toast.success('Reset Password link has been sent to your email');
+          // setTimeout(() => {
+          //   window.location = '/admin/index';
+          // }, 2000);
+        })
+        .catch((err) => {
+          console.log('Error ', err);
+        });
+    } else {
+      toast.error('Please provide email');
+    }
+  };
+
+  const handleSubmit = () => {
+    api('post', '/auth/login', user)
+      .then((res) => {
+        const { user } = res;
+        localStorage.setItem('token', res.token);
+        // localStorage.setItem('user', res.token);
+        if (user?.role === 'admin') {
+          window.location = '/admin/index';
+        } else if (user?.role === 'brand') {
+          window.location = '/brand/index';
+        }
+      })
+      .catch((err) => {
+        console.log('Error ', err);
+      });
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  console.log('Is modal open', isModalOpen);
 
   return (
     <>
-      <Col lg="5" md="7">
-        <Card className="bg-secondary shadow border-0">
-          <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-muted mb-4">
+      <Col lg='5' md='7' style={{ position: 'relative' }}>
+        <Card className='bg-secondary shadow border-0'>
+          <CardBody className='px-lg-5 py-lg-5'>
+            <div className='text-center text-muted mb-4'>
               <small>Sign In</small>
             </div>
-            <Form role="form">
-              <FormGroup className="mb-3">
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
+            <Form role='form'>
+              <FormGroup className='mb-3'>
+                <InputGroup className='input-group-alternative'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-email-83" />
+                      <i className='ni ni-email-83' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
-                    type="email"
-                    name="email"
-                    autoComplete="new-email"
+                    placeholder='Email'
+                    type='email'
+                    name='email'
+                    autoComplete='new-email'
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
+                <InputGroup className='input-group-alternative'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
+                      <i className='ni ni-lock-circle-open' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    autoComplete="new-password"
+                    placeholder='Password'
+                    type='password'
+                    name='password'
+                    autoComplete='new-password'
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor=" customCheckLogin"
-                >
-                  <span className="text-muted">Remember me</span>
+              <div className='custom-control custom-control-alternative custom-checkbox'>
+                <input className='custom-control-input' id=' customCheckLogin' type='checkbox' />
+                <label className='custom-control-label' htmlFor=' customCheckLogin'>
+                  <span className='text-muted'>Remember me</span>
                 </label>
               </div>
-              <div className="text-center">
-                <Button
-                  className="my-4"
-                  color="primary"
-                  type="button"
-                  onClick={handleSubmit}
-                >
+              <div className='text-center'>
+                <Button className='my-4' color='primary' type='button' onClick={handleSubmit}>
                   Sign in
+                </Button>
+                <Button onClick={toggleModal} className='my-4' color='primary' type='button'>
+                  Forgot Password
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
       </Col>
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Forgot Password</ModalHeader>
+        <ModalBody>
+          <Form role='form'>
+            <FormGroup>
+              <InputGroup className='input-group-alternative'>
+                <InputGroupAddon addonType='prepend'>
+                  <InputGroupText>
+                    <i className='ni ni-lock-circle-open' />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  placeholder='Enter your Email'
+                  type='email'
+                  name='email'
+                  autoComplete='new-password'
+                  onChange={handleEmail}
+                />
+              </InputGroup>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color='primary' onClick={handleForgotPassword}>
+            Submit
+          </Button>{' '}
+          <Button color='secondary' onClick={toggleModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };

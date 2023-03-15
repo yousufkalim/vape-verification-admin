@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { Link } from "react-router-dom";
-import { Store } from "StoreContext";
+import { Link } from 'react-router-dom';
+import { Store } from 'StoreContext';
 // reactstrap components
 import {
   DropdownMenu,
@@ -33,37 +33,36 @@ import {
   Nav,
   Container,
   Media,
-} from "reactstrap";
+} from 'reactstrap';
 
 const AdminNavbar = (props) => {
   const { user } = Store();
+  console.log('User ', user);
   const handleLogout = () => {
-    localStorage.setItem("token", "");
-    window.location = "/auth/login";
+    localStorage.setItem('token', '');
+    window.location = '/auth/login';
   };
 
   return (
     <>
-      <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
+      <Navbar className='navbar-top navbar-dark' expand='md' id='navbar-main'>
         <Container fluid>
           <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/admin/index"
+            className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block'
+            to='/admin/index'
           >
             {props.brandText}
           </Link>
-          <Nav className="align-items-center d-none d-md-flex" navbar>
+          <Nav className='align-items-center d-none d-md-flex' navbar>
             <UncontrolledDropdown nav>
-              <DropdownToggle className="pr-0" nav>
-                <Media className="align-items-center">
-                  <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">
-                      {user?.name}
-                    </span>
+              <DropdownToggle className='pr-0' nav>
+                <Media className='align-items-center'>
+                  <Media className='ml-2 d-none d-lg-block'>
+                    <span className='mb-0 text-sm font-weight-bold'>{user?.name}</span>
                   </Media>
                 </Media>
               </DropdownToggle>
-              <DropdownMenu className="dropdown-menu-arrow" right>
+              <DropdownMenu className='dropdown-menu-arrow' right>
                 {/* <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
@@ -84,8 +83,8 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider /> */}
-                <DropdownItem href="#pablo" onClick={handleLogout}>
-                  <i className="ni ni-user-run" />
+                <DropdownItem href='#pablo' onClick={handleLogout}>
+                  <i className='ni ni-user-run' />
                   <span>Logout</span>
                 </DropdownItem>
               </DropdownMenu>

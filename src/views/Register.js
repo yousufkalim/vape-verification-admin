@@ -17,9 +17,9 @@
 */
 
 // reactstrap components
-import { useState } from "react";
-import api from "api";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import api from 'api';
+import { toast } from 'react-toastify';
 import {
   Button,
   Card,
@@ -33,10 +33,12 @@ import {
   InputGroup,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
+import { useHistory } from 'react-router-dom';
 
 const Register = () => {
   let [user, setUser] = useState({});
+  const history = useHistory();
 
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -44,90 +46,99 @@ const Register = () => {
 
   const handleSubmit = () => {
     if (!user.name || !user.email || !user.password || !user.confirmPassword) {
-      toast.error("Please fill all the fields");
+      toast.error('Please fill all the fields');
     } else if (user.password.length < 8 || user.confirmPassword.length < 8) {
       toast.error("Password's min length should be greater than 8");
     } else if (user.password !== user.confirmPassword) {
-      toast.error("Password and Confirm Password are not same");
+      toast.error('Password and Confirm Password are not same');
     } else {
-      api("post", "/admins", user).then((res) => {
-        setUser({ name: "", email: "", password: "", confirmPassword: "" });
-        toast.success("Account created successfully");
-      });
+      const { confirmPassword, ...rest } = user;
+      api('post', '/users/admin', rest)
+        .then((res) => {
+          console.log('res ', res);
+          setUser({ name: '', email: '', password: '', confirmPassword: '' });
+          toast.success('Account created successfully');
+          setTimeout(() => {
+            history.push('/login');
+          }, 2000);
+        })
+        .catch((err) => {
+          console.log('Error ', err);
+        });
     }
   };
 
   return (
     <>
-      <Col lg="6" md="8">
-        <Card className="bg-secondary shadow border-0">
-          <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-muted mb-4">
+      <Col lg='6' md='8'>
+        <Card className='bg-secondary shadow border-0'>
+          <CardBody className='px-lg-5 py-lg-5'>
+            <div className='text-center text-muted mb-4'>
               <small>Sign up</small>
             </div>
-            <Form role="form">
+            <Form role='form'>
               <FormGroup>
-                <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
+                <InputGroup className='input-group-alternative mb-3'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-hat-3" />
+                      <i className='ni ni-hat-3' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Name"
-                    type="text"
-                    name="name"
+                    placeholder='Name'
+                    type='text'
+                    name='name'
                     value={user.name}
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
+                <InputGroup className='input-group-alternative mb-3'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-email-83" />
+                      <i className='ni ni-email-83' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
-                    type="email"
-                    autoComplete="new-email"
-                    name="email"
+                    placeholder='Email'
+                    type='email'
+                    autoComplete='new-email'
+                    name='email'
                     value={user.email}
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
+                <InputGroup className='input-group-alternative'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
+                      <i className='ni ni-lock-circle-open' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
-                    type="password"
-                    autoComplete="new-password"
-                    name="password"
+                    placeholder='Password'
+                    type='password'
+                    autoComplete='new-password'
+                    name='password'
                     value={user.password}
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
+                <InputGroup className='input-group-alternative'>
+                  <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
+                      <i className='ni ni-lock-circle-open' />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Confirm Password"
-                    type="password"
-                    autoComplete="new-password"
-                    name="confirmPassword"
+                    placeholder='Confirm Password'
+                    type='password'
+                    autoComplete='new-password'
+                    name='confirmPassword'
                     value={user.confirmPassword}
                     onChange={handleInput}
                   />
@@ -157,13 +168,8 @@ const Register = () => {
                 </Col>
               </Row> */}
 
-              <div className="text-center">
-                <Button
-                  className="mt-4"
-                  color="primary"
-                  type="button"
-                  onClick={handleSubmit}
-                >
+              <div className='text-center'>
+                <Button className='mt-4' color='primary' type='button' onClick={handleSubmit}>
                   Create account
                 </Button>
               </div>

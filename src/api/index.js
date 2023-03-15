@@ -1,11 +1,11 @@
 // Init
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const api = async (method = "get", uri, body) => {
+const api = async (method = 'get', uri, body) => {
   // API Call
   const url = process.env.REACT_APP_SERVER_URL + uri;
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   axios.defaults.headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -15,9 +15,10 @@ const api = async (method = "get", uri, body) => {
       .then((res) => resolve(res.data))
       .catch((err) => {
         if (err?.response?.status === 403) {
-          window.location = "/auth/login";
+          localStorage.setItem('token', '');
+          window.location = '/auth/login';
         } else {
-          console.log("API Error --------> ", err);
+          console.log('API Error --------> ', err);
           toast.error(err?.response?.data?.message || err?.message);
           reject(err);
         }
