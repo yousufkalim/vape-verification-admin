@@ -33,26 +33,32 @@ import {
   FormGroup,
   Input,
   Button,
+  CardFooter,
 } from 'reactstrap';
+import { Pagination } from 'antd';
 
 // core components
-import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
+import { CSVLink } from 'react-csv';
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [selectedCodes, setSelectedCodes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [exportCodes, setExportCodes] = useState([]);
+  const [total, setTotal] = useState(0);
   const store = Store();
   const { user } = store;
 
   useEffect(() => {
     getCodes();
-  }, []);
+  }, [page]);
 
   const getCodes = async () => {
     const data = await api('get', `/codes?page=${page}&status=pending&brand=${user._id}`);
     setCodes(data.codes);
+    setTotal(data?.total);
   };
 
   const handleSelectCodes = (e, id) => {
@@ -70,18 +76,38 @@ const BrandCodes = () => {
     };
     api('post', `/codes/validate`, dataToSend).then((res) => {
       if (res.success) {
+        toast.success('Product validated successfully');
         getCodes();
       }
     });
   };
 
+  const headers = [
+    {
+      label: 'Code',
+      key: 'code',
+    },
+    {
+      label: 'Scan Attempts',
+      key: 'scan_attempts',
+    },
+    {
+      label: 'Validation Time',
+      key: 'validation_time',
+    },
+    {
+      label: 'Status',
+      key: 'status',
+    },
+  ];
+
   const handleInValidate = () => {
     if (selectedCodes.length > 0) {
       api('put', `/codes/invalidate`, { codes: selectedCodes }).then((res) => {
         if (res.success) {
-          toast.success(res?.message);
-          setSelectedCodes([]);
           getCodes();
+          setSelectedCodes([]);
+          toast.success(res?.message);
         }
       });
     } else {
@@ -89,18 +115,41 @@ const BrandCodes = () => {
     }
   };
 
-  // const handleDelete = (id) => {
-  //   api('delete', `/users/${id}`).then(() => {
-  //     toast.success('User deleted successfully');
-  //     getCodes();
-  //   });
-  // };
+  useEffect(() => {
+    if (exportCodes.length > 0) {
+      document.getElementById('export_codes').click();
+      setExportCodes([]);
+    }
+  }, [exportCodes]);
+
+  const exportData = () => {
+    setExportCodes([]);
+  };
+
+  const handleExport = async () => {
+    setLoading(true);
+    api('get', `/codes/export?brand=${user._id}&status=pending`)
+      .then((res) => {
+        if (res.codes?.length > 0) {
+          setExportCodes(res?.codes);
+          setLoading(false);
+          // done(true);
+        } else {
+          toast.error('No codes exists');
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
+  const onChangePage = (p) => {
+    setPage(p);
+  };
 
   const btnDisabled = selectedCodes.length > 0 ? false : true;
   return (
     <>
-      <Header />
-      {/* Page content */}
       <Container className='mt--7' fluid>
         {/* Table */}
         <Row>
@@ -109,14 +158,26 @@ const BrandCodes = () => {
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>All Codes</h3>
-                  <div>
+                  <div className='d-flex'>
                     <Button
                       disabled={btnDisabled}
                       color='danger'
                       onClick={handleInValidate}
                       size='md'
                     >
-                      InValidate
+                      In Validate
+                    </Button>
+                    <Button onClick={handleExport} color='primary' size='md'>
+                      <CSVLink
+                        headers={headers}
+                        onClick={exportData}
+                        id='export_codes'
+                        data={exportCodes}
+                        separator={';'}
+                        // asyncOnClick={true}
+                        // onClick={handleExport}
+                      ></CSVLink>
+                      Export
                     </Button>
                   </div>
                 </div>
@@ -160,33 +221,6 @@ const BrandCodes = () => {
                         <td>{item.active}</td>
                         <td>{item.status}</td>
                         <td>{new Date(item.createdAt).toDateString()}</td>
-
-                        <td className='text-right'>
-                          <UncontrolledDropdown>
-                            <DropdownToggle
-                              className='btn-icon-only text-light'
-                              href='#pablo'
-                              role='button'
-                              size='sm'
-                              color=''
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className='fas fa-ellipsis-v' />
-                            </DropdownToggle>
-                            <DropdownMenu className='dropdown-menu-arrow' right>
-                              <DropdownItem onClick={() => handleValidate(item.code)}>
-                                Validate
-                              </DropdownItem>
-                              {/* <DropdownItem
-                                href='#pablo'
-                                className='text-danger'
-                                onClick={() => handleValidate(item._id)}
-                              >
-                                Delete
-                              </DropdownItem> */}
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </td>
                       </tr>
                     );
                   })}
@@ -195,58 +229,17 @@ const BrandCodes = () => {
 
               {/* ///////////     Pagination Disabled Temp     ///////////// */}
 
-              {/* <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1"
-                      >
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
-              </CardFooter> */}
+              <CardFooter className='py-4'>
+                <Pagination
+                  current={page}
+                  onChange={onChangePage}
+                  size='small'
+                  pageSize={100}
+                  total={total}
+                  showSizeChanger={false}
+                  showQuickJumper
+                />
+              </CardFooter>
             </Card>
           </div>
         </Row>

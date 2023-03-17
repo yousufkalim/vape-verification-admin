@@ -35,7 +35,6 @@ import {
 
 // core components
 import RequestNewCodes from './RequestNewCodes';
-import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
 
 const BrandCodesRequests = () => {
@@ -66,8 +65,6 @@ const BrandCodesRequests = () => {
 
   return (
     <>
-      <Header />
-      {/* Page content */}
       <Container className='mt--7' fluid>
         {/* Table */}
         <Row>
@@ -109,8 +106,8 @@ const BrandCodesRequests = () => {
                           </Media>
                         </th>
                         <td title={item.number_of_codes}>{item.number_of_codes}</td>
-                        <td>
-                          {item.text?.length > 50 ? item.text?.substring(0, 50) + '...' : item.text}
+                        <td title={item.text}>
+                          {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
                         <td title={item.status}>{item.status}</td>
                         <td>{new Date(item.createdAt).toDateString()}</td>

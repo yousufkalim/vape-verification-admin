@@ -58,6 +58,8 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
 
     let formData = new FormData();
 
+    console.log('User ', user);
+
     for (let key in user) {
       if (key === 'preferences') {
         formData.append(key, JSON.stringify(user[key]));
@@ -75,7 +77,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
 
   return (
     <>
-      <Modal isOpen={openModal} size='xl' centered>
+      <Modal isOpen={openModal} size='md' centered>
         <ModalHeader charCode='X' toggle={handleModal}>
           Edit a brand
         </ModalHeader>
@@ -83,9 +85,9 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
           <Row>
             <Col>
               <Form>
-                <div className='pl-lg-4'>
+                <div className='px-lg-4'>
                   <Row>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <span style={{ color: 'red' }}>{user.name ? '' : '*'} </span>
                         <label className='form-control-label'>Name</label>
@@ -100,7 +102,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <span style={{ color: 'red' }}>{user.email ? '' : '*'} </span>
                         <label className='form-control-label'>Email</label>
@@ -116,42 +118,8 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
                       </FormGroup>
                     </Col>
                   </Row>
-                  {/* <Row>
-                    <Col lg='6' style={{ margin: 'auto' }}>
-                      <FormGroup>
-                        <label className='form-control-label' htmlFor='input-password'>
-                          Password
-                        </label>
-                        <Input
-                          className='form-control-alternative'
-                          id='input-password'
-                          placeholder='Password'
-                          type='password'
-                          value={user.password}
-                          name='password'
-                          onChange={handleInput}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg='6' style={{ margin: 'auto' }}>
-                      <FormGroup>
-                        <span style={{ color: 'red' }}>{user.number ? '' : '*'} </span>
-                        <label className='form-control-label'>Contact no.</label>
-                        <Input
-                          className='form-control-alternative text-default'
-                          required={true}
-                          placeholder="Enter user's contact here"
-                          type='phone'
-                          value={user.number}
-                          name='number'
-                          onChange={handleInput}
-                          maxLength='11'
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row> */}
                   <Row>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Logo</label>
                         <FilePicker
@@ -164,7 +132,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='3' style={{ marginRight: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Color</label>
                         <Input

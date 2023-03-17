@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import api from 'api';
 import { Store, UpdateStore } from 'StoreContext';
@@ -27,8 +27,10 @@ import AdminFooter from 'components/Footers/AdminFooter.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
 
 import routes from 'routes.js';
+import Header from 'components/Headers/Header';
 
 const Brand = (props) => {
+  const [stats, setStats] = useState();
   const mainContent = React.useRef(null);
   const location = useLocation();
   let history = useHistory();
@@ -39,7 +41,7 @@ const Brand = (props) => {
 
   const sidebarRoutes = routes.filter((route) => !route.isChild && route.layout === '/brand');
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;
@@ -55,6 +57,17 @@ const Brand = (props) => {
       });
     });
   }, [location]);
+
+  useEffect(() => {
+    getStats();
+  }, []);
+
+  const getStats = () => {
+    api('get', '/users/stats').then((res) => {
+      console.log('User stats', stats);
+      setStats(res?.stats);
+    });
+  };
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
@@ -93,7 +106,8 @@ const Brand = (props) => {
         }}
       />
       <div className='main-content' ref={mainContent}>
-        <AdminNavbar {...props} brandText={getBrandText(props.location.pathname)} />
+        <AdminNavbar stats={stats} {...props} brandText={getBrandText(props.location.pathname)} />
+        <Header stats={stats} />
         <Switch>
           {getRoutes(routes)}
           <Redirect from='*' to='/brand/index' />
