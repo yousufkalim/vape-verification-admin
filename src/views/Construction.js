@@ -15,24 +15,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 
 // reactstrap components
-import { Card, Container, Row } from "reactstrap";
-
-// core components
-import Header from "components/Headers/Header.js";
+import { Card, Container, Row } from 'reactstrap';
 
 const Construction = () => {
   return (
     <>
-      <Header />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className='mt--7' fluid>
         <Row>
-          <div className="col">
-            <Card className="shadow border-0">
-              <h1 style={{ margin: "100px", textAlign: "center" }}>
+          <div className='col'>
+            <Card className='shadow border-0'>
+              <h1 style={{ margin: '100px', textAlign: 'center' }}>
                 This page is under construction...
               </h1>
             </Card>

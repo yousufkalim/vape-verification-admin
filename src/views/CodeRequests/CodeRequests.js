@@ -19,12 +19,9 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from 'api';
-import { Store, UpdateStore } from 'StoreContext';
 import {
-  Badge,
   Card,
   CardHeader,
-  Button,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
@@ -36,7 +33,6 @@ import {
 } from 'reactstrap';
 
 // core components
-import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
 
 const CodeRequests = () => {
@@ -75,8 +71,6 @@ const CodeRequests = () => {
 
   return (
     <>
-      <Header />
-      {/* Page content */}
       <Container className='mt--7' fluid>
         {/* Table */}
         <Row>
@@ -114,8 +108,8 @@ const CodeRequests = () => {
                           </Media>
                         </th>
                         <td>{item.number_of_codes}</td>
-                        <td>
-                          {item.text?.length > 50 ? item.text?.substring(0, 50) + '...' : item.text}
+                        <td title={item.text}>
+                          {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
                         <td title={item.status}>{item.status}</td>
                         <td>{new Date(item.createdAt).toDateString()}</td>

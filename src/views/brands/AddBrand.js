@@ -87,7 +87,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
 
   return (
     <>
-      <Modal isOpen={openModal} size='xl' centered>
+      <Modal isOpen={openModal} size='md' centered>
         <ModalHeader charCode='X' toggle={handleModal}>
           Add a brand
         </ModalHeader>
@@ -95,9 +95,9 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
           <Row>
             <Col>
               <Form>
-                <div className='pl-lg-4'>
+                <div className='px-lg-2'>
                   <Row>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>
                           {' '}
@@ -115,7 +115,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>
                           {' '}
@@ -135,7 +135,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
                     </Col>
                   </Row>
                   <Row>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Logo</label>
                         <FilePicker
@@ -148,7 +148,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='6' style={{ margin: 'auto' }}>
+                    <Col lg='3' style={{ marginRight: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Color</label>
                         <Input
