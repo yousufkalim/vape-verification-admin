@@ -144,9 +144,14 @@ const Login = () => {
                 <Button className='my-4' color='primary' type='button' onClick={handleSubmit}>
                   Sign in
                 </Button>
-                <Button onClick={toggleModal} className='my-4' color='primary' type='button'>
-                  Forgot Password
-                </Button>
+              </div>
+              <div
+                onClick={toggleModal}
+                className='text-primary text-center'
+                color='primary'
+                type='button'
+              >
+                Forgot Password?
               </div>
             </Form>
           </CardBody>

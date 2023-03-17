@@ -53,7 +53,7 @@ var routes = [
     isChild: false,
   },
   {
-    path: '/code-requests',
+    path: '/codes-requests',
     name: 'Code Requests',
     icon: 'ni ni-single-02 text-primary',
     component: CodeRequests,
