@@ -39,7 +39,7 @@ import { Pagination } from 'antd';
 
 // core components
 import { toast } from 'react-toastify';
-import { CSVLink } from 'react-csv';
+import { CSVDownload, CSVLink } from 'react-csv';
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
@@ -116,24 +116,20 @@ const BrandCodes = () => {
   };
 
   useEffect(() => {
-    if (exportCodes.length > 0) {
-      document.getElementById('export_codes').click();
+    if (exportCodes?.length > 0) {
       setExportCodes([]);
     }
   }, [exportCodes]);
 
-  const exportData = () => {
-    setExportCodes([]);
-  };
-
-  const handleExport = async () => {
+  const handleExport = async (e, done) => {
     setLoading(true);
     api('get', `/codes/export?brand=${user._id}&status=pending`)
       .then((res) => {
         if (res.codes?.length > 0) {
+          console.log('Codes ', res);
           setExportCodes(res?.codes);
           setLoading(false);
-          // done(true);
+          done(true);
         } else {
           toast.error('No codes exists');
         }
@@ -167,18 +163,22 @@ const BrandCodes = () => {
                     >
                       In Validate
                     </Button>
-                    <Button onClick={handleExport} color='primary' size='md'>
-                      <CSVLink
-                        headers={headers}
-                        onClick={exportData}
-                        id='export_codes'
-                        data={exportCodes}
-                        separator={';'}
-                        // asyncOnClick={true}
-                        // onClick={handleExport}
-                      ></CSVLink>
+                    <Button color='primary' onClick={handleExport} size='md'>
                       Export
                     </Button>
+                    {exportCodes.length > 0 && (
+                      <CSVDownload
+                        headers={headers}
+                        id='export_codes'
+                        filename='codes'
+                        data={exportCodes}
+                        separator={';'}
+                        asyncOnClick={true}
+                        // onClick={handleExport}
+                      ></CSVDownload>
+                    )}
+                    {/* Export
+                    </Button> */}
                   </div>
                 </div>
               </CardHeader>

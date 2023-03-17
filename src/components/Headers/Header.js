@@ -11,15 +11,21 @@
 * Coded by Creative Tim
 
 =========================================================
-
+x
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap';
+import { Store } from 'StoreContext';
 
 const Header = () => {
+  const store = Store();
+
+  const { user, stats } = store;
+
+  console.log('Current stats ', stats);
   return (
     <>
       <div className='header bg-gradient-info pb-8 pt-5 pt-md-8'>
@@ -31,24 +37,27 @@ const Header = () => {
                 <Card className='card-stats mb-4 mb-xl-0'>
                   <CardBody>
                     <Row>
-                      <div className='col'>
-                        <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Traffic
-                        </CardTitle>
-                        <span className='h2 font-weight-bold mb-0'>350,897</span>
-                      </div>
+                      {user.role === 'brand' ? (
+                        <div className='col'>
+                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                            Codes
+                          </CardTitle>
+                          <span className='h2 font-weight-bold mb-0'>{stats?.allCodesCount}</span>
+                        </div>
+                      ) : (
+                        <div className='col'>
+                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                            Codes
+                          </CardTitle>
+                          <span className='h2 font-weight-bold mb-0'>{stats?.codesCount}</span>
+                        </div>
+                      )}
                       <Col className='col-auto'>
                         <div className='icon icon-shape bg-danger text-white rounded-circle shadow'>
                           <i className='fas fa-chart-bar' />
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-muted text-sm'>
-                      <span className='text-success mr-2'>
-                        <i className='fa fa-arrow-up' /> 3.48%
-                      </span>{' '}
-                      <span className='text-nowrap'>Since last month</span>
-                    </p>
                   </CardBody>
                 </Card>
               </Col>
@@ -58,9 +67,11 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Clicks
+                          Validated Codes
                         </CardTitle>
-                        <span className='h2 font-weight-bold mb-0'>2,356</span>
+                        <span className='h2 font-weight-bold mb-0'>
+                          {stats?.validatedCodesCount}
+                        </span>
                       </div>
                       <Col className='col-auto'>
                         <div className='icon icon-shape bg-warning text-white rounded-circle shadow'>
@@ -68,12 +79,6 @@ const Header = () => {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-muted text-sm'>
-                      <span className='text-danger mr-2'>
-                        <i className='fas fa-arrow-down' /> 3.48%
-                      </span>{' '}
-                      <span className='text-nowrap'>Since last week</span>
-                    </p>
                   </CardBody>
                 </Card>
               </Col>
@@ -81,24 +86,29 @@ const Header = () => {
                 <Card className='card-stats mb-4 mb-xl-0'>
                   <CardBody>
                     <Row>
-                      <div className='col'>
-                        <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Views
-                        </CardTitle>
-                        <span className='h2 font-weight-bold mb-0'>924</span>
-                      </div>
+                      {user.role === 'brand' ? (
+                        <div className='col'>
+                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                            In-validated Codes
+                          </CardTitle>
+                          <span className='h2 font-weight-bold mb-0'>
+                            {stats?.invalidatedCodesCount}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className='col'>
+                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                            Brands
+                          </CardTitle>
+                          <span className='h2 font-weight-bold mb-0'>{stats?.brandCount}</span>
+                        </div>
+                      )}
                       <Col className='col-auto'>
                         <div className='icon icon-shape bg-yellow text-white rounded-circle shadow'>
                           <i className='fas fa-users' />
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-muted text-sm'>
-                      <span className='text-warning mr-2'>
-                        <i className='fas fa-arrow-down' /> 1.10%
-                      </span>{' '}
-                      <span className='text-nowrap'>Since yesterday</span>
-                    </p>
                   </CardBody>
                 </Card>
               </Col>
@@ -108,9 +118,9 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Performance
+                          Codes Requests
                         </CardTitle>
-                        <span className='h2 font-weight-bold mb-0'>49,65%</span>
+                        <span className='h2 font-weight-bold mb-0'>{stats?.requestCount}</span>
                       </div>
                       <Col className='col-auto'>
                         <div className='icon icon-shape bg-info text-white rounded-circle shadow'>
@@ -118,12 +128,6 @@ const Header = () => {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-muted text-sm'>
-                      <span className='text-success mr-2'>
-                        <i className='fas fa-arrow-up' /> 12%
-                      </span>{' '}
-                      <span className='text-nowrap'>Since last month</span>
-                    </p>
                   </CardBody>
                 </Card>
               </Col>

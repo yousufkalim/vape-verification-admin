@@ -94,7 +94,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter user's name here"
+                          placeholder="Enter user's name"
                           type='text'
                           value={user.name}
                           name='name'
@@ -109,7 +109,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter user's email here"
+                          placeholder="Enter user's email"
                           type='email'
                           value={user.email}
                           name='email'

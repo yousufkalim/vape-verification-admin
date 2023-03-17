@@ -46,7 +46,7 @@ import FilePicker from 'components/FilePicker/FilePicker';
 import { toast } from 'react-toastify';
 import api from 'api';
 
-const AdminNavbar = (props) => {
+const AdminNavbar = ({ brandText, getUser }) => {
   const { user } = Store();
   const [profile, setProfile] = useState();
   const [fileName, setFileName] = useState('');
@@ -147,8 +147,6 @@ const AdminNavbar = (props) => {
   const updateBrand = () => {
     let formData = new FormData();
 
-    console.log('Profile ... ', profile);
-
     for (let key in profile) {
       if (key === 'preferences') {
         formData.append(key, JSON.stringify(profile[key]));
@@ -158,6 +156,7 @@ const AdminNavbar = (props) => {
     }
 
     api('put', `/users/brand/${user._id}`, formData).then((res) => {
+      getUser();
       toast.success('Brand updated successfully');
       handleModal();
     });
@@ -172,6 +171,7 @@ const AdminNavbar = (props) => {
       data['password'] = profile?.password;
     }
     api('put', `/users/admin`, data).then((res) => {
+      getUser();
       toast.success('Profile updated successfully');
       handleModal();
     });
@@ -190,7 +190,7 @@ const AdminNavbar = (props) => {
             className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block'
             to='/admin/index'
           >
-            {props.brandText}
+            {brandText}
           </Link>
           <Nav className='align-items-center d-none d-md-flex' navbar>
             <UncontrolledDropdown nav>
@@ -271,7 +271,7 @@ const AdminNavbar = (props) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder='Enter email here'
+                          placeholder='Enter user email'
                           type='text'
                           value={profile?.email}
                           name='email'

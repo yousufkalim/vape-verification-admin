@@ -107,7 +107,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter brand's name here"
+                          placeholder='Enter brand name'
                           type='text'
                           value={user.name}
                           name='name'
@@ -125,7 +125,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter brand's email here"
+                          placeholder='Enter brand email'
                           type='email'
                           value={user.email}
                           name='email'

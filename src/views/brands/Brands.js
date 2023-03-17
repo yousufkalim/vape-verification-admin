@@ -40,10 +40,12 @@ import AddUser from './AddBrand';
 import EditBrand from './EditBrand';
 import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
+import ConfirmModal from './ConfirmModal';
 
 const Brands = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   const { brands } = Store();
   const updateStore = UpdateStore();
   const history = useHistory();
@@ -97,12 +99,32 @@ const Brands = () => {
     return openModal;
   };
 
-  // const handleDelete = (id) => {
-  //   api('delete', `/users/${id}`).then(() => {
-  //     toast.success('User deleted successfully');
-  //     getUsers();
-  //   });
-  // };
+  const handleConfirmModal = () => {
+    setConfirmModal((prev) => !prev);
+  };
+
+  const handleActive = (id) => {
+    api('patch', `/users/change-status/${id}`).then((res) => {
+      console.log('User activated ', res);
+      toast.success(res?.message);
+      // toast.success('Brand deleted successfully');
+      getUsers();
+    });
+  };
+
+  const handleDeleteBrand = (item) => {
+    setUser({
+      _id: item._id,
+    });
+    handleConfirmModal();
+  };
+
+  const handleDelete = (id) => {
+    api('delete', `/users/admin/${id}`).then(() => {
+      toast.success('Brand deleted successfully');
+      getUsers();
+    });
+  };
 
   return (
     <>
@@ -151,9 +173,8 @@ const Brands = () => {
                             : item.email}
                         </td>
 
-                        <td>{item.active ? 'Yes' : 'No'}</td>
+                        <td>{item.active ? 'Active' : 'In-Active'}</td>
                         <td>{new Date(item.createdAt).toDateString()}</td>
-
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             <DropdownToggle
@@ -177,6 +198,21 @@ const Brands = () => {
                               <DropdownItem href='#pablo' onClick={() => handleEditModal(item)}>
                                 Edit
                               </DropdownItem>
+                              <DropdownItem
+                                className={item.active ? 'text-danger' : 'text-success'}
+                                href='#pablo'
+                                onClick={() => handleActive(item?._id)}
+                              >
+                                {item.active ? 'De-activate' : 'Activate'}
+                              </DropdownItem>
+                              <DropdownItem
+                                className='text-danger'
+                                href='#pablo'
+                                onClick={() => handleDeleteBrand(item)}
+                              >
+                                Delete
+                              </DropdownItem>
+
                               {/* <DropdownItem
                                 href='#pablo'
                                 className='text-danger'
@@ -250,6 +286,14 @@ const Brands = () => {
             </Card>
           </div>
         </Row>
+        {
+          <ConfirmModal
+            handleModal={handleConfirmModal}
+            openModal={confirmModal}
+            brand={user?.name}
+            handleSubmit={handleDelete}
+          />
+        }
         {openModal && (
           <AddUser openModal={openModal} handleModal={handleModal} getUsers={getUsers} />
         )}

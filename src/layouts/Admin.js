@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import api from 'api';
 import { Store, UpdateStore } from 'StoreContext';
@@ -30,7 +30,6 @@ import routes from 'routes.js';
 import Header from 'components/Headers/Header';
 
 const Admin = (props) => {
-  const [stats, setStats] = useState();
   const mainContent = React.useRef(null);
   const location = useLocation();
   let history = useHistory();
@@ -46,16 +45,21 @@ const Admin = (props) => {
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;
 
-    // checkauth
+    // Check Auth and get User
+    getUser();
+  }, [location]);
+
+  const getUser = () => {
     api('get', '/auth').then((data) => {
-      console.log('User get ', data);
-      updateStore({
-        loggedIn: true,
-        token: data.token,
-        user: data.user,
+      api('get', `/users/${data.user._id}`).then((userData) => {
+        updateStore({
+          user: userData.user,
+          loggedIn: true,
+          token: data.token,
+        });
       });
     });
-  }, [location]);
+  };
 
   useEffect(() => {
     getStats();
@@ -63,7 +67,7 @@ const Admin = (props) => {
 
   const getStats = () => {
     api('get', '/users/stats').then((res) => {
-      setStats(res?.stats);
+      updateStore({ stats: res?.stats });
     });
   };
 
@@ -105,8 +109,12 @@ const Admin = (props) => {
         }}
       />
       <div className='main-content' ref={mainContent}>
-        <AdminNavbar {...props} brandText={getBrandText(props.location.pathname)} />
-        <Header stats={stats} />
+        <AdminNavbar
+          {...props}
+          getUser={getUser}
+          brandText={getBrandText(props.location.pathname)}
+        />
+        <Header />
         <Switch>
           {getRoutes(routes)}
           <Redirect from='*' to='/admin/index' />
