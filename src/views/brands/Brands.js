@@ -40,6 +40,7 @@ import AddUser from './AddBrand';
 import EditBrand from './EditBrand';
 import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
+import { mediaUrl } from '../../config';
 
 const Brands = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -87,9 +88,7 @@ const Brands = () => {
         },
       });
       setFileName(
-        item?.preferences?.logo
-          ? `${process.env.REACT_APP_SERVER_MEDIA_URL}${item?.preferences?.logo}`
-          : ''
+        item?.preferences?.logo ? `${mediaUrl}${item?.preferences?.logo}` : '',
       );
     }
 
@@ -106,38 +105,43 @@ const Brands = () => {
 
   return (
     <>
-      <Container className='mt--7' fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         <Row>
-          <div className='col'>
-            <Card className='shadow'>
-              <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Brands</h3>
-                  <Button color='primary' href='#pablo' onClick={handleModal} size='md'>
-                    <i className='ni ni-fat-add'></i>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <div className="d-flex justify-content-between ">
+                  <h3 className="mb-0">Brands</h3>
+                  <Button
+                    color="primary"
+                    href="#pablo"
+                    onClick={handleModal}
+                    size="md"
+                  >
+                    <i className="ni ni-fat-add"></i>
                     Add brand
                   </Button>
                 </div>
               </CardHeader>
-              <Table className='align-items-center table-flush' responsive>
-                <thead className='thead-light'>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
                   <tr>
-                    <th scope='col'>Name</th>
-                    <th scope='col'>Email</th>
-                    <th scope='col'>Active</th>
-                    <th scope='col'>Created At</th>
-                    <th scope='col' />
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
                   {brands?.map((item) => {
                     return (
                       <tr>
-                        <th scope='row'>
-                          <Media className='align-items-center'>
+                        <th scope="row">
+                          <Media className="align-items-center">
                             <Media>
-                              <span className='mb-0 text-sm' title={item.name}>
+                              <span className="mb-0 text-sm" title={item.name}>
                                 {item.name?.length > 30
                                   ? item.name?.substring(0, 30) + '...'
                                   : item.name}
@@ -154,27 +158,32 @@ const Brands = () => {
                         <td>{item.active ? 'Yes' : 'No'}</td>
                         <td>{new Date(item.createdAt).toDateString()}</td>
 
-                        <td className='text-right'>
+                        <td className="text-right">
                           <UncontrolledDropdown>
                             <DropdownToggle
-                              className='btn-icon-only text-light'
-                              href='#pablo'
-                              role='button'
-                              size='sm'
-                              color=''
+                              className="btn-icon-only text-light"
+                              href="#pablo"
+                              role="button"
+                              size="sm"
+                              color=""
                               onClick={(e) => e.preventDefault()}
                             >
-                              <i className='fas fa-ellipsis-v' />
+                              <i className="fas fa-ellipsis-v" />
                             </DropdownToggle>
-                            <DropdownMenu className='dropdown-menu-arrow' right>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
                               {item.test_conducted && (
                                 <DropdownItem
-                                  onClick={() => history.push(`/admin/users/${item._id}`)}
+                                  onClick={() =>
+                                    history.push(`/admin/users/${item._id}`)
+                                  }
                                 >
                                   View
                                 </DropdownItem>
                               )}
-                              <DropdownItem href='#pablo' onClick={() => handleEditModal(item)}>
+                              <DropdownItem
+                                href="#pablo"
+                                onClick={() => handleEditModal(item)}
+                              >
                                 Edit
                               </DropdownItem>
                               {/* <DropdownItem
@@ -251,7 +260,11 @@ const Brands = () => {
           </div>
         </Row>
         {openModal && (
-          <AddUser openModal={openModal} handleModal={handleModal} getUsers={getUsers} />
+          <AddUser
+            openModal={openModal}
+            handleModal={handleModal}
+            getUsers={getUsers}
+          />
         )}
         {editModal && (
           <EditBrand

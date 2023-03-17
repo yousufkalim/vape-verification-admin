@@ -39,6 +39,7 @@ import '../assets/css/custom.css';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { baseUrl } from '../config';
 
 const ResetPassword = () => {
   let [user, setUser] = useState({});
@@ -51,7 +52,7 @@ const ResetPassword = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const verifyUser = () => {
-    const url = process.env.REACT_APP_SERVER_URL;
+    const url = baseUrl;
     axios
       .get(`${url}/auth/verify-token/${token}`)
       .then((data) => {
@@ -104,82 +105,89 @@ const ResetPassword = () => {
 
   return (
     <>
-      <div className='main-content' ref={mainContent}>
+      <div className="main-content" ref={mainContent}>
         <AuthNavbar />
-        <div className='header bg-gradient-info py-7 py-lg-8'>
+        <div className="header bg-gradient-info py-7 py-lg-8">
           <Container>
-            <div className='header-body text-center mb-7'>
-              <Row className='justify-content-center'>
-                <Col lg='5' md='6'>
-                  <h1 className='text-white'>Welcome!</h1>
+            <div className="header-body text-center mb-7">
+              <Row className="justify-content-center">
+                <Col lg="5" md="6">
+                  <h1 className="text-white">Welcome!</h1>
                 </Col>
               </Row>
             </div>
           </Container>
-          <div className='separator separator-bottom separator-skew zindex-100'>
+          <div className="separator separator-bottom separator-skew zindex-100">
             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              preserveAspectRatio='none'
-              version='1.1'
-              viewBox='0 0 2560 100'
-              x='0'
-              y='0'
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+              version="1.1"
+              viewBox="0 0 2560 100"
+              x="0"
+              y="0"
             >
-              <polygon className='fill-default' points='2560 0 2560 100 0 100' />
+              <polygon
+                className="fill-default"
+                points="2560 0 2560 100 0 100"
+              />
             </svg>
           </div>
         </div>
-        <Container className='mt--8 pb-4'>
-          <Row className='justify-content-center'>
+        <Container className="mt--8 pb-4">
+          <Row className="justify-content-center">
             {/* Page content */}
-            <Col lg='5' md='7'>
-              <Card className='bg-secondary shadow border-0'>
-                <CardBody className='px-lg-5 py-lg-5'>
-                  <div className='text-center text-muted mb-4'>
+            <Col lg="5" md="7">
+              <Card className="bg-secondary shadow border-0">
+                <CardBody className="px-lg-5 py-lg-5">
+                  <div className="text-center text-muted mb-4">
                     <small>Reset Password</small>
                   </div>
-                  <Form role='form'>
+                  <Form role="form">
                     <FormGroup>
-                      <InputGroup className='input-group-alternative'>
-                        <InputGroupAddon addonType='prepend'>
+                      <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className='ni ni-lock-circle-open' />
+                            <i className="ni ni-lock-circle-open" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder='Password'
-                          type='password'
-                          name='password'
-                          autoComplete='new-password'
+                          placeholder="Password"
+                          type="password"
+                          name="password"
+                          autoComplete="new-password"
                           onChange={handleInput}
                         />
                       </InputGroup>
                     </FormGroup>
                     <FormGroup>
-                      <InputGroup className='input-group-alternative'>
-                        <InputGroupAddon addonType='prepend'>
+                      <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className='ni ni-lock-circle-open' />
+                            <i className="ni ni-lock-circle-open" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder='Confirm Password'
-                          type='password'
-                          name='confirmPassword'
-                          autoComplete='new-password'
+                          placeholder="Confirm Password"
+                          type="password"
+                          name="confirmPassword"
+                          autoComplete="new-password"
                           onChange={handleInput}
                         />
                       </InputGroup>
                     </FormGroup>
-                    <div className='custom-control custom-control-alternative custom-checkbox'>
+                    <div className="custom-control custom-control-alternative custom-checkbox">
                       <input
-                        className='custom-control-input'
-                        id=' customCheckLogin'
-                        type='checkbox'
+                        className="custom-control-input"
+                        id=" customCheckLogin"
+                        type="checkbox"
                       />
                     </div>
-                    <div className='text-center'>
-                      <Button color='primary' type='button' onClick={handleSubmit}>
+                    <div className="text-center">
+                      <Button
+                        color="primary"
+                        type="button"
+                        onClick={handleSubmit}
+                      >
                         Save Changes
                       </Button>
                     </div>
