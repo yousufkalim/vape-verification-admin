@@ -73,7 +73,7 @@ const BrandCodesRequests = () => {
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Codes Requests</h3>
-                  <Button color='primary' href='#pablo' onClick={handleModal} size='md'>
+                  <Button color='primary' onClick={handleModal} size='md'>
                     <i className='ni ni-fat-add'></i>
                     Request New Codes
                   </Button>
@@ -117,7 +117,6 @@ const BrandCodesRequests = () => {
                             {item.status === 'pending' && (
                               <DropdownToggle
                                 className='btn-icon-only text-light'
-                                href='#pablo'
                                 role='button'
                                 size='sm'
                                 color=''
@@ -134,11 +133,7 @@ const BrandCodesRequests = () => {
                                   View
                                 </DropdownItem>
                               )}
-                              {/* <DropdownItem href='#pablo' onClick={() => handleEditModal(item)}>
-                                Edit
-                              </DropdownItem> */}
                               <DropdownItem
-                                href='#pablo'
                                 className='text-danger'
                                 onClick={() => handleDelete(item._id)}
                               >
@@ -152,61 +147,6 @@ const BrandCodesRequests = () => {
                   })}
                 </tbody>
               </Table>
-
-              {/* ///////////     Pagination Disabled Temp     ///////////// */}
-
-              {/* <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1"
-                      >
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
-              </CardFooter> */}
             </Card>
           </div>
         </Row>

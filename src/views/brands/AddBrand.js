@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import api from '../../api';
-import { Select } from 'antd';
 import {
   Modal,
   ModalBody,
@@ -13,12 +12,9 @@ import {
   Input,
   Row,
   Col,
-  Label,
 } from 'reactstrap';
 import FilePicker from 'components/FilePicker/FilePicker';
 // core components
-
-const { Option } = Select;
 
 const AddBrand = ({ openModal, handleModal, getUsers }) => {
   let [user, setUser] = useState({
@@ -29,6 +25,7 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
       color: '#000000',
     },
   });
+  const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState('');
 
   const handleInput = (e) => {
@@ -76,13 +73,18 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
         formData.append(key, user[key]);
       }
     }
-
-    api('post', '/users/brand', formData).then((res) => {
-      toast.success('Brand added successfully, Check your email to set password');
-      console.log('Brand ADDED !!!');
-      getUsers();
-      handleModal();
-    });
+    setLoading(true);
+    api('post', '/users/brand', formData)
+      .then((res) => {
+        toast.success('Brand added successfully, Check your email to set password');
+        console.log('Brand ADDED !!!');
+        getUsers();
+        handleModal();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -167,8 +169,8 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSubmit}>
-            Save
+          <Button disabled={loading} color='primary' onClick={handleSubmit}>
+            Submit
           </Button>
 
           <Button onClick={handleModal}>Cancel</Button>

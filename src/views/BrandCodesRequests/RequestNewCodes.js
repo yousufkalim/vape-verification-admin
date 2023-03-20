@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import api from '../../api';
-import { Select } from 'antd';
 import {
   Modal,
   ModalBody,
@@ -13,11 +12,8 @@ import {
   Input,
   Row,
   Col,
-  Label,
 } from 'reactstrap';
 // core components
-
-const { Option } = Select;
 
 const RequestNewCodes = ({ openModal, handleModal, getUsers }) => {
   let [request, setRequest] = useState({
@@ -103,7 +99,7 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder='Enter number of codes'
+                          placeholder='Enter text here'
                           type='textarea'
                           value={request.text}
                           name='text'
@@ -119,9 +115,8 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers }) => {
         </ModalBody>
         <ModalFooter>
           <Button color='primary' onClick={handleSubmit}>
-            Save
+            Submit
           </Button>
-
           <Button onClick={handleModal}>Cancel</Button>
         </ModalFooter>
       </Modal>

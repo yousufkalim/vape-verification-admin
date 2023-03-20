@@ -111,7 +111,18 @@ const CodeRequests = () => {
                         <td title={item.text}>
                           {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
-                        <td title={item.status}>{item.status}</td>
+                        <td
+                          // className={`${
+                          //   item.status === 'pending'
+                          //     ? 'text-info'
+                          //     : item.status === 'approved'
+                          //     ? 'text-success'
+                          //     : 'text-danger'
+                          // }`}
+                          title={item.status}
+                        >
+                          {item.status}
+                        </td>
                         <td>{new Date(item.createdAt).toDateString()}</td>
 
                         <td className='text-right'>
@@ -119,7 +130,6 @@ const CodeRequests = () => {
                             {item.status === 'pending' && (
                               <DropdownToggle
                                 className='btn-icon-only text-light'
-                                href='#pablo'
                                 role='button'
                                 size='sm'
                                 color=''
@@ -136,18 +146,16 @@ const CodeRequests = () => {
                                   View Codes
                                 </DropdownItem>
                               )}
-                              <DropdownItem href='#pablo' onClick={() => handleApprove(item._id)}>
+                              <DropdownItem onClick={() => handleApprove(item._id)}>
                                 Approve
                               </DropdownItem>
                               <DropdownItem
-                                href='#pablo'
-                                className='text-danger'
+                                className='text-warning'
                                 onClick={() => handleReject(item._id)}
                               >
                                 Reject
                               </DropdownItem>
                               <DropdownItem
-                                href='#pablo'
                                 className='text-danger'
                                 onClick={() => handleDelete(item._id)}
                               >
@@ -161,61 +169,6 @@ const CodeRequests = () => {
                   })}
                 </tbody>
               </Table>
-
-              {/* ///////////     Pagination Disabled Temp     ///////////// */}
-
-              {/* <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1"
-                      >
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
-              </CardFooter> */}
             </Card>
           </div>
         </Row>
