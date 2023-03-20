@@ -22,7 +22,6 @@ import api from 'api';
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -30,7 +29,6 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Row,
   Modal,
   ModalHeader,
   ModalBody,
@@ -58,9 +56,6 @@ const Login = () => {
         .then(() => {
           setIsModalOpen(false);
           toast.success('Reset Password link has been sent to your email');
-          // setTimeout(() => {
-          //   window.location = '/admin/index';
-          // }, 2000);
         })
         .catch((err) => {
           console.log('Error ', err);
@@ -75,7 +70,6 @@ const Login = () => {
       .then((res) => {
         const { user } = res;
         localStorage.setItem('token', res.token);
-        // localStorage.setItem('user', res.token);
         if (user?.role === 'admin') {
           window.location = '/admin/index';
         } else if (user?.role === 'brand') {
@@ -145,13 +139,10 @@ const Login = () => {
                   Sign in
                 </Button>
               </div>
-              <div
-                onClick={toggleModal}
-                className='text-primary text-center'
-                color='primary'
-                type='button'
-              >
-                Forgot Password?
+              <div className='text-primary text-center' color='primary'>
+                <span type='button' onClick={toggleModal} className='d-inline-block'>
+                  Forgot Password?
+                </span>
               </div>
             </Form>
           </CardBody>

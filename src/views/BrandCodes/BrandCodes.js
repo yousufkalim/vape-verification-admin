@@ -22,10 +22,6 @@ import api from 'api';
 import {
   Card,
   CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
   Media,
   Table,
   Container,
@@ -39,7 +35,7 @@ import { Pagination } from 'antd';
 
 // core components
 import { toast } from 'react-toastify';
-import { CSVDownload, CSVLink } from 'react-csv';
+import { CSVDownload } from 'react-csv';
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
@@ -56,9 +52,16 @@ const BrandCodes = () => {
   }, [page]);
 
   const getCodes = async () => {
-    const data = await api('get', `/codes?page=${page}&status=pending&brand=${user._id}`);
-    setCodes(data.codes);
-    setTotal(data?.total);
+    setLoading(true);
+
+    try {
+      const data = await api('get', `/codes?page=${page}&status=pending&brand=${user._id}`);
+      setCodes(data.codes);
+      setTotal(data?.total);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   const handleSelectCodes = (e, id) => {
@@ -69,18 +72,18 @@ const BrandCodes = () => {
     setSelectedCodes((prevState) => [...prevState, id]);
   };
 
-  const handleValidate = (code) => {
-    const dataToSend = {
-      brandId: user._id,
-      codeId: code,
-    };
-    api('post', `/codes/validate`, dataToSend).then((res) => {
-      if (res.success) {
-        toast.success('Product validated successfully');
-        getCodes();
-      }
-    });
-  };
+  // const handleValidate = (code) => {
+  //   const dataToSend = {
+  //     brandId: user._id,
+  //     codeId: code,
+  //   };
+  //   api('post', `/codes/validate`, dataToSend).then((res) => {
+  //     if (res.success) {
+  //       toast.success('Product validated successfully');
+  //       getCodes();
+  //     }
+  //   });
+  // };
 
   const headers = [
     {
@@ -144,6 +147,7 @@ const BrandCodes = () => {
   };
 
   const btnDisabled = selectedCodes.length > 0 ? false : true;
+  const isCodesExist = codes?.length > 0 ? true : false;
   return (
     <>
       <Container className='mt--7' fluid>
@@ -163,7 +167,12 @@ const BrandCodes = () => {
                     >
                       In Validate
                     </Button>
-                    <Button color='primary' onClick={handleExport} size='md'>
+                    <Button
+                      disabled={!isCodesExist || loading}
+                      color='primary'
+                      onClick={handleExport}
+                      size='md'
+                    >
                       Export
                     </Button>
                     {exportCodes.length > 0 && (
@@ -174,11 +183,8 @@ const BrandCodes = () => {
                         data={exportCodes}
                         separator={';'}
                         asyncOnClick={true}
-                        // onClick={handleExport}
                       ></CSVDownload>
                     )}
-                    {/* Export
-                    </Button> */}
                   </div>
                 </div>
               </CardHeader>
@@ -230,15 +236,18 @@ const BrandCodes = () => {
               {/* ///////////     Pagination Disabled Temp     ///////////// */}
 
               <CardFooter className='py-4'>
-                <Pagination
-                  current={page}
-                  onChange={onChangePage}
-                  size='small'
-                  pageSize={100}
-                  total={total}
-                  showSizeChanger={false}
-                  showQuickJumper
-                />
+                {isCodesExist && (
+                  <Pagination
+                    disabled={loading}
+                    current={page}
+                    onChange={onChangePage}
+                    size='small'
+                    pageSize={100}
+                    total={total}
+                    showSizeChanger={false}
+                    showQuickJumper
+                  />
+                )}
               </CardFooter>
             </Card>
           </div>

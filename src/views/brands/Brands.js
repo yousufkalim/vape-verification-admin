@@ -21,7 +21,6 @@ import { useHistory } from 'react-router-dom';
 import api from 'api';
 import { Store, UpdateStore } from 'StoreContext';
 import {
-  Badge,
   Card,
   CardHeader,
   Button,
@@ -38,7 +37,6 @@ import {
 // core components
 import AddUser from './AddBrand';
 import EditBrand from './EditBrand';
-import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
 import ConfirmModal from './ConfirmModal';
 import { mediaUrl } from '../../config';
@@ -47,6 +45,7 @@ const Brands = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { brands } = Store();
   const updateStore = UpdateStore();
   const history = useHistory();
@@ -89,9 +88,7 @@ const Brands = () => {
           logo: item.preferences?.logo,
         },
       });
-      setFileName(
-        item?.preferences?.logo ? `${mediaUrl}${item?.preferences?.logo}` : '',
-      );
+      setFileName(item?.preferences?.logo ? `${mediaUrl}${item?.preferences?.logo}` : '');
     }
 
     setEditModal((open) => !open);
@@ -106,7 +103,6 @@ const Brands = () => {
     api('patch', `/users/change-status/${id}`).then((res) => {
       console.log('User activated ', res);
       toast.success(res?.message);
-      // toast.success('Brand deleted successfully');
       getUsers();
     });
   };
@@ -118,52 +114,58 @@ const Brands = () => {
     handleConfirmModal();
   };
 
-  const handleDelete = (id) => {
-    api('delete', `/users/admin/${id}`).then(() => {
-      toast.success('Brand deleted successfully');
-      getUsers();
-    });
+  const handleDelete = () => {
+    if (user?._id) {
+      setLoading(true);
+      api('delete', `/users/admin/${user._id}`)
+        .then(() => {
+          toast.success('Brand deleted successfully');
+          handleConfirmModal();
+          getUsers();
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    } else {
+      toast.error('Please select brand.');
+    }
   };
 
   return (
     <>
-      <Container className="mt--7" fluid>
+      <Container className='mt--7' fluid>
         {/* Table */}
         <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <div className="d-flex justify-content-between ">
-                  <h3 className="mb-0">Brands</h3>
-                  <Button
-                    color="primary"
-                    href="#pablo"
-                    onClick={handleModal}
-                    size="md"
-                  >
-                    <i className="ni ni-fat-add"></i>
+          <div className='col'>
+            <Card className='shadow'>
+              <CardHeader className='border-0'>
+                <div className='d-flex justify-content-between '>
+                  <h3 className='mb-0'>Brands</h3>
+                  <Button color='primary' onClick={handleModal} size='md'>
+                    <i className='ni ni-fat-add'></i>
                     Add brand
                   </Button>
                 </div>
               </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
+              <Table className='align-items-center table-flush' responsive>
+                <thead className='thead-light'>
                   <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Active</th>
-                    <th scope="col">Created At</th>
-                    <th scope="col" />
+                    <th scope='col'>Name</th>
+                    <th scope='col'>Email</th>
+                    <th scope='col'>Active</th>
+                    <th scope='col'>Created At</th>
+                    <th scope='col' />
                   </tr>
                 </thead>
                 <tbody>
                   {brands?.map((item) => {
                     return (
                       <tr>
-                        <th scope="row">
-                          <Media className="align-items-center">
+                        <th scope='row'>
+                          <Media className='align-items-center'>
                             <Media>
-                              <span className="mb-0 text-sm" title={item.name}>
+                              <span className='mb-0 text-sm' title={item.name}>
                                 {item.name?.length > 30
                                   ? item.name?.substring(0, 30) + '...'
                                   : item.name}
@@ -182,53 +184,37 @@ const Brands = () => {
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             <DropdownToggle
-                              className="btn-icon-only text-light"
-                              href="#pablo"
-                              role="button"
-                              size="sm"
-                              color=""
+                              className='btn-icon-only text-light'
+                              role='button'
+                              size='sm'
+                              color=''
                               onClick={(e) => e.preventDefault()}
                             >
-                              <i className="fas fa-ellipsis-v" />
+                              <i className='fas fa-ellipsis-v' />
                             </DropdownToggle>
-                            <DropdownMenu className="dropdown-menu-arrow" right>
+                            <DropdownMenu className='dropdown-menu-arrow' right>
                               {item.test_conducted && (
                                 <DropdownItem
-                                  onClick={() =>
-                                    history.push(`/admin/users/${item._id}`)
-                                  }
+                                  onClick={() => history.push(`/admin/users/${item._id}`)}
                                 >
                                   View
                                 </DropdownItem>
                               )}
-                              <DropdownItem
-                                href="#pablo"
-                                onClick={() => handleEditModal(item)}
-                              >
+                              <DropdownItem onClick={() => handleEditModal(item)}>
                                 Edit
                               </DropdownItem>
                               <DropdownItem
                                 className={item.active ? 'text-danger' : 'text-success'}
-                                href='#pablo'
                                 onClick={() => handleActive(item?._id)}
                               >
                                 {item.active ? 'De-activate' : 'Activate'}
                               </DropdownItem>
                               <DropdownItem
                                 className='text-danger'
-                                href='#pablo'
                                 onClick={() => handleDeleteBrand(item)}
                               >
                                 Delete
                               </DropdownItem>
-
-                              {/* <DropdownItem
-                                href='#pablo'
-                                className='text-danger'
-                                onClick={() => handleDelete(item._id)}
-                              >
-                                Delete
-                              </DropdownItem> */}
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </td>
@@ -237,61 +223,6 @@ const Brands = () => {
                   })}
                 </tbody>
               </Table>
-
-              {/* ///////////     Pagination Disabled Temp     ///////////// */}
-
-              {/* <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1"
-                      >
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
-              </CardFooter> */}
             </Card>
           </div>
         </Row>
@@ -301,14 +232,11 @@ const Brands = () => {
             openModal={confirmModal}
             brand={user?.name}
             handleSubmit={handleDelete}
+            loading={loading}
           />
         }
         {openModal && (
-          <AddUser
-            openModal={openModal}
-            handleModal={handleModal}
-            getUsers={getUsers}
-          />
+          <AddUser openModal={openModal} handleModal={handleModal} getUsers={getUsers} />
         )}
         {editModal && (
           <EditBrand

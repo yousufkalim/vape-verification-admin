@@ -52,11 +52,16 @@ const Brand = (props) => {
   const getUser = () => {
     api('get', '/auth').then((data) => {
       api('get', `/users/${data.user._id}`).then((userData) => {
-        updateStore({
-          user: userData.user,
-          loggedIn: true,
-          token: data.token,
-        });
+        if (userData?.user && userData?.user?.active) {
+          updateStore({
+            user: userData.user,
+            loggedIn: true,
+            token: data.token,
+          });
+        } else {
+          localStorage.setItem('token', '');
+          history.push('/auth/login');
+        }
       });
     });
   };

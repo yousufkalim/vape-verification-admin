@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 import api from '../../api';
-import { Select } from 'antd';
 import {
   Modal,
   ModalBody,
@@ -16,8 +15,6 @@ import {
 } from 'reactstrap';
 import FilePicker from 'components/FilePicker/FilePicker';
 // core components
-
-const { Option } = Select;
 
 const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, setFileName }) => {
   const handleInput = (e) => {
@@ -85,7 +82,7 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
           <Row>
             <Col>
               <Form>
-                <div className='px-lg-4'>
+                <div className='px-lg-2'>
                   <Row>
                     <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>

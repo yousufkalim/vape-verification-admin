@@ -21,25 +21,53 @@ import Chart from 'chart.js';
 // react plugin used to create charts
 import { Bar } from 'react-chartjs-2';
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Card, CardHeader, CardBody, Container, Row, Col } from 'reactstrap';
 
 // core components
-import { chartOptions, parseOptions, chartExample1, chartExample2 } from 'variables/charts.js';
+import { chartOptions, parseOptions, chartExample2 } from 'variables/charts.js';
 import { Store } from 'StoreContext';
 import PendingRequests from 'components/PendingRequests/PendingRequests';
+
+export const options = {
+  responsive: true,
+  datasets: {
+    bar: {
+      barThickness: 22,
+      borderRadius: {
+        topRight: 5,
+        topLeft: 5,
+      },
+    },
+  },
+  options: {
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        border: {
+          display: false,
+        },
+        // ticks: {
+        //   stepSize: 5,
+        // },
+        suggestedMin: 0,
+        suggestedMax: 300,
+        ticks: {
+          // forces step size to be 50 units
+          stepSize: 5,
+        },
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+  },
+};
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -47,6 +75,20 @@ const Index = (props) => {
 
   const store = Store();
   const { stats, user } = store;
+
+  const labels = stats?.stats ? Object.keys(stats?.stats) : [];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Total Requests',
+        data: stats?.stats ? Object.values(stats?.stats) : [],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        // minBarLength: 20,
+      },
+    ],
+  };
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -69,15 +111,14 @@ const Index = (props) => {
               <CardHeader className='bg-transparent'>
                 <Row className='align-items-center'>
                   <div className='col'>
-                    <h6 className='text-uppercase text-muted ls-1 mb-1'>Performance</h6>
-                    <h2 className='mb-0'>Total comments</h2>
+                    <h2 className='mb-0'>Codes Requests</h2>
                   </div>
                 </Row>
               </CardHeader>
               <CardBody>
                 {/* Chart */}
                 <div className='chart'>
-                  <Bar data={chartExample2.data} options={chartExample2.options} />
+                  <Bar data={data} options={options} />
                 </div>
               </CardBody>
             </Card>

@@ -35,10 +35,6 @@ const AdminNavbar = () => {
       <Navbar className='navbar-top navbar-horizontal navbar-dark' expand='md'>
         <Container className='px-4'>
           <NavbarBrand to='/auth/login' tag={Link}>
-            {/* <img
-              alt="..."
-              src={require("../../assets/img/brand/passtotrip.png").default}
-            /> */}
             <strong>Admin Panel</strong>
           </NavbarBrand>
           <button className='navbar-toggler' id='navbar-collapse-main'>

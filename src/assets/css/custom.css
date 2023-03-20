@@ -69,3 +69,6 @@
 .color_field {
   height: 70px;
 }
+.modal-body {
+  padding: 10px 1.5rem !important;
+}

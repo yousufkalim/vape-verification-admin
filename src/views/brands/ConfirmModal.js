@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const ConfirmModal = ({ openModal, handleModal, handleSubmit, brand }) => {
+const ConfirmModal = ({ openModal, handleModal, handleSubmit, brand, loading }) => {
   return (
     <>
       <Modal isOpen={openModal} size='md' centered>
@@ -16,10 +16,9 @@ const ConfirmModal = ({ openModal, handleModal, handleSubmit, brand }) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSubmit}>
+          <Button disabled={loading} color='primary' onClick={handleSubmit}>
             Yes
           </Button>
-
           <Button onClick={handleModal}>No</Button>
         </ModalFooter>
       </Modal>

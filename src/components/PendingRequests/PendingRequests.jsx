@@ -1,17 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardHeader,
-  Table,
-  Row,
-  Media,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import { Button, Card, CardHeader, Table, Row, Media } from 'reactstrap';
 
 const PendingRequests = ({ role, requests }) => {
   const history = useHistory();

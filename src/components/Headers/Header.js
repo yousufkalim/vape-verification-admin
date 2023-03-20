@@ -37,24 +37,26 @@ const Header = () => {
                 <Card className='card-stats mb-4 mb-xl-0'>
                   <CardBody>
                     <Row>
-                      {user.role === 'brand' ? (
+                      {user?.role === 'brand' ? (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
                             Codes
                           </CardTitle>
-                          <span className='h2 font-weight-bold mb-0'>{stats?.allCodesCount}</span>
+                          <span className='h2 font-weight-bold mb-0'>
+                            {stats?.allCodesCount ?? 0}
+                          </span>
                         </div>
                       ) : (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
                             Codes
                           </CardTitle>
-                          <span className='h2 font-weight-bold mb-0'>{stats?.codesCount}</span>
+                          <span className='h2 font-weight-bold mb-0'>{stats?.codesCount ?? 0}</span>
                         </div>
                       )}
                       <Col className='col-auto'>
-                        <div className='icon icon-shape bg-danger text-white rounded-circle shadow'>
-                          <i className='fas fa-chart-bar' />
+                        <div className='icon icon-shape bg-primary text-white rounded-circle shadow'>
+                          <i className='fas fa-barcode' />
                         </div>
                       </Col>
                     </Row>
@@ -70,12 +72,12 @@ const Header = () => {
                           Validated Codes
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0'>
-                          {stats?.validatedCodesCount}
+                          {stats?.validatedCodesCount ?? 0}
                         </span>
                       </div>
                       <Col className='col-auto'>
-                        <div className='icon icon-shape bg-warning text-white rounded-circle shadow'>
-                          <i className='fas fa-chart-pie' />
+                        <div className='icon icon-shape bg-success text-white rounded-circle shadow'>
+                          <i class='fas fa-barcode' />
                         </div>
                       </Col>
                     </Row>
@@ -86,28 +88,39 @@ const Header = () => {
                 <Card className='card-stats mb-4 mb-xl-0'>
                   <CardBody>
                     <Row>
-                      {user.role === 'brand' ? (
-                        <div className='col'>
-                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            In-validated Codes
-                          </CardTitle>
-                          <span className='h2 font-weight-bold mb-0'>
-                            {stats?.invalidatedCodesCount}
-                          </span>
-                        </div>
+                      {user?.role === 'brand' ? (
+                        <>
+                          <div className='col'>
+                            <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                              In-validated Codes
+                            </CardTitle>
+                            <span className='h2 font-weight-bold mb-0'>
+                              {stats?.invalidatedCodesCount ?? 0}
+                            </span>
+                          </div>
+                          <Col className='col-auto'>
+                            <div className='icon icon-shape bg-danger text-white rounded-circle shadow'>
+                              <i className='fas fa-users' />
+                            </div>
+                          </Col>
+                        </>
                       ) : (
-                        <div className='col'>
-                          <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            Brands
-                          </CardTitle>
-                          <span className='h2 font-weight-bold mb-0'>{stats?.brandCount}</span>
-                        </div>
+                        <>
+                          <div className='col'>
+                            <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+                              Brands
+                            </CardTitle>
+                            <span className='h2 font-weight-bold mb-0'>
+                              {stats?.brandCount ?? 0}
+                            </span>
+                          </div>
+                          <Col className='col-auto'>
+                            <div className='icon icon-shape bg-yellow text-white rounded-circle shadow'>
+                              <i className='fas fa-users' />
+                            </div>
+                          </Col>
+                        </>
                       )}
-                      <Col className='col-auto'>
-                        <div className='icon icon-shape bg-yellow text-white rounded-circle shadow'>
-                          <i className='fas fa-users' />
-                        </div>
-                      </Col>
                     </Row>
                   </CardBody>
                 </Card>
@@ -120,11 +133,11 @@ const Header = () => {
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
                           Codes Requests
                         </CardTitle>
-                        <span className='h2 font-weight-bold mb-0'>{stats?.requestCount}</span>
+                        <span className='h2 font-weight-bold mb-0'>{stats?.requestCount ?? 0}</span>
                       </div>
                       <Col className='col-auto'>
                         <div className='icon icon-shape bg-info text-white rounded-circle shadow'>
-                          <i className='fas fa-percent' />
+                          <i className='fas fa-plus' />
                         </div>
                       </Col>
                     </Row>

@@ -48,7 +48,7 @@ const FilePicker = (props) => {
               <img src={DownloadIcon} alt='' className='download_icon' />
               <div className='text_div'>
                 <div className='text_left'> Click &nbsp;</div>
-                to upload files
+                to upload logo
               </div>
             </>
           )}
