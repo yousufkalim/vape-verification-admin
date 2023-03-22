@@ -40,6 +40,7 @@ import EditBrand from './EditBrand';
 import { toast } from 'react-toastify';
 import ConfirmModal from './ConfirmModal';
 import { mediaUrl } from '../../config';
+import Spinner from 'components/Spinner/Spinner';
 
 const Brands = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -66,9 +67,15 @@ const Brands = () => {
   }, []);
 
   const getUsers = async () => {
-    const data = await api('get', '/users?role=brand');
+    try {
+      setLoading(true);
+      const data = await api('get', '/users?role=brand');
 
-    updateStore({ brands: data.users });
+      updateStore({ brands: data.users });
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   const handleModal = () => {
@@ -100,11 +107,16 @@ const Brands = () => {
   };
 
   const handleActive = (id) => {
-    api('patch', `/users/change-status/${id}`).then((res) => {
-      console.log('User activated ', res);
-      toast.success(res?.message);
-      getUsers();
-    });
+    setLoading(true);
+    api('patch', `/users/change-status/${id}`)
+      .then((res) => {
+        toast.success(res?.message);
+        getUsers();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   const handleDeleteBrand = (item) => {
@@ -135,6 +147,7 @@ const Brands = () => {
   return (
     <>
       <Container className='mt--7' fluid>
+        {loading && <Spinner />}
         {/* Table */}
         <Row>
           <div className='col'>
@@ -236,7 +249,13 @@ const Brands = () => {
           />
         }
         {openModal && (
-          <AddUser openModal={openModal} handleModal={handleModal} getUsers={getUsers} />
+          <AddUser
+            loading={loading}
+            setLoading={setLoading}
+            openModal={openModal}
+            handleModal={handleModal}
+            getUsers={getUsers}
+          />
         )}
         {editModal && (
           <EditBrand
@@ -247,6 +266,7 @@ const Brands = () => {
             setFileName={setFileName}
             setUser={setUser}
             getUsers={getUsers}
+            setLoading={setLoading}
           />
         )}
       </Container>

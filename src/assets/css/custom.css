@@ -72,3 +72,11 @@
 .modal-body {
   padding: 10px 1.5rem !important;
 }
+
+/*    Spinner   */
+.spinner {
+  position: fixed;
+  z-index: 999999;
+  top: 48.7%;
+  left: 48.7%;
+}

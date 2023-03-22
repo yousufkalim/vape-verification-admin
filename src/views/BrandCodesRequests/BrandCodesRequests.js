@@ -36,19 +36,27 @@ import {
 // core components
 import RequestNewCodes from './RequestNewCodes';
 import { toast } from 'react-toastify';
+import Loader from 'components/Spinner/Spinner';
 
 const BrandCodesRequests = () => {
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const [allRequests, setAllRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getRequests();
   }, []);
 
   const getRequests = async () => {
-    const data = await api('get', '/requests');
-    setAllRequests(data.requests);
+    try {
+      setLoading(true);
+      const data = await api('get', '/requests');
+      setAllRequests(data.requests);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   const handleModal = () => {
@@ -57,16 +65,23 @@ const BrandCodesRequests = () => {
   };
 
   const handleDelete = (id) => {
-    api('delete', `/requests/${id}`).then(() => {
-      toast.success('Request deleted successfully');
-      getRequests();
-    });
+    setLoading(true);
+    api('delete', `/requests/${id}`)
+      .then(() => {
+        toast.success('Request deleted successfully');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <>
       <Container className='mt--7' fluid>
         {/* Table */}
+        {loading && <Loader />}
         <Row>
           <div className='col'>
             <Card className='shadow'>
@@ -151,7 +166,12 @@ const BrandCodesRequests = () => {
           </div>
         </Row>
         {openModal && (
-          <RequestNewCodes openModal={openModal} handleModal={handleModal} getUsers={getRequests} />
+          <RequestNewCodes
+            setLoading={setLoading}
+            openModal={openModal}
+            handleModal={handleModal}
+            getUsers={getRequests}
+          />
         )}
       </Container>
     </>

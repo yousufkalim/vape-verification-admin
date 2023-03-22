@@ -16,7 +16,7 @@ import {
 import FilePicker from 'components/FilePicker/FilePicker';
 // core components
 
-const AddBrand = ({ openModal, handleModal, getUsers }) => {
+const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => {
   let [user, setUser] = useState({
     name: '',
     email: '',
@@ -25,7 +25,6 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
       color: '#000000',
     },
   });
-  const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState('');
 
   const handleInput = (e) => {
@@ -64,8 +63,6 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
 
     let formData = new FormData();
 
-    console.log('Preferences ', user);
-
     for (let key in user) {
       if (key === 'preferences') {
         formData.append(key, JSON.stringify(user[key]));
@@ -77,7 +74,6 @@ const AddBrand = ({ openModal, handleModal, getUsers }) => {
     api('post', '/users/brand', formData)
       .then((res) => {
         toast.success('Brand added successfully, Check your email to set password');
-        console.log('Brand ADDED !!!');
         getUsers();
         handleModal();
         setLoading(false);

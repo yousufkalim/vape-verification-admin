@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 // core components
 
-const RequestNewCodes = ({ openModal, handleModal, getUsers }) => {
+const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
   let [request, setRequest] = useState({
     name: '',
     text: '',
@@ -38,11 +38,17 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers }) => {
       ...request,
       number_of_codes: request.numberOfCodes,
     };
-    api('post', '/requests', data).then((res) => {
-      toast.success('Request has been submitted successfully');
-      handleModal();
-      getUsers();
-    });
+    setLoading(true);
+    api('post', '/requests', data)
+      .then((res) => {
+        toast.success('Request has been submitted successfully');
+        handleModal();
+        getUsers();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (

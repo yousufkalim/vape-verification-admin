@@ -25,10 +25,17 @@ const Header = () => {
 
   const { user, stats } = store;
 
-  console.log('Current stats ', stats);
   return (
     <>
-      <div className='header bg-gradient-info pb-8 pt-5 pt-md-8'>
+      <div
+        className='header pb-8 pt-5 pt-md-8'
+        style={{
+          background:
+            user?.role === 'brand'
+              ? user?.preferences?.color
+              : 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
+        }}
+      >
         <Container fluid>
           <div className='header-body'>
             {/* Card stats */}

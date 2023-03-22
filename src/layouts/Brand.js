@@ -28,6 +28,7 @@ import Sidebar from 'components/Sidebar/Sidebar.js';
 
 import routes from 'routes.js';
 import Header from 'components/Headers/Header';
+import { mediaUrl } from 'config';
 
 const Brand = (props) => {
   const mainContent = React.useRef(null);
@@ -101,6 +102,9 @@ const Brand = (props) => {
   } else if (store?.user?.role === 'admin') {
     history.push('/admin/index');
   }
+
+  const logo = `${mediaUrl}${store?.user?.preferences?.logo}`;
+
   return (
     <>
       <Sidebar
@@ -108,7 +112,7 @@ const Brand = (props) => {
         routes={sidebarRoutes}
         logo={{
           innerLink: '/admin/index',
-          imgSrc: require('../assets/img/brand/logo.png').default,
+          imgSrc: logo,
           imgAlt: '...',
         }}
       />

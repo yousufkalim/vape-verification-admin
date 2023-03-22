@@ -36,12 +36,13 @@ import { Pagination } from 'antd';
 // core components
 import { toast } from 'react-toastify';
 import { CSVDownload } from 'react-csv';
+import Loader from 'components/Spinner/Spinner';
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedCodes, setSelectedCodes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [exportCodes, setExportCodes] = useState([]);
   const [total, setTotal] = useState(0);
   const store = Store();
@@ -129,7 +130,6 @@ const BrandCodes = () => {
     api('get', `/codes/export?brand=${user._id}&status=pending`)
       .then((res) => {
         if (res.codes?.length > 0) {
-          console.log('Codes ', res);
           setExportCodes(res?.codes);
           setLoading(false);
           done(true);
@@ -151,6 +151,7 @@ const BrandCodes = () => {
   return (
     <>
       <Container className='mt--7' fluid>
+        {loading && <Loader />}
         {/* Table */}
         <Row>
           <div className='col'>
