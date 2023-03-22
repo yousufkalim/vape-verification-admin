@@ -85,8 +85,6 @@ const Login = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  console.log('Is modal open', isModalOpen);
-
   return (
     <>
       <Col lg='5' md='7' style={{ position: 'relative' }}>

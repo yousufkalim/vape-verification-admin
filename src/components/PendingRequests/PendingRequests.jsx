@@ -5,7 +5,6 @@ import { Button, Card, CardHeader, Table, Row, Media } from 'reactstrap';
 const PendingRequests = ({ role, requests }) => {
   const history = useHistory();
   const handleNavigate = () => {
-    console.log('Navigate admin');
     role === 'brand'
       ? history.push('/brand/codes-requests')
       : history.push('/admin/codes-requests');

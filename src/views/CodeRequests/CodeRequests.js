@@ -34,9 +34,11 @@ import {
 
 // core components
 import { toast } from 'react-toastify';
+import Loader from 'components/Spinner/Spinner';
 
 const CodeRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -45,34 +47,59 @@ const CodeRequests = () => {
   }, []);
 
   const getRequests = async () => {
-    const data = await api('get', '/requests');
-    setAllRequests(data.requests);
+    try {
+      setLoading(true);
+      const data = await api('get', '/requests');
+      setAllRequests(data.requests);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   const handleApprove = (id) => {
-    api('patch', `/requests/approve/${id}`).then(() => {
-      toast.success('Request has been approved successfully');
-      getRequests();
-    });
+    setLoading(true);
+    api('patch', `/requests/approve/${id}`)
+      .then(() => {
+        toast.success('Request has been approved successfully');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
   const handleReject = (id) => {
-    api('patch', `/requests/reject/${id}`).then(() => {
-      toast.success('Request has been rejected.');
-      getRequests();
-    });
+    setLoading(true);
+    api('patch', `/requests/reject/${id}`)
+      .then(() => {
+        toast.success('Request has been rejected.');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   const handleDelete = (id) => {
-    api('delete', `/requests/${id}`).then(() => {
-      toast.success('Request deleted successfully');
-      getRequests();
-    });
+    setLoading(true);
+    api('delete', `/requests/${id}`)
+      .then(() => {
+        toast.success('Request deleted successfully');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <>
       <Container className='mt--7' fluid>
         {/* Table */}
+        {loading && <Loader />}
         <Row>
           <div className='col'>
             <Card className='shadow'>

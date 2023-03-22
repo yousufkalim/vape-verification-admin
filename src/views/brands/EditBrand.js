@@ -16,7 +16,16 @@ import {
 import FilePicker from 'components/FilePicker/FilePicker';
 // core components
 
-const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, setFileName }) => {
+const EditBrand = ({
+  openModal,
+  handleModal,
+  user,
+  setUser,
+  getUsers,
+  fileName,
+  setFileName,
+  setLoading,
+}) => {
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -55,8 +64,6 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
 
     let formData = new FormData();
 
-    console.log('User ', user);
-
     for (let key in user) {
       if (key === 'preferences') {
         formData.append(key, JSON.stringify(user[key]));
@@ -64,12 +71,17 @@ const EditBrand = ({ openModal, handleModal, user, setUser, getUsers, fileName, 
         formData.append(key, user[key]);
       }
     }
-
-    api('put', `/users/brand/${user._id}`, formData).then((res) => {
-      toast.success('Brand updated successfully');
-      getUsers();
-      handleModal();
-    });
+    setLoading(true);
+    api('put', `/users/brand/${user._id}`, formData)
+      .then((res) => {
+        toast.success('Brand updated successfully');
+        getUsers();
+        setLoading(false);
+        handleModal();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (

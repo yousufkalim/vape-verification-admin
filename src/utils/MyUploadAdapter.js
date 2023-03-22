@@ -14,12 +14,11 @@ class MyUploadAdapter {
           formData.append('image', file);
 
           axios.post(`${baseUrl}/images`, formData).then((res) => {
-            console.log(res);
             resolve({
               default: mediaUrl + res.data.image,
             });
           });
-        }),
+        })
     );
   }
 }

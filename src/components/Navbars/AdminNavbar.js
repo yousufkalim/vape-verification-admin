@@ -53,8 +53,6 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const [fileName, setFileName] = useState('');
   const [open, setOpen] = useState(false);
 
-  console.log('User ', user);
-
   useEffect(() => {
     if (user && user.role === 'brand') {
       setProfile({
@@ -83,11 +81,8 @@ const AdminNavbar = ({ brandText, getUser }) => {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    console.log('Change password ===> ', value);
     setProfile((prof) => ({ ...prof, [name]: value }));
   };
-
-  console.log('PROFILE Data ', profile);
 
   const handleFile = (e) => {
     if (e.target.files[0]) {
@@ -178,8 +173,6 @@ const AdminNavbar = ({ brandText, getUser }) => {
     localStorage.setItem('token', '');
     window.location = '/auth/login';
   };
-
-  console.log('BRand text ', brandText);
 
   return (
     <>

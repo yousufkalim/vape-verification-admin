@@ -53,7 +53,6 @@ const Register = () => {
       const { confirmPassword, ...rest } = user;
       api('post', '/users/admin', rest)
         .then((res) => {
-          console.log('res ', res);
           setUser({ name: '', email: '', password: '', confirmPassword: '' });
           toast.success('Account created successfully');
           setTimeout(() => {

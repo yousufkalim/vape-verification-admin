@@ -54,7 +54,7 @@ var routes = [
   },
   {
     path: '/codes-requests',
-    name: 'Code Requests',
+    name: 'Codes Requests',
     icon: 'fas fa-plus-square text-primary',
     component: CodeRequests,
     layout: '/admin',
