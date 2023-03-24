@@ -111,7 +111,7 @@ const Index = (props) => {
               <CardHeader className='bg-transparent'>
                 <Row className='align-items-center'>
                   <div className='col'>
-                    <h2 className='mb-0'>Codes Requests</h2>
+                    <h2 className='mb-0'>Brands Registrations</h2>
                   </div>
                 </Row>
               </CardHeader>

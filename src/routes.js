@@ -103,7 +103,7 @@ var routes = [
     isChild: false,
   },
   {
-    path: '/verify/11',
+    path: '/verify/:token',
     name: 'Dashboard',
     icon: 'ni ni-tv-2 text-red',
     component: ResetPassword,
