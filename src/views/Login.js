@@ -36,11 +36,13 @@ import {
   Col,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
+import Loader from 'components/Spinner/Spinner';
 
 const Login = () => {
   let [user, setUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -52,13 +54,16 @@ const Login = () => {
 
   const handleForgotPassword = () => {
     if (email) {
+      setLoading(true);
       api('put', `/auth/forgot/${email}`, user)
         .then(() => {
           setIsModalOpen(false);
           toast.success('Reset Password link has been sent to your email');
+          setLoading(false);
         })
         .catch((err) => {
           console.log('Error ', err);
+          setLoading(false);
         });
     } else {
       toast.error('Please provide email');
@@ -87,6 +92,7 @@ const Login = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <Col lg='5' md='7' style={{ position: 'relative' }}>
         <Card className='bg-secondary shadow border-0'>
           <CardBody className='px-lg-5 py-lg-5'>
@@ -169,7 +175,7 @@ const Login = () => {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleForgotPassword}>
+          <Button disabled={loading} color='primary' onClick={handleForgotPassword}>
             Submit
           </Button>{' '}
           <Button color='secondary' onClick={toggleModal}>
