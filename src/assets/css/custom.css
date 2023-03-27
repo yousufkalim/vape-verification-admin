@@ -76,7 +76,7 @@
 /*    Spinner   */
 .spinner {
   position: fixed;
-  z-index: 999999;
+  z-index: 99999999999;
   top: 48.7%;
   left: 48.7%;
 }
