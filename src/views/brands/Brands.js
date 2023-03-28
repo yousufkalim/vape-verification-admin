@@ -41,6 +41,7 @@ import { toast } from 'react-toastify';
 import ConfirmModal from './ConfirmModal';
 import { mediaUrl } from '../../config';
 import Spinner from 'components/Spinner/Spinner';
+import moment from 'moment';
 
 const Brands = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -193,7 +194,7 @@ const Brands = () => {
                         </td>
 
                         <td>{item.active ? 'Active' : 'In-Active'}</td>
-                        <td>{new Date(item.createdAt).toDateString()}</td>
+                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             <DropdownToggle

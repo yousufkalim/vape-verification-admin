@@ -35,6 +35,8 @@ import {
 // core components
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
+import { capitalString } from 'utils/common';
+import moment from 'moment';
 
 const CodeRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
@@ -146,12 +148,11 @@ const CodeRequests = () => {
                           //     ? 'text-success'
                           //     : 'text-danger'
                           // }`}
-                          title={item.status}
+                          title={capitalString(item.status)}
                         >
-                          {item.status}
+                          {capitalString(item.status)}
                         </td>
-                        <td>{new Date(item.createdAt).toDateString()}</td>
-
+                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             {item.status === 'pending' && (

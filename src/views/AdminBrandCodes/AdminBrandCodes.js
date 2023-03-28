@@ -36,6 +36,7 @@ import {
 
 // core components
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 const AdminBrandCodes = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -132,8 +133,7 @@ const AdminBrandCodes = () => {
                         </td>
 
                         <td>{item.active}</td>
-                        <td>{new Date(item.createdAt).toDateString()}</td>
-
+                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             <DropdownToggle

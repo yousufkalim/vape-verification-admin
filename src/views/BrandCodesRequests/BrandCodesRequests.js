@@ -37,6 +37,8 @@ import {
 import RequestNewCodes from './RequestNewCodes';
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
+import { capitalString } from 'utils/common';
+import moment from 'moment';
 
 const BrandCodesRequests = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -124,9 +126,8 @@ const BrandCodesRequests = () => {
                         <td title={item.text}>
                           {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
-                        <td title={item.status}>{item.status}</td>
-                        <td>{new Date(item.createdAt).toDateString()}</td>
-
+                        <td title={capitalString(item.status)}>{capitalString(item.status)}</td>
+                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
                             {item.status === 'pending' && (
