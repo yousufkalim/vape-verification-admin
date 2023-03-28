@@ -28,6 +28,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+import Logo from '../../assets/img/transparent_logo.png';
 
 const AdminNavbar = () => {
   return (
@@ -35,7 +36,7 @@ const AdminNavbar = () => {
       <Navbar className='navbar-top navbar-horizontal navbar-dark' expand='md'>
         <Container className='px-4'>
           <NavbarBrand to='/auth/login' tag={Link}>
-            <strong>Admin Panel</strong>
+            <img src={Logo} alt='logo' style={{ height: '4rem', maxWidth: '100%' }} />
           </NavbarBrand>
           <button className='navbar-toggler' id='navbar-collapse-main'>
             <span className='navbar-toggler-icon' />

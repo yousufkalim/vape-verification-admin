@@ -37,6 +37,7 @@ import { Pagination } from 'antd';
 import { toast } from 'react-toastify';
 import { CSVDownload } from 'react-csv';
 import Loader from 'components/Spinner/Spinner';
+import moment from 'moment';
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
@@ -56,7 +57,7 @@ const BrandCodes = () => {
     setLoading(true);
 
     try {
-      const data = await api('get', `/codes?page=${page}&status=pending&brand=${user._id}`);
+      const data = await api('get', `/codes?page=${page}&brand=${user._id}`);
       setCodes(data.codes);
       setTotal(data?.total);
       setLoading(false);
@@ -205,15 +206,19 @@ const BrandCodes = () => {
                   {codes?.map((item) => {
                     return (
                       <tr>
-                        <td title={item.scan_attempts}>
-                          <FormGroup check>
-                            <Input
-                              type='checkbox'
-                              checked={selectedCodes.includes(item._id)}
-                              onChange={(e) => handleSelectCodes(e, item._id)}
-                            />
-                          </FormGroup>
-                        </td>
+                        {item.status === 'pending' ? (
+                          <td>
+                            <FormGroup check>
+                              <Input
+                                type='checkbox'
+                                checked={selectedCodes.includes(item._id)}
+                                onChange={(e) => handleSelectCodes(e, item._id)}
+                              />
+                            </FormGroup>
+                          </td>
+                        ) : (
+                          <td></td>
+                        )}
                         <th scope='row'>
                           <Media className='align-items-center'>
                             <Media>
@@ -225,9 +230,18 @@ const BrandCodes = () => {
                         </th>
                         <td title={item.scan_attempts}>{item.scan_attempts}</td>
 
-                        <td>{item.active}</td>
-                        <td>{item.status}</td>
-                        <td>{new Date(item.createdAt).toDateString()}</td>
+                        <td>
+                          {item.validation_time &&
+                            moment(item.validation_time).format('MMMM DD, yyyy hh:mm A')}
+                        </td>
+                        <td>
+                          {item.status === 'pending'
+                            ? 'Pending'
+                            : item.status === 'validated'
+                            ? 'Validated'
+                            : 'Invalidated'}
+                        </td>
+                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                       </tr>
                     );
                   })}
