@@ -123,9 +123,9 @@ const AdminNavbar = ({ brandText, getUser }) => {
         return toast.error('Please enter confirm password');
       }
       if (profile?.password.length < 8 || profile?.confirmPassword?.length < 8) {
-        return toast.error("Password's min length should be greater than 8");
+        return toast.error('Password should contains at least 8 characters');
       } else if (profile?.password !== profile?.confirmPassword) {
-        return toast.error('Password and Confirm Password are not same');
+        return toast.error('Password and Confirm Password are not matching');
       }
     }
 

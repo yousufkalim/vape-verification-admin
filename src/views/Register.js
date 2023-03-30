@@ -46,7 +46,7 @@ const Register = () => {
     if (!user.name || !user.email || !user.password || !user.confirmPassword) {
       toast.error('Please fill all the fields');
     } else if (user.password.length < 8 || user.confirmPassword.length < 8) {
-      toast.error("Password's min length should be greater than 8");
+      toast.error('Password should contains at least 8 characters');
     } else if (user.password !== user.confirmPassword) {
       toast.error('Password and Confirm Password are not same');
     } else {

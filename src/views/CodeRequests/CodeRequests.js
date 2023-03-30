@@ -30,6 +30,7 @@ import {
   Table,
   Container,
   Row,
+  Button,
 } from 'reactstrap';
 
 // core components
@@ -37,10 +38,35 @@ import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { capitalString } from 'utils/common';
 import moment from 'moment';
+import { CSVDownload } from 'react-csv';
+
+const headers = [
+  {
+    label: 'Code',
+    key: 'code',
+  },
+  {
+    label: 'Brand',
+    key: 'brand_name',
+  },
+  {
+    label: 'Status',
+    key: 'status',
+  },
+  {
+    label: 'Scan Attempts',
+    key: 'scan_attempts',
+  },
+  {
+    label: 'Validation Time',
+    key: 'validation_time',
+  },
+];
 
 const CodeRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [exportCodes, setExportCodes] = useState([]);
 
   const history = useHistory();
 
@@ -97,6 +123,23 @@ const CodeRequests = () => {
       });
   };
 
+  const handleExport = async (e, done) => {
+    setLoading(true);
+    api('get', `/codes/export`)
+      .then((res) => {
+        if (res.codes?.length > 0) {
+          setExportCodes(res?.codes);
+          done(true);
+        } else {
+          toast.error('No codes exists');
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       <Container className='mt--7' fluid>
@@ -108,6 +151,19 @@ const CodeRequests = () => {
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Codes Requests</h3>
+                  <Button disabled={loading} color='primary' onClick={handleExport} size='md'>
+                    Export all codes
+                  </Button>
+                  {exportCodes.length > 0 && (
+                    <CSVDownload
+                      headers={headers}
+                      id='export_codes'
+                      filename='codes'
+                      data={exportCodes}
+                      separator={';'}
+                      asyncOnClick={true}
+                    ></CSVDownload>
+                  )}
                 </div>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
