@@ -141,7 +141,7 @@ const Brands = () => {
           setLoading(false);
         });
     } else {
-      toast.error('Please select brand.');
+      toast.error('Please select brand');
     }
   };
 
