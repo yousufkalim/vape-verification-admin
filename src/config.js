@@ -1,5 +1,5 @@
-let baseUrl = 'http://localhost:5000/api/v1';
-let mediaUrl = 'http://localhost:5000/';
+let baseUrl = 'https://vapeverification-api-dev.falconweb.app/api/v1';
+let mediaUrl = 'https://vapeverification-api-dev.falconweb.app';
 
 if (window.location.host === 'vapeverification-admin-dev.falconweb.app') {
   baseUrl = 'https://vapeverification-api-dev.falconweb.app/api/v1';

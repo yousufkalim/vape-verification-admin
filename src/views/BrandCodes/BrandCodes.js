@@ -205,14 +205,14 @@ const BrandCodes = () => {
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>All Codes</h3>
                   <div className='d-flex'>
-                    <Button
+                    {/* <Button
                       disabled={btnDisabled}
                       color='danger'
                       onClick={handleConfirmActivateCodes}
                       size='md'
                     >
                       Activate
-                    </Button>
+                    </Button> */}
                     <Button
                       disabled={btnDisabled}
                       color='danger'
