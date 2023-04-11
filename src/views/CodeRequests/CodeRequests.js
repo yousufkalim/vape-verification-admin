@@ -202,51 +202,56 @@ const CodeRequests = () => {
                         <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
-                            <DropdownToggle
-                              className='btn-icon-only text-light'
-                              role='button'
-                              size='sm'
-                              color=''
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className='fas fa-ellipsis-v' />
-                            </DropdownToggle>
-
-                            {item.status === 'pending' ? (
-                              <DropdownMenu className='dropdown-menu-arrow' right>
-                                {item.test_conducted && (
-                                  <DropdownItem
-                                    onClick={() => history.push(`/admin/${item._id}/codes`)}
-                                  >
-                                    View Codes
-                                  </DropdownItem>
-                                )}
-                                <DropdownItem onClick={() => handleApprove(item._id)}>
-                                  Approve
-                                </DropdownItem>
-                                <DropdownItem
-                                  className='text-warning'
-                                  onClick={() => handleReject(item._id)}
-                                >
-                                  Reject
-                                </DropdownItem>
-                                <DropdownItem
-                                  className='text-danger'
-                                  onClick={() => handleDelete(item._id)}
-                                >
-                                  Delete
-                                </DropdownItem>
-                              </DropdownMenu>
-                            ) : (
-                              <DropdownMenu className='dropdown-menu-arrow' right>
-                                <DropdownItem
-                                  style={{ color: item.status === 'approved' ? 'red' : 'green' }}
-                                  onClick={() => handleApprove(item._id)}
-                                >
-                                  {item.status === 'approved' ? 'Invalidate' : 'Activate'}
-                                </DropdownItem>
-                              </DropdownMenu>
+                            {item.status === 'pending' && (
+                              <DropdownToggle
+                                className='btn-icon-only text-light'
+                                role='button'
+                                size='sm'
+                                color=''
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                <i className='fas fa-ellipsis-v' />
+                              </DropdownToggle>
                             )}
+
+                            {
+                              item.status === 'pending' && (
+                                <DropdownMenu className='dropdown-menu-arrow' right>
+                                  {item.test_conducted && (
+                                    <DropdownItem
+                                      onClick={() => history.push(`/admin/${item._id}/codes`)}
+                                    >
+                                      View Codes
+                                    </DropdownItem>
+                                  )}
+                                  <DropdownItem onClick={() => handleApprove(item._id)}>
+                                    Approve
+                                  </DropdownItem>
+                                  <DropdownItem
+                                    className='text-warning'
+                                    onClick={() => handleReject(item._id)}
+                                  >
+                                    Reject
+                                  </DropdownItem>
+                                  <DropdownItem
+                                    className='text-danger'
+                                    onClick={() => handleDelete(item._id)}
+                                  >
+                                    Delete
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              )
+                              // : (
+                              //   <DropdownMenu className='dropdown-menu-arrow' right>
+                              //     <DropdownItem
+                              //       style={{ color: item.status === 'approved' ? 'red' : 'green' }}
+                              //       onClick={() => handleApprove(item._id)}
+                              //     >
+                              //       {item.status === 'approved' ? 'Invalidate' : 'Activate'}
+                              //     </DropdownItem>
+                              //   </DropdownMenu>
+                              // )
+                            }
                           </UncontrolledDropdown>
                         </td>
                       </tr>
