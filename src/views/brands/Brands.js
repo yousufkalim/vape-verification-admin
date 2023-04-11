@@ -33,6 +33,7 @@ import {
   Container,
   Row,
 } from 'reactstrap';
+import { frontendUrl } from '../../config';
 
 // core components
 import AddUser from './AddBrand';
@@ -56,9 +57,11 @@ const Brands = () => {
     name: '',
     email: '',
     logo: '',
+    websiteLink:"",
+    logoWidth:'',
     preferences: {
-      color: '',
-      logo: '',
+      color: '#000000',
+      secondaryColor: 'black',
     },
   });
   const [fileName, setFileName] = useState('');
@@ -90,13 +93,18 @@ const Brands = () => {
         _id: item._id,
         name: item.name,
         email: item.email,
+        websiteLink: item.websiteLink?item.websiteLink:"",
         logo: item.preferences?.logo,
+        logoWidth: item.logoWidth?item.logoWidth:"",
         preferences: {
           color: item?.preferences?.color,
+          secondaryColor: item?.preferences?.secondaryColor,
           logo: item.preferences?.logo,
         },
       });
-      setFileName(item?.preferences?.logo ? `${mediaUrl}${item?.preferences?.logo}` : '');
+      setFileName(
+        item?.preferences?.logo ? `${mediaUrl}${item?.preferences?.logo}` : '',
+      );
     }
 
     setEditModal((open) => !open);
@@ -148,39 +156,40 @@ const Brands = () => {
 
   return (
     <>
-      <Container className='mt--7' fluid>
+      <Container className="mt--7" fluid>
         {loading && <Spinner />}
         {/* Table */}
         <Row>
-          <div className='col'>
-            <Card className='shadow'>
-              <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Brands</h3>
-                  <Button color='primary' onClick={handleModal} size='md'>
-                    <i className='ni ni-fat-add'></i>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <div className="d-flex justify-content-between ">
+                  <h3 className="mb-0">Brands</h3>
+                  <Button color="primary" onClick={handleModal} size="md">
+                    <i className="ni ni-fat-add"></i>
                     Add brand
                   </Button>
                 </div>
               </CardHeader>
-              <Table className='align-items-center table-flush' responsive>
-                <thead className='thead-light'>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
                   <tr>
-                    <th scope='col'>Name</th>
-                    <th scope='col'>Email</th>
-                    <th scope='col'>Active</th>
-                    <th scope='col'>Created At</th>
-                    <th scope='col' />
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
                   {brands?.map((item) => {
                     return (
                       <tr>
-                        <th scope='row'>
-                          <Media className='align-items-center'>
+                        <th scope="row">
+                          <Media className="align-items-center">
                             <Media>
-                              <span className='mb-0 text-sm' title={item.name}>
+                              <span className="mb-0 text-sm" title={item.name}>
                                 {item.name?.length > 30
                                   ? item.name?.substring(0, 30) + '...'
                                   : item.name}
@@ -193,39 +202,66 @@ const Brands = () => {
                             ? item.email?.substring(0, 30) + '...'
                             : item.email}
                         </td>
+                        <td title={item.name}>
+                          <a
+                            href={`${frontendUrl}/${encodeURI(item.name)}`}
+                            target="_blank"
+                            style={{
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              fontWeight: 'bold',
+                            }}
+                          >{`/${encodeURI(item.name)}`}</a>
+                        </td>
 
                         <td>{item.active ? 'Active' : 'In-Active'}</td>
-                        <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
-                        <td className='text-right'>
+                        <td>
+                          {moment(item.createdAt).format(
+                            'MMMM DD, yyyy hh:mm A',
+                          )}
+                        </td>
+                        <td className="text-right">
                           <UncontrolledDropdown>
                             <DropdownToggle
-                              className='btn-icon-only text-light'
-                              role='button'
-                              size='sm'
-                              color=''
+                              className="btn-icon-only text-light"
+                              role="button"
+                              size="sm"
+                              color=""
                               onClick={(e) => e.preventDefault()}
                             >
-                              <i className='fas fa-ellipsis-v' />
+                              <i className="fas fa-ellipsis-v" />
                             </DropdownToggle>
-                            <DropdownMenu className='dropdown-menu-arrow' right>
-                              {item.test_conducted && (
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                                <a
+                            href={`${frontendUrl}/${encodeURI(item.name)}`}
+                            target="_blank"
+                            style={{
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              fontWeight: 'bold',
+                            }}
+                          >
                                 <DropdownItem
-                                  onClick={() => history.push(`/admin/users/${item._id}`)}
+                                  
                                 >
-                                  View
+                                  View as client
                                 </DropdownItem>
-                              )}
-                              <DropdownItem onClick={() => handleEditModal(item)}>
+                              </a>
+                              <DropdownItem
+                                onClick={() => handleEditModal(item)}
+                              >
                                 Edit
                               </DropdownItem>
                               <DropdownItem
-                                className={item.active ? 'text-danger' : 'text-success'}
+                                className={
+                                  item.active ? 'text-danger' : 'text-success'
+                                }
                                 onClick={() => handleActive(item?._id)}
                               >
                                 {item.active ? 'De-activate' : 'Activate'}
                               </DropdownItem>
                               <DropdownItem
-                                className='text-danger'
+                                className="text-danger"
                                 onClick={() => handleDeleteBrand(item)}
                               >
                                 Delete

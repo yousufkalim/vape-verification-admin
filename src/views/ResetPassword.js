@@ -51,11 +51,16 @@ const ResetPassword = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const verifyUser = () => {
+    console.log("verify 1")
     const url = baseUrl;
     axios
       .get(`${url}/auth/verify-token/${token}`)
-      .then(() => {})
+      .then(() => {
+        console.log("verify 2")
+      })
       .catch((err) => {
+        console.log("verify 3")
+        toast.error('Your link has been expired');
         history.push('/auth/login');
       });
   };

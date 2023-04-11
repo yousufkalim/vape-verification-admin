@@ -22,25 +22,25 @@ import { Container, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 
 const Footer = () => {
   return (
-    <footer className='footer'>
-      <Row className='align-items-center justify-content-xl-between'>
-        <Col xl='6'>
-          <div className='copyright text-center text-xl-left text-muted'>
+    <footer className="footer">
+      <Row className="align-items-center justify-content-xl-between">
+        <Col xl="6">
+          <div className="copyright text-center text-xl-left text-muted">
             © {new Date().getFullYear()}{' '}
             <a
-              className='font-weight-bold ml-1'
-              href='https://www.passtotrip.com'
-              rel='noopener noreferrer'
-              target='_blank'
+              className="font-weight-bold ml-1"
+              href="https://www.passtotrip.com"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Admin Panel
             </a>
             &nbsp;Developed by{' '}
             <a
-              className='font-weight-bold ml-1'
-              href='https://www.falconconsulting.fr'
-              rel='noopener noreferrer'
-              target='_blank'
+              className="font-weight-bold ml-1"
+              href="https://www.falconconsulting.fr"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Falcon Consulting
             </a>{' '}
