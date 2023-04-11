@@ -16,20 +16,27 @@
 
 */
 /*eslint-disable*/
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom';
 // nodejs library to set properties for components
 import { PropTypes } from 'prop-types';
+import { Store } from 'StoreContext';
 
 // reactstrap components
 import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  Button,
+  FormGroup,
+  Form,
+  Input,
   Collapse,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -43,14 +50,43 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+import FilePicker from 'components/FilePicker/FilePicker';
+import api from 'api';
+import { toast } from 'react-toastify';
+import { mediaUrl } from '../../config';
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
-  // verifies if routeName is the one active (in browser input)
-  const activeRoute = (routeName) => {
-    return props.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
-  };
-  // toggles collapse between opened and closed (true/false)
+
+  const { user } = Store();
+  const [profile, setProfile] = useState();
+  const [fileName, setFileName] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const { getUser } = props;
+
+  useEffect(() => {
+    if (user && user.role === 'brand') {
+      setProfile({
+        name: user?.name,
+        email: user?.email,
+        logo: user?.preferences?.logo,
+        preferences: user?.preferences,
+        password: '',
+        confirmPassword: '',
+      });
+
+      setFileName(user?.preferences?.logo ? `${mediaUrl}${user?.preferences?.logo}` : '');
+    } else if (user && user.role === 'admin') {
+      setProfile({
+        name: user?.name,
+        email: user?.email,
+        password: '',
+        confirmPassword: '',
+      });
+    }
+  }, [user]);
+
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
@@ -58,7 +94,7 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-  // creates the links that appear in the left menu / Sidebar
+
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === '/admin' || prop.layout === '/brand') {
@@ -79,6 +115,96 @@ const Sidebar = (props) => {
     });
   };
 
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setProfile((prof) => ({ ...prof, [name]: value }));
+  };
+
+  const handleFile = (e) => {
+    if (e.target.files[0]) {
+      setProfile((prev) => ({
+        ...prev,
+        logo: e.target.files[0],
+      }));
+      setFileName(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleDeleteImage = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setFileName('');
+    setProfile((prev) => ({ ...prev, logo: null }));
+  };
+
+  const handleColor = (e) => {
+    setProfile((prev) => ({
+      ...prev,
+      preferences: { ...prev.preferences, color: e.target.value },
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (profile.name === '') {
+      return toast.error("Please enter user's name");
+    }
+
+    if (profile.email === '') {
+      return toast.error('Please enter email');
+    }
+    if (profile.password) {
+      if (!profile?.confirmPassword) {
+        return toast.error('Please enter confirm password');
+      }
+      if (profile?.password.length < 8 || profile?.confirmPassword?.length < 8) {
+        return toast.error('Password should contains at least 8 characters');
+      } else if (profile?.password !== profile?.confirmPassword) {
+        return toast.error('Password and Confirm Password are not matching');
+      }
+    }
+
+    if (user.role === 'brand') {
+      updateBrand();
+    } else {
+      updateAdmin();
+    }
+  };
+
+  const updateBrand = () => {
+    let formData = new FormData();
+
+    for (let key in profile) {
+      if (key === 'preferences') {
+        formData.append(key, JSON.stringify(profile[key]));
+      } else {
+        profile[key] && key !== 'confirmPassword' && formData.append(key, profile[key]);
+      }
+    }
+
+    api('put', `/users/brand/${user._id}`, formData).then((res) => {
+      getUser();
+      toast.success('Brand updated successfully');
+      handleModal();
+    });
+  };
+
+  const updateAdmin = () => {
+    const data = {
+      name: profile.name,
+      email: profile.email,
+    };
+    if (profile?.password) {
+      data['password'] = profile?.password;
+    }
+    api('put', `/users/admin`, data).then((res) => {
+      getUser();
+      toast.success('Profile updated successfully');
+      handleModal();
+    });
+  };
+
   const { bgColor, routes, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
@@ -93,126 +219,210 @@ const Sidebar = (props) => {
     };
   }
 
+  const handleModal = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    localStorage.setItem('token', '');
+    window.location = '/auth/login';
+  };
+
   return (
-    <Navbar
-      className='navbar-vertical fixed-left navbar-light bg-white'
-      expand='md'
-      id='sidenav-main'
-    >
-      <Container fluid>
-        {/* Toggler */}
-        <button className='navbar-toggler' type='button' onClick={toggleCollapse}>
-          <span className='navbar-toggler-icon' />
-        </button>
-        {/* Brand */}
-        {logo ? (
-          <NavbarBrand className='pt-0' {...navbarBrandProps}>
-            <img alt={logo.imgAlt} className='navbar-brand-img' src={logo.imgSrc} />
-          </NavbarBrand>
-        ) : null}
-        {/* User */}
-        <Nav className='align-items-center d-md-none'>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav className='nav-link-icon'>
-              <i className='ni ni-bell-55' />
-            </DropdownToggle>
-            <DropdownMenu
-              aria-labelledby='navbar-default_dropdown_1'
-              className='dropdown-menu-arrow'
-              right
-            >
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav>
-              <Media className='align-items-center'>
-                <span className='avatar avatar-sm rounded-circle'>
-                  <img
-                    alt='...'
-                    src={require('../../assets/img/theme/team-1-800x800.jpg').default}
-                  />
-                </span>
-              </Media>
-            </DropdownToggle>
-            <DropdownMenu className='dropdown-menu-arrow' right>
-              <DropdownItem className='noti-title' header tag='div'>
-                <h6 className='text-overflow m-0'>Welcome!</h6>
-              </DropdownItem>
-              <DropdownItem to='/admin/user-profile' tag={Link}>
-                <i className='ni ni-single-02' />
-                <span>My profile</span>
-              </DropdownItem>
-              <DropdownItem to='/admin/user-profile' tag={Link}>
-                <i className='ni ni-settings-gear-65' />
-                <span>Settings</span>
-              </DropdownItem>
-              <DropdownItem to='/admin/user-profile' tag={Link}>
-                <i className='ni ni-calendar-grid-58' />
-                <span>Activity</span>
-              </DropdownItem>
-              <DropdownItem to='/admin/user-profile' tag={Link}>
-                <i className='ni ni-support-16' />
-                <span>Support</span>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href='#pablo' onClick={(e) => e.preventDefault()}>
-                <i className='ni ni-user-run' />
-                <span>Logout</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav>
-        {/* Collapse */}
-        <Collapse navbar isOpen={collapseOpen}>
-          {/* Collapse header */}
-          <div className='navbar-collapse-header d-md-none'>
-            <Row>
-              {logo ? (
-                <Col className='collapse-brand' xs='6'>
-                  {logo.innerLink ? (
-                    <Link to={logo.innerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </Link>
-                  ) : (
-                    <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </a>
-                  )}
+    <>
+      <Navbar
+        className='navbar-vertical fixed-left navbar-light bg-white'
+        expand='md'
+        id='sidenav-main'
+      >
+        <Container fluid>
+          {/* Toggler */}
+          <button className='navbar-toggler' type='button' onClick={toggleCollapse}>
+            <span className='navbar-toggler-icon' />
+          </button>
+          {/* Brand */}
+
+          {/* User */}
+          <Nav className='align-items-center d-md-flex pr-4' navbar>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav>
+                <Media className='align-items-center'>
+                  <Media className='ml-2 d-lg-block'>
+                    <span className='mb-0 text-sm font-weight-bold'>{user?.name}</span>
+                  </Media>
+                </Media>
+              </DropdownToggle>
+              <DropdownMenu className='dropdown-menu-arrow mr-2' right>
+                <DropdownItem href='#pablo' onClick={handleModal}>
+                  <i className='ni ni-single-02' />
+                  <span>Profile</span>
+                </DropdownItem>
+                <DropdownItem href='#pablo' onClick={handleLogout}>
+                  <i className='ni ni-user-run' />
+                  <span>Logout</span>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          {/* Collapse */}
+          <Collapse navbar isOpen={collapseOpen}>
+            {/* Collapse header */}
+            <div className='navbar-collapse-header d-md-none'>
+              <Row>
+                {logo ? (
+                  <Col className='collapse-brand' xs='6'>
+                    {logo.innerLink ? (
+                      <Link to={logo.innerLink}>
+                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      </Link>
+                    ) : (
+                      <a href={logo.outterLink}>
+                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      </a>
+                    )}
+                  </Col>
+                ) : null}
+                <Col className='collapse-close' xs='6'>
+                  <button className='navbar-toggler' type='button' onClick={toggleCollapse}>
+                    <span />
+                    <span />
+                  </button>
                 </Col>
-              ) : null}
-              <Col className='collapse-close' xs='6'>
-                <button className='navbar-toggler' type='button' onClick={toggleCollapse}>
-                  <span />
-                  <span />
-                </button>
-              </Col>
-            </Row>
-          </div>
-          {/* Form */}
-          <Form className='mt-4 mb-3 d-md-none'>
-            <InputGroup className='input-group-rounded input-group-merge'>
-              <Input
-                aria-label='Search'
-                className='form-control-rounded form-control-prepended'
-                placeholder='Search'
-                type='search'
-              />
-              <InputGroupAddon addonType='prepend'>
-                <InputGroupText>
-                  <span className='fa fa-search' />
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
-          </Form>
-          {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
-        </Collapse>
-      </Container>
-    </Navbar>
+              </Row>
+            </div>
+            {/* Navigation */}
+            <Nav navbar>{createLinks(routes)}</Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
+      {/*     PROFILE MODAL     */}
+      <Modal isOpen={open} size='md' centered>
+        <ModalHeader charCode='X' toggle={handleModal}>
+          Profile
+        </ModalHeader>
+        <ModalBody>
+          <Row>
+            <Col>
+              <Form>
+                <div className='px-lg-2'>
+                  <Row>
+                    <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <label className='form-control-label'>
+                          <span style={{ color: 'red' }}>{profile?.name ? '' : '*'} </span>
+                          Name
+                        </label>
+                        <Input
+                          className='form-control-alternative text-default'
+                          required={true}
+                          placeholder="Enter user's name"
+                          type='text'
+                          value={profile?.name}
+                          name='name'
+                          onChange={handleInput}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <label className='form-control-label'>
+                          <span style={{ color: 'red' }}>{profile?.email ? '' : '*'} </span>
+                          Email
+                        </label>
+                        <Input
+                          className='form-control-alternative text-default'
+                          required={true}
+                          placeholder='Enter user email'
+                          type='text'
+                          value={profile?.email}
+                          name='email'
+                          onChange={handleInput}
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <InputGroup className='input-group-alternative'>
+                          <InputGroupAddon addonType='prepend'>
+                            <InputGroupText>
+                              <i className='ni ni-lock-circle-open' />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            placeholder='Password'
+                            type='password'
+                            name='password'
+                            value={profile?.password}
+                            autoComplete='new-password'
+                            onChange={handleInput}
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                    <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <InputGroup className='input-group-alternative'>
+                          <InputGroupAddon addonType='prepend'>
+                            <InputGroupText>
+                              <i className='ni ni-lock-circle-open' />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            placeholder='Confirm Password'
+                            type='password'
+                            name='confirmPassword'
+                            value={profile?.confirmPassword}
+                            autoComplete='new-password'
+                            onChange={handleInput}
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  {user?.role === 'brand' && (
+                    <Row>
+                      <Col lg='12' style={{ margin: 'auto' }}>
+                        <FormGroup>
+                          <label className='form-control-label'>Logo</label>
+                          <FilePicker
+                            accept='image/*'
+                            fileName={fileName}
+                            isDelete={true}
+                            handleDelete={handleDeleteImage}
+                            type='file'
+                            onChange={handleFile}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg='3' style={{ marginRight: 'auto' }}>
+                        <FormGroup>
+                          <label className='form-control-label'>Color</label>
+                          <Input
+                            className='form-control-alternative text-default color_field'
+                            type='color'
+                            value={profile?.preferences?.color}
+                            name='color'
+                            onChange={handleColor}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  )}
+                </div>
+              </Form>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter>
+          <Button color='primary' onClick={handleSubmit}>
+            Save
+          </Button>
+
+          <Button onClick={handleModal}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 };
 

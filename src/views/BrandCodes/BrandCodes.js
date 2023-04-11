@@ -35,9 +35,20 @@ import { Pagination } from 'antd';
 
 // core components
 import { toast } from 'react-toastify';
-import { CSVDownload } from 'react-csv';
 import Loader from 'components/Spinner/Spinner';
 import moment from 'moment';
+import { exportToCSV } from 'utils/exportCodes';
+import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+
+const headers = [
+  'Code',
+  'Scan Attempts',
+  'Scanned Date and Time',
+  'Status',
+  'IP Address',
+  'Created At',
+  'User Agent',
+];
 
 const BrandCodes = () => {
   const [codes, setCodes] = useState([]);
@@ -46,6 +57,9 @@ const BrandCodes = () => {
   const [loading, setLoading] = useState(true);
   const [exportCodes, setExportCodes] = useState([]);
   const [total, setTotal] = useState(0);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [confirmActivate, setConfirmActivate] = useState(false);
+
   const store = Store();
   const { user } = store;
 
@@ -87,24 +101,13 @@ const BrandCodes = () => {
   //   });
   // };
 
-  const headers = [
-    {
-      label: 'Code',
-      key: 'code',
-    },
-    {
-      label: 'Scan Attempts',
-      key: 'scan_attempts',
-    },
-    {
-      label: 'Validation Time',
-      key: 'validation_time',
-    },
-    {
-      label: 'Status',
-      key: 'status',
-    },
-  ];
+  const handleConfirmInvalidateCodes = () => {
+    setConfirmModal(true);
+  };
+
+  const handleConfirmActivateCodes = () => {
+    setConfirmActivate((prev) => !prev);
+  };
 
   const handleInValidate = () => {
     if (selectedCodes.length > 0) {
@@ -112,6 +115,22 @@ const BrandCodes = () => {
         if (res.success) {
           getCodes();
           setSelectedCodes([]);
+          handleInvalidateModal();
+          toast.success(res?.message);
+        }
+      });
+    } else {
+      toast.error('Please select codes');
+    }
+  };
+
+  const handleActivate = () => {
+    if (selectedCodes.length > 0) {
+      api('put', `/codes/activate`, { codes: selectedCodes }).then((res) => {
+        if (res.success) {
+          getCodes();
+          setSelectedCodes([]);
+          handleInvalidateModal();
           toast.success(res?.message);
         }
       });
@@ -126,14 +145,18 @@ const BrandCodes = () => {
     }
   }, [exportCodes]);
 
-  const handleExport = async (e, done) => {
+  const handleExport = async () => {
     setLoading(true);
-    api('get', `/codes/export?brand=${user._id}&status=pending`)
+    api('get', `/codes/export?brand=${user._id}`)
       .then((res) => {
         if (res.codes?.length > 0) {
-          setExportCodes(res?.codes);
+          const codesToExport = res?.codes;
+          if (codesToExport?.length > 0) {
+            handleSubmitExcel(codesToExport);
+          } else {
+            toast.error('No codes exists');
+          }
           setLoading(false);
-          done(true);
         } else {
           toast.error('No codes exists');
         }
@@ -141,6 +164,27 @@ const BrandCodes = () => {
       .catch((err) => {
         setLoading(false);
       });
+  };
+
+  const handleSubmitExcel = (exportedCodes) => {
+    const updatedExportCodes = exportedCodes.map((item) => ({
+      Code: item.code,
+      'Scan Attempts': item.scan_attempts,
+      // eslint-disable-next-line no-underscore-dangle
+      'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
+      Status: item.status,
+      'IP Address': item?.ip_address,
+      'Created At': moment(item?.createdAt).format('MMMM DD, yyyy hh:mm A'),
+      'User Agent': item?.user_agent,
+    }));
+
+    const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
+    const fileName = `veriscan_export_${currentDate}`;
+    exportToCSV(updatedExportCodes, headers, fileName);
+  };
+
+  const handleInvalidateModal = () => {
+    setConfirmModal((prev) => !prev);
   };
 
   const onChangePage = (p) => {
@@ -164,10 +208,18 @@ const BrandCodes = () => {
                     <Button
                       disabled={btnDisabled}
                       color='danger'
-                      onClick={handleInValidate}
+                      onClick={handleConfirmActivateCodes}
                       size='md'
                     >
-                      In Validate
+                      Activate
+                    </Button>
+                    <Button
+                      disabled={btnDisabled}
+                      color='danger'
+                      onClick={handleConfirmInvalidateCodes}
+                      size='md'
+                    >
+                      Invalidate
                     </Button>
                     <Button
                       disabled={!isCodesExist || loading}
@@ -177,22 +229,13 @@ const BrandCodes = () => {
                     >
                       Export
                     </Button>
-                    {exportCodes.length > 0 && (
-                      <CSVDownload
-                        headers={headers}
-                        id='export_codes'
-                        filename='codes'
-                        data={exportCodes}
-                        separator={';'}
-                        asyncOnClick={true}
-                      ></CSVDownload>
-                    )}
                   </div>
                 </div>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
+                    <th scope='col' />
                     <th scope='col' />
                     <th scope='col'>Code</th>
                     <th scope='col'>Scan Attempts</th>
@@ -207,7 +250,7 @@ const BrandCodes = () => {
                     return (
                       <tr>
                         {item.status === 'pending' ? (
-                          <td>
+                          <td className='pr-0'>
                             <FormGroup check>
                               <Input
                                 type='checkbox'
@@ -219,7 +262,20 @@ const BrandCodes = () => {
                         ) : (
                           <td></td>
                         )}
-                        <th scope='row'>
+                        <td className='p-0'>
+                          <div
+                            style={{
+                              background:
+                                item.status === 'pending'
+                                  ? 'orange'
+                                  : item.status === 'validated'
+                                  ? '#22df22'
+                                  : 'red',
+                            }}
+                            className='code_status'
+                          ></div>
+                        </td>
+                        <th scope='row' className='pl-0'>
                           <Media className='align-items-center'>
                             <Media>
                               <span className='mb-0 text-sm' title={item.name}>
@@ -268,6 +324,23 @@ const BrandCodes = () => {
           </div>
         </Row>
       </Container>
+      <ConfirmModal
+        handleModal={handleInvalidateModal}
+        openModal={confirmModal}
+        description={`You are about to invalidate the selected codes.`}
+        heading='Invalidate codes'
+        handleSubmit={handleInValidate}
+        loading={loading}
+      />
+
+      <ConfirmModal
+        handleModal={handleConfirmActivateCodes}
+        openModal={confirmModal}
+        description={`You are about to activate the selected codes.`}
+        heading='Activate codes'
+        handleSubmit={handleActivate}
+        loading={loading}
+      />
     </>
   );
 };

@@ -89,7 +89,7 @@ const BrandCodesRequests = () => {
             <Card className='shadow'>
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Codes Requests</h3>
+                  <h3 className='mb-0'>Code Requests</h3>
                   <Button color='primary' onClick={handleModal} size='md'>
                     <i className='ni ni-fat-add'></i>
                     Request New Codes

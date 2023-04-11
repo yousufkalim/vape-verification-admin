@@ -38,35 +38,21 @@ import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { capitalString } from 'utils/common';
 import moment from 'moment';
-import { CSVDownload } from 'react-csv';
+import { exportToCSV } from 'utils/exportCodes';
 
 const headers = [
-  {
-    label: 'Code',
-    key: 'code',
-  },
-  {
-    label: 'Brand',
-    key: 'brand_name',
-  },
-  {
-    label: 'Status',
-    key: 'status',
-  },
-  {
-    label: 'Scan Attempts',
-    key: 'scan_attempts',
-  },
-  {
-    label: 'Validation Time',
-    key: 'validation_time',
-  },
+  'Code',
+  'Scan Attempts',
+  'Scanned Date and Time',
+  'Status',
+  'IP Address',
+  'Created At',
+  'User Agent',
 ];
 
 const CodeRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [exportCodes, setExportCodes] = useState([]);
 
   const history = useHistory();
 
@@ -123,13 +109,13 @@ const CodeRequests = () => {
       });
   };
 
-  const handleExport = async (e, done) => {
+  const handleExport = async () => {
     setLoading(true);
     api('get', `/codes/export`)
       .then((res) => {
-        if (res.codes?.length > 0) {
-          setExportCodes(res?.codes);
-          done(true);
+        const codesToExport = res?.codes;
+        if (codesToExport?.length > 0) {
+          handleSubmitExcel(codesToExport);
         } else {
           toast.error('No codes exists');
         }
@@ -140,6 +126,21 @@ const CodeRequests = () => {
       });
   };
 
+  const handleSubmitExcel = (exportedCodes) => {
+    const updatedExportCodes = exportedCodes.map((item) => ({
+      Code: item.code,
+      'Scan Attempts': item.scan_attempts,
+      // eslint-disable-next-line no-underscore-dangle
+      'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
+      Status: item.status,
+      'IP Address': item?.ip_address,
+      'Created At': moment(item?.createdAt).format('MMMM DD, yyyy hh:mm A'),
+      'User Agent': item?.user_agent,
+    }));
+    const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
+    const fileName = `veriscan_export_${currentDate}`;
+    exportToCSV(updatedExportCodes, headers, fileName);
+  };
   return (
     <>
       <Container className='mt--7' fluid>
@@ -150,20 +151,10 @@ const CodeRequests = () => {
             <Card className='shadow'>
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Codes Requests</h3>
+                  <h3 className='mb-0'>Code Requests</h3>
                   <Button disabled={loading} color='primary' onClick={handleExport} size='md'>
                     Export all codes
                   </Button>
-                  {exportCodes.length > 0 && (
-                    <CSVDownload
-                      headers={headers}
-                      id='export_codes'
-                      filename='codes'
-                      data={exportCodes}
-                      separator={';'}
-                      asyncOnClick={true}
-                    ></CSVDownload>
-                  )}
                 </div>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
@@ -211,41 +202,51 @@ const CodeRequests = () => {
                         <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
-                            {item.status === 'pending' && (
-                              <DropdownToggle
-                                className='btn-icon-only text-light'
-                                role='button'
-                                size='sm'
-                                color=''
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                <i className='fas fa-ellipsis-v' />
-                              </DropdownToggle>
-                            )}
-                            <DropdownMenu className='dropdown-menu-arrow' right>
-                              {item.test_conducted && (
-                                <DropdownItem
-                                  onClick={() => history.push(`/admin/${item._id}/codes`)}
-                                >
-                                  View Codes
+                            <DropdownToggle
+                              className='btn-icon-only text-light'
+                              role='button'
+                              size='sm'
+                              color=''
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <i className='fas fa-ellipsis-v' />
+                            </DropdownToggle>
+
+                            {item.status === 'pending' ? (
+                              <DropdownMenu className='dropdown-menu-arrow' right>
+                                {item.test_conducted && (
+                                  <DropdownItem
+                                    onClick={() => history.push(`/admin/${item._id}/codes`)}
+                                  >
+                                    View Codes
+                                  </DropdownItem>
+                                )}
+                                <DropdownItem onClick={() => handleApprove(item._id)}>
+                                  Approve
                                 </DropdownItem>
-                              )}
-                              <DropdownItem onClick={() => handleApprove(item._id)}>
-                                Approve
-                              </DropdownItem>
-                              <DropdownItem
-                                className='text-warning'
-                                onClick={() => handleReject(item._id)}
-                              >
-                                Reject
-                              </DropdownItem>
-                              <DropdownItem
-                                className='text-danger'
-                                onClick={() => handleDelete(item._id)}
-                              >
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
+                                <DropdownItem
+                                  className='text-warning'
+                                  onClick={() => handleReject(item._id)}
+                                >
+                                  Reject
+                                </DropdownItem>
+                                <DropdownItem
+                                  className='text-danger'
+                                  onClick={() => handleDelete(item._id)}
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            ) : (
+                              <DropdownMenu className='dropdown-menu-arrow' right>
+                                <DropdownItem
+                                  style={{ color: item.status === 'approved' ? 'red' : 'green' }}
+                                  onClick={() => handleApprove(item._id)}
+                                >
+                                  {item.status === 'approved' ? 'Invalidate' : 'Activate'}
+                                </DropdownItem>
+                              </DropdownMenu>
+                            )}
                           </UncontrolledDropdown>
                         </td>
                       </tr>
