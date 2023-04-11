@@ -21,8 +21,11 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
     name: '',
     email: '',
     logo: '',
+    websiteLink:"",
+    logoWidth:'',
     preferences: {
       color: '#000000',
+      secondaryColor: 'black',
     },
   });
   const [fileName, setFileName] = useState('');
@@ -32,8 +35,11 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
   };
 
   const handleColor = (e) => {
-    setUser((prev) => ({ ...prev, preferences: { color: e.target.value } }));
+    setUser((prev) => ({ ...prev, preferences: { ...user.preferences,[e.target.name]: e.target.value } }));
   };
+  //   const handleSecondaryColor = (e) => {
+  //   setUser((prev) => ({ ...prev, preferences: { secondaryColor: e.target.value } }));
+  // };
 
   const handleDeleteImage = (e) => {
     e.stopPropagation();
@@ -132,7 +138,26 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
+                    <Row>
+                        <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <label className='form-control-label'>
+                          {' '}
+                          {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                          Website Link
+                        </label>{' '}
+                        <Input
+                          className='form-control-alternative text-default'
+                          placeholder='Enter website Link'
+                          type='text'
+                          value={user.websiteLink}
+                          name='websiteLink'
+                          onChange={handleInput}
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                  {/* <Row> */}
                     <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Logo</label>
@@ -146,9 +171,31 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='3' style={{ marginRight: 'auto' }}>
+                        <Row>
+                        <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <label className='form-control-label'>Color</label>
+                        <label className='form-control-label'>
+                          {' '}
+                          {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                          Logo Width (Px)
+                        </label>{' '}
+                        <Input
+                          className='form-control-alternative text-default'
+                          placeholder='Enter Logo Width'
+                          type='number'
+                          value={user.logoWidth}
+                          name='logoWidth'
+                          onChange={handleInput}
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                   
+                    <Row>
+                   
+                    <Col lg='6' style={{ marginRight: 'auto' }}>
+                      <FormGroup>
+                        <label className='form-control-label'>Primary Color</label>
                         <Input
                           className='form-control-alternative text-default color_field'
                           type='color'
@@ -157,8 +204,23 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                           onChange={handleColor}
                         />
                       </FormGroup>
+                     
                     </Col>
-                  </Row>
+                    <Col lg='6' style={{ marginRight: 'auto' }}>
+                     
+                      <FormGroup>
+                        <label className='form-control-label'>Secondary Color</label>
+                        <Input
+                          className='form-control-alternative text-default color_field'
+                          type='color'
+                          value={user.preferences.secondaryColor}
+                          name='secondaryColor'
+                          onChange={handleColor}
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                  {/* </Row> */}
                 </div>
               </Form>
             </Col>

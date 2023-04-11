@@ -57,9 +57,11 @@ const Brands = () => {
     name: '',
     email: '',
     logo: '',
+    websiteLink:"",
+    logoWidth:'',
     preferences: {
-      color: '',
-      logo: '',
+      color: '#000000',
+      secondaryColor: 'black',
     },
   });
   const [fileName, setFileName] = useState('');
@@ -91,9 +93,12 @@ const Brands = () => {
         _id: item._id,
         name: item.name,
         email: item.email,
+        websiteLink: item.websiteLink?item.websiteLink:"",
         logo: item.preferences?.logo,
+        logoWidth: item.logoWidth?item.logoWidth:"",
         preferences: {
           color: item?.preferences?.color,
+          secondaryColor: item?.preferences?.secondaryColor,
           logo: item.preferences?.logo,
         },
       });
@@ -226,15 +231,21 @@ const Brands = () => {
                               <i className="fas fa-ellipsis-v" />
                             </DropdownToggle>
                             <DropdownMenu className="dropdown-menu-arrow" right>
-                              {item.test_conducted && (
+                                <a
+                            href={`${frontendUrl}/${encodeURI(item.name)}`}
+                            target="_blank"
+                            style={{
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              fontWeight: 'bold',
+                            }}
+                          >
                                 <DropdownItem
-                                  onClick={() =>
-                                    history.push(`/admin/users/${item._id}`)
-                                  }
+                                  
                                 >
-                                  View
+                                  View as client
                                 </DropdownItem>
-                              )}
+                              </a>
                               <DropdownItem
                                 onClick={() => handleEditModal(item)}
                               >
