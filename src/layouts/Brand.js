@@ -110,6 +110,7 @@ const Brand = (props) => {
       <Sidebar
         {...props}
         routes={sidebarRoutes}
+        getUser={getUser}
         logo={{
           innerLink: '/admin/index',
           imgSrc: logo,

@@ -16,7 +16,6 @@
 
 */
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Store } from 'StoreContext';
 // reactstrap components
 import {
@@ -207,6 +206,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
           </Nav>
         </Container>
       </Navbar>
+      {/*     PROFILE MODAL     */}
       <Modal isOpen={open} size='md' centered>
         <ModalHeader charCode='X' toggle={handleModal}>
           Profile

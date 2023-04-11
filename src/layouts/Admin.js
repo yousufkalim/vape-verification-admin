@@ -101,6 +101,7 @@ const Admin = (props) => {
       <Sidebar
         {...props}
         routes={sidebarRoutes}
+        getUser={getUser}
         logo={{
           innerLink: '/admin/index',
           imgSrc: require('../assets/img/logo.png').default,

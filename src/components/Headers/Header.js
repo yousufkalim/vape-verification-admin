@@ -138,7 +138,7 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Codes Requests
+                          Code Requests
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0'>{stats?.requestCount ?? 0}</span>
                       </div>

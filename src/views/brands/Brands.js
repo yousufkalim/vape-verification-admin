@@ -38,7 +38,7 @@ import {
 import AddUser from './AddBrand';
 import EditBrand from './EditBrand';
 import { toast } from 'react-toastify';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import { mediaUrl } from '../../config';
 import Spinner from 'components/Spinner/Spinner';
 import moment from 'moment';
@@ -123,6 +123,7 @@ const Brands = () => {
   const handleDeleteBrand = (item) => {
     setUser({
       _id: item._id,
+      name: item.name,
     });
     handleConfirmModal();
   };
@@ -240,15 +241,17 @@ const Brands = () => {
             </Card>
           </div>
         </Row>
-        {
-          <ConfirmModal
-            handleModal={handleConfirmModal}
-            openModal={confirmModal}
-            brand={user?.name}
-            handleSubmit={handleDelete}
-            loading={loading}
-          />
-        }
+
+        <ConfirmModal
+          handleModal={handleConfirmModal}
+          openModal={confirmModal}
+          description={`You are about delete ${user?.name}, all data linked with this brand will be deleted
+            permanently.`}
+          heading='Delete brand'
+          handleSubmit={handleDelete}
+          loading={loading}
+        />
+
         {openModal && (
           <AddUser
             loading={loading}
