@@ -130,7 +130,7 @@ const BrandCodes = () => {
         if (res.success) {
           getCodes();
           setSelectedCodes([]);
-          handleInvalidateModal();
+          handleConfirmActivateCodes();
           toast.success(res?.message);
         }
       });
@@ -205,14 +205,14 @@ const BrandCodes = () => {
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>All Codes</h3>
                   <div className='d-flex'>
-                    {/* <Button
+                    <Button
                       disabled={btnDisabled}
                       color='danger'
                       onClick={handleConfirmActivateCodes}
                       size='md'
                     >
                       Activate
-                    </Button> */}
+                    </Button>
                     <Button
                       disabled={btnDisabled}
                       color='danger'
@@ -239,7 +239,7 @@ const BrandCodes = () => {
                     <th scope='col' />
                     <th scope='col'>Code</th>
                     <th scope='col'>Scan Attempts</th>
-                    <th scope='col'>Validation Time</th>
+                    <th scope='col'>Scanned Time</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
                     <th scope='col' />
@@ -249,8 +249,8 @@ const BrandCodes = () => {
                   {codes?.map((item) => {
                     return (
                       <tr>
-                        {item.status === 'pending' ? (
-                          <td className='pr-0'>
+                        <td className='pr-0'>
+                          {item.status !== 'validated' && (
                             <FormGroup check>
                               <Input
                                 type='checkbox'
@@ -258,10 +258,8 @@ const BrandCodes = () => {
                                 onChange={(e) => handleSelectCodes(e, item._id)}
                               />
                             </FormGroup>
-                          </td>
-                        ) : (
-                          <td></td>
-                        )}
+                          )}
+                        </td>
                         <td className='p-0'>
                           <div
                             style={{
@@ -335,7 +333,7 @@ const BrandCodes = () => {
 
       <ConfirmModal
         handleModal={handleConfirmActivateCodes}
-        openModal={confirmModal}
+        openModal={confirmActivate}
         description={`You are about to activate the selected codes.`}
         heading='Activate codes'
         handleSubmit={handleActivate}
