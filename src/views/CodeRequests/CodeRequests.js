@@ -42,6 +42,7 @@ import { exportToCSV } from 'utils/exportCodes';
 
 const headers = [
   'Code',
+  'Request Id',
   'Scan Attempts',
   'Scanned Date and Time',
   'Status',
@@ -83,6 +84,33 @@ const CodeRequests = () => {
         setLoading(false);
       });
   };
+
+  const handleInvalidateRequest = (id) => {
+    setLoading(true);
+    api('patch', `/requests/invalidate/${id}`)
+      .then(() => {
+        toast.success('Codes has been invalidated for this request');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleActivateRequest = (id) => {
+    setLoading(true);
+    api('patch', `/requests/validate/${id}`)
+      .then(() => {
+        toast.success('Request has been activated successfully');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const handleReject = (id) => {
     setLoading(true);
     api('patch', `/requests/reject/${id}`)
@@ -129,6 +157,7 @@ const CodeRequests = () => {
   const handleSubmitExcel = (exportedCodes) => {
     const updatedExportCodes = exportedCodes.map((item) => ({
       Code: item.code,
+      'Request Id': item?.request,
       'Scan Attempts': item.scan_attempts,
       // eslint-disable-next-line no-underscore-dangle
       'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
@@ -202,7 +231,7 @@ const CodeRequests = () => {
                         <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
-                            {item.status === 'pending' && (
+                            {item.status !== 'rejected' && (
                               <DropdownToggle
                                 className='btn-icon-only text-light'
                                 role='button'
@@ -214,44 +243,50 @@ const CodeRequests = () => {
                               </DropdownToggle>
                             )}
 
-                            {
-                              item.status === 'pending' && (
-                                <DropdownMenu className='dropdown-menu-arrow' right>
-                                  {item.test_conducted && (
-                                    <DropdownItem
-                                      onClick={() => history.push(`/admin/${item._id}/codes`)}
-                                    >
-                                      View Codes
-                                    </DropdownItem>
-                                  )}
-                                  <DropdownItem onClick={() => handleApprove(item._id)}>
-                                    Approve
-                                  </DropdownItem>
+                            {item.status === 'pending' ? (
+                              <DropdownMenu className='dropdown-menu-arrow' right>
+                                {item.test_conducted && (
                                   <DropdownItem
-                                    className='text-warning'
-                                    onClick={() => handleReject(item._id)}
+                                    onClick={() => history.push(`/admin/${item._id}/codes`)}
                                   >
-                                    Reject
+                                    View Codes
                                   </DropdownItem>
+                                )}
+                                <DropdownItem onClick={() => handleApprove(item._id)}>
+                                  Approve
+                                </DropdownItem>
+                                <DropdownItem
+                                  className='text-warning'
+                                  onClick={() => handleReject(item._id)}
+                                >
+                                  Reject
+                                </DropdownItem>
+                                <DropdownItem
+                                  className='text-danger'
+                                  onClick={() => handleDelete(item._id)}
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            ) : (
+                              <DropdownMenu className='dropdown-menu-arrow' right>
+                                {item.status === 'approved' ? (
                                   <DropdownItem
-                                    className='text-danger'
-                                    onClick={() => handleDelete(item._id)}
+                                    style={{ color: item.status === 'approved' ? 'red' : 'green' }}
+                                    onClick={() => handleInvalidateRequest(item._id)}
                                   >
-                                    Delete
+                                    Invalidate
                                   </DropdownItem>
-                                </DropdownMenu>
-                              )
-                              // : (
-                              //   <DropdownMenu className='dropdown-menu-arrow' right>
-                              //     <DropdownItem
-                              //       style={{ color: item.status === 'approved' ? 'red' : 'green' }}
-                              //       onClick={() => handleApprove(item._id)}
-                              //     >
-                              //       {item.status === 'approved' ? 'Invalidate' : 'Activate'}
-                              //     </DropdownItem>
-                              //   </DropdownMenu>
-                              // )
-                            }
+                                ) : (
+                                  <DropdownItem
+                                    style={{ color: item.status === 'approved' ? 'red' : 'green' }}
+                                    onClick={() => handleActivateRequest(item._id)}
+                                  >
+                                    Activate
+                                  </DropdownItem>
+                                )}
+                              </DropdownMenu>
+                            )}
                           </UncontrolledDropdown>
                         </td>
                       </tr>
