@@ -175,13 +175,15 @@ const BrandCodesRequests = () => {
                                   View
                                 </DropdownItem>
                               )}
-                              <DropdownItem
-                                className='text-danger'
-                                onClick={() => handleDelete(item._id)}
-                              >
-                                Delete
-                              </DropdownItem>
-                              {item.status === 'approved' ? (
+
+                              {item.status === 'pending' ? (
+                                <DropdownItem
+                                  className='text-danger'
+                                  onClick={() => handleInvalidateRequest(item._id)}
+                                >
+                                  Invalidate
+                                </DropdownItem>
+                              ) : item.status === 'approved' ? (
                                 <DropdownItem
                                   className='text-danger'
                                   onClick={() => handleInvalidateRequest(item._id)}
