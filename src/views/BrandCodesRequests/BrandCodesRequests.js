@@ -66,6 +66,32 @@ const BrandCodesRequests = () => {
     return openModal;
   };
 
+  const handleInvalidateRequest = (id) => {
+    setLoading(true);
+    api('patch', `/requests/invalidate/${id}`)
+      .then(() => {
+        toast.success('Codes has been invalidated for this request');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleActivateRequest = (id) => {
+    setLoading(true);
+    api('patch', `/requests/validate/${id}`)
+      .then(() => {
+        toast.success('Request has been activated successfully');
+        getRequests();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const handleDelete = (id) => {
     setLoading(true);
     api('delete', `/requests/${id}`)
@@ -130,7 +156,7 @@ const BrandCodesRequests = () => {
                         <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
                           <UncontrolledDropdown>
-                            {item.status === 'pending' && (
+                            {item.status !== 'rejected' && (
                               <DropdownToggle
                                 className='btn-icon-only text-light'
                                 role='button'
@@ -155,6 +181,23 @@ const BrandCodesRequests = () => {
                               >
                                 Delete
                               </DropdownItem>
+                              {item.status === 'approved' ? (
+                                <DropdownItem
+                                  className='text-danger'
+                                  onClick={() => handleInvalidateRequest(item._id)}
+                                >
+                                  Invalidate
+                                </DropdownItem>
+                              ) : (
+                                item.status === 'invalidated' && (
+                                  <DropdownItem
+                                    className='text-success'
+                                    onClick={() => handleActivateRequest(item._id)}
+                                  >
+                                    Activate
+                                  </DropdownItem>
+                                )
+                              )}
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </td>
