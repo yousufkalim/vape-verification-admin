@@ -89,7 +89,7 @@ const CodeRequests = () => {
     setLoading(true);
     api('patch', `/requests/invalidate/${id}`)
       .then(() => {
-        toast.success('Request has been invalidated successfully');
+        toast.success('Codes has been invalidated for this request');
         getRequests();
         setLoading(false);
       })
@@ -102,7 +102,7 @@ const CodeRequests = () => {
     setLoading(true);
     api('patch', `/requests/validate/${id}`)
       .then(() => {
-        toast.success('Request has been validated successfully');
+        toast.success('Request has been activated successfully');
         getRequests();
         setLoading(false);
       })
