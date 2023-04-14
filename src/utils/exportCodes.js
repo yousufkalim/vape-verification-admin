@@ -40,7 +40,7 @@ export const exportToCSV = (csvData, myHeader, fileName) => {
 export const handleExportCodes = (exportedCodes, fileName) => {
   const updatedExportCodes = exportedCodes.map((item) => ({
     Batch: item.code,
-    Request: item?.request_name,
+    'Request Id': item?.request_name,
     'Scan Attempts': item.scan_attempts,
     // eslint-disable-next-line no-underscore-dangle
     'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
