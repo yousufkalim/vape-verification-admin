@@ -103,7 +103,7 @@ const BrandDashboard = (props) => {
               <CardHeader className='bg-transparent'>
                 <Row className='align-items-center'>
                   <div className='col'>
-                    <h2 className='mb-0'>Validated Codes</h2>
+                    <h2 className='mb-0'>Validated Bacthes</h2>
                   </div>
                 </Row>
               </CardHeader>

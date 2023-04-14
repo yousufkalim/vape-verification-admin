@@ -29,8 +29,8 @@ import BrandCodesRequests from 'views/BrandCodesRequests/BrandCodesRequests';
 var routes = [
   /*    Super Admin Routes    */
   {
-    path: '/:id/codes',
-    name: 'Brand Codes',
+    path: '/:id/batch',
+    name: 'Brand Batch',
     icon: 'ni ni-single-02 text-primary',
     component: AdminBrandCodes,
     layout: '/admin',
@@ -53,8 +53,8 @@ var routes = [
     isChild: false,
   },
   {
-    path: '/codes-requests',
-    name: 'Code Requests',
+    path: '/batch-requests',
+    name: 'Batch Requests',
     icon: 'fas fa-plus-square text-primary',
     component: CodeRequests,
     layout: '/admin',
@@ -70,7 +70,7 @@ var routes = [
     isChild: false,
   },
   {
-    path: '/codes-requests',
+    path: '/batch-requests',
     name: 'Code Requests',
     icon: 'fas fa-plus-square text-primary',
     component: BrandCodesRequests,
@@ -78,8 +78,8 @@ var routes = [
     isChild: false,
   },
   {
-    path: '/codes',
-    name: 'All Codes',
+    path: '/batch',
+    name: 'All Batches',
     icon: 'fas fa-barcode text-primary',
     component: BrandCodes,
     layout: '/brand',

@@ -94,10 +94,10 @@ const AdminBrandCodes = () => {
             <Card className='shadow'>
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>All Codes</h3>
+                  <h3 className='mb-0'>All Batches</h3>
                   <Button color='primary' href='#pablo' onClick={handleModal} size='md'>
                     <i className='ni ni-fat-add'></i>
-                    Request New Codes
+                    Request New Batch
                   </Button>
                 </div>
               </CardHeader>

@@ -21,8 +21,8 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
     name: '',
     email: '',
     logo: '',
-    websiteLink:"",
-    logoWidth:'',
+    websiteLink: '',
+    logoWidth: '',
     preferences: {
       color: '#000000',
       secondaryColor: 'black',
@@ -35,7 +35,10 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
   };
 
   const handleColor = (e) => {
-    setUser((prev) => ({ ...prev, preferences: { ...user.preferences,[e.target.name]: e.target.value } }));
+    setUser((prev) => ({
+      ...prev,
+      preferences: { ...user.preferences, [e.target.name]: e.target.value },
+    }));
   };
   //   const handleSecondaryColor = (e) => {
   //   setUser((prev) => ({ ...prev, preferences: { secondaryColor: e.target.value } }));
@@ -106,7 +109,7 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                         <label className='form-control-label'>
                           {' '}
                           <span style={{ color: 'red' }}>{user.name ? '' : '*'} </span>
-                          Name
+                          Brands Name
                         </label>{' '}
                         <Input
                           className='form-control-alternative text-default'
@@ -138,8 +141,8 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                       </FormGroup>
                     </Col>
                   </Row>
-                    <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
+                  <Row>
+                    <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>
                           {' '}
@@ -156,23 +159,23 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                         />
                       </FormGroup>
                     </Col>
-                    </Row>
+                  </Row>
                   {/* <Row> */}
+                  <Col lg='12' style={{ margin: 'auto' }}>
+                    <FormGroup>
+                      <label className='form-control-label'>Logo</label>
+                      <FilePicker
+                        accept='image/*'
+                        fileName={fileName}
+                        isDelete={true}
+                        handleDelete={handleDeleteImage}
+                        type='file'
+                        onChange={handleFile}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Row>
                     <Col lg='12' style={{ margin: 'auto' }}>
-                      <FormGroup>
-                        <label className='form-control-label'>Logo</label>
-                        <FilePicker
-                          accept='image/*'
-                          fileName={fileName}
-                          isDelete={true}
-                          handleDelete={handleDeleteImage}
-                          type='file'
-                          onChange={handleFile}
-                        />
-                      </FormGroup>
-                    </Col>
-                        <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>
                           {' '}
@@ -189,10 +192,9 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                         />
                       </FormGroup>
                     </Col>
-                    </Row>
-                   
-                    <Row>
-                   
+                  </Row>
+
+                  <Row>
                     <Col lg='6' style={{ marginRight: 'auto' }}>
                       <FormGroup>
                         <label className='form-control-label'>Primary Color</label>
@@ -204,10 +206,8 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                           onChange={handleColor}
                         />
                       </FormGroup>
-                     
                     </Col>
                     <Col lg='6' style={{ marginRight: 'auto' }}>
-                     
                       <FormGroup>
                         <label className='form-control-label'>Secondary Color</label>
                         <Input
@@ -219,7 +219,7 @@ const AddBrand = ({ openModal, handleModal, getUsers, setLoading, loading }) => 
                         />
                       </FormGroup>
                     </Col>
-                    </Row>
+                  </Row>
                   {/* </Row> */}
                 </div>
               </Form>

@@ -58,8 +58,8 @@ const AdminNavbar = ({ brandText, getUser }) => {
         name: user?.name,
         email: user?.email,
         logo: user?.preferences?.logo,
-        websiteLink: user.websiteLink?user.websiteLink:"",
-        logoWidth: user.logoWidth?user.logoWidth:"",
+        websiteLink: user.websiteLink ? user.websiteLink : '',
+        logoWidth: user.logoWidth ? user.logoWidth : '',
         preferences: user?.preferences,
         password: '',
         confirmPassword: '',
@@ -295,88 +295,90 @@ const AdminNavbar = ({ brandText, getUser }) => {
                   </Row>
                   {user?.role === 'brand' && (
                     <>
-                    <Row>
-                      <Col lg='12' style={{ margin: 'auto' }}>
-                        <FormGroup>
-                          <label className='form-control-label'>Logo</label>
-                          <FilePicker
-                            accept='image/*'
-                            fileName={fileName}
-                            isDelete={true}
-                            handleDelete={handleDeleteImage}
-                            type='file'
-                            onChange={handleFile}
-                          />
-                        </FormGroup>
-                      </Col>
-                      </Row>
-                            <Row>
+                      <Row>
                         <Col lg='12' style={{ margin: 'auto' }}>
-                      <FormGroup>
-                        <label className='form-control-label'>
-                          {' '}
-                          {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
-                          Website Link
-                        </label>{' '}
-                        <Input
-                          className='form-control-alternative text-default'
-                          placeholder='Enter website Link'
-                          type='text'
-                          value={profile?.websiteLink}
-                          name='websiteLink'
-                          onChange={handleInput}
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
-                       <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
-                      <FormGroup>
-                        <label className='form-control-label'>
-                          {' '}
-                          {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
-                          Logo Width (Px)
-                        </label>{' '}
-                        <Input
-                          className='form-control-alternative text-default'
-                          placeholder='Enter Logo Width'
-                          type='number'
-                          value={profile?.logoWidth}
-                          name='logoWidth'
-                          onChange={handleInput}
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
-                    <Row>
-                      <Col lg='6' style={{ marginRight: 'auto' }}>
-                        <FormGroup>
-                          <label className='form-control-label'>Color</label>
-                          <Input
-                            className='form-control-alternative text-default color_field'
-                            type='color'
-                            value={profile?.preferences?.color}
-                            name='color'
-                            onChange={handleColor}
-                          />
-                        </FormGroup>
-                      </Col>
-                       <Col lg='6' style={{ marginRight: 'auto' }}>
-                     
-                      <FormGroup>
-                        <label className='form-control-label'>Secondary Color</label>
-                        <Input
-                          className='form-control-alternative text-default color_field'
-                          type='color'
-                          value={profile?.preferences?.secondaryColor?profile?.preferences?.secondaryColor:""}
-                          name='secondaryColor'
-                          onChange={handleColor}
-                        />
-                      </FormGroup>
-                    </Col>
+                          <FormGroup>
+                            <label className='form-control-label'>Logo</label>
+                            <FilePicker
+                              accept='image/*'
+                              fileName={fileName}
+                              isDelete={true}
+                              handleDelete={handleDeleteImage}
+                              type='file'
+                              onChange={handleFile}
+                            />
+                          </FormGroup>
+                        </Col>
                       </Row>
-                      </>
-                    
+                      <Row>
+                        <Col lg='12' style={{ margin: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>
+                              {' '}
+                              {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                              Website Link
+                            </label>{' '}
+                            <Input
+                              className='form-control-alternative text-default'
+                              placeholder='Enter website Link'
+                              type='text'
+                              value={profile?.websiteLink}
+                              name='websiteLink'
+                              onChange={handleInput}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg='12' style={{ margin: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>
+                              {' '}
+                              {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                              Logo Width (Px)
+                            </label>{' '}
+                            <Input
+                              className='form-control-alternative text-default'
+                              placeholder='Enter Logo Width'
+                              type='number'
+                              value={profile?.logoWidth}
+                              name='logoWidth'
+                              onChange={handleInput}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>Color</label>
+                            <Input
+                              className='form-control-alternative text-default color_field'
+                              type='color'
+                              value={profile?.preferences?.color}
+                              name='color'
+                              onChange={handleColor}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>Secondary Color</label>
+                            <Input
+                              className='form-control-alternative text-default color_field'
+                              type='color'
+                              value={
+                                profile?.preferences?.secondaryColor
+                                  ? profile?.preferences?.secondaryColor
+                                  : ''
+                              }
+                              name='secondaryColor'
+                              onChange={handleColor}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </>
                   )}
                 </div>
               </Form>

@@ -55,7 +55,7 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
     <>
       <Modal isOpen={openModal} size='md' centered>
         <ModalHeader charCode='X' toggle={handleModal}>
-          Request New Codes
+          Request New Batch
         </ModalHeader>
         <ModalBody>
           <Row>
@@ -72,7 +72,7 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter request's name"
+                          placeholder='Enter Batch-ID'
                           type='text'
                           value={request.name}
                           name='name'
@@ -84,7 +84,7 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                       <FormGroup>
                         <label className='form-control-label'>
                           <span style={{ color: 'red' }}>{request.name ? '' : '*'} </span>
-                          Number of Codes
+                          Number of Batch
                         </label>
                         <Input
                           className='form-control-alternative text-default'
@@ -105,8 +105,9 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder='Enter text here'
+                          placeholder='Describe what product batch these codes will be used for'
                           type='textarea'
+                          maxLength={300}
                           value={request.text}
                           name='text'
                           onChange={handleInput}

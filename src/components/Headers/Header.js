@@ -30,10 +30,7 @@ const Header = () => {
       <div
         className='header pb-8 pt-5 pt-md-8'
         style={{
-          background:
-            user?.role === 'brand'
-              ? user?.preferences?.color
-              : 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
+          background: 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
         }}
       >
         <Container fluid>
@@ -47,7 +44,7 @@ const Header = () => {
                       {user?.role === 'brand' ? (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            Codes
+                            Batches
                           </CardTitle>
                           <span className='h2 font-weight-bold mb-0'>
                             {stats?.allCodesCount ?? 0}
@@ -56,7 +53,7 @@ const Header = () => {
                       ) : (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            Codes
+                            Batches
                           </CardTitle>
                           <span className='h2 font-weight-bold mb-0'>{stats?.codesCount ?? 0}</span>
                         </div>
@@ -76,7 +73,7 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Validated Codes
+                          Validated Batches
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0'>
                           {stats?.validatedCodesCount ?? 0}
@@ -99,7 +96,7 @@ const Header = () => {
                         <>
                           <div className='col'>
                             <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                              Invalidated Codes
+                              Invalidated Batches
                             </CardTitle>
                             <span className='h2 font-weight-bold mb-0'>
                               {stats?.invalidatedCodesCount ?? 0}
@@ -138,7 +135,7 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Code Requests
+                          Batch Requests
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0'>{stats?.requestCount ?? 0}</span>
                       </div>
