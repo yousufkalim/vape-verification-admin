@@ -71,7 +71,7 @@ var routes = [
   },
   {
     path: '/batch-requests',
-    name: 'Code Requests',
+    name: 'Batch Requests',
     icon: 'fas fa-plus-square text-primary',
     component: BrandCodesRequests,
     layout: '/brand',
@@ -85,6 +85,15 @@ var routes = [
     layout: '/brand',
     isChild: false,
   },
+  // {
+  //   path: '/batch',
+  //   name: 'View Brand',
+  //   outerLink: true,
+  //   icon: 'fas fa-barcode text-primary',
+  //   component: BrandCodes,
+  //   layout: '/brand',
+  //   isChild: false,
+  // },
   /*    Auth Routes   */
   {
     path: '/register',

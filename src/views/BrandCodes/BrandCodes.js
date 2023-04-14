@@ -328,7 +328,7 @@ const BrandCodes = () => {
         handleModal={handleInvalidateModal}
         openModal={confirmModal}
         description={`You are about to invalidate the selected batches.`}
-        heading='Invalidate bachess'
+        heading='Invalidate batches'
         handleSubmit={handleInValidate}
         loading={loading}
       />
