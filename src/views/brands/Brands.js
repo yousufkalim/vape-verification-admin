@@ -109,8 +109,6 @@ const Brands = () => {
     return openModal;
   };
 
-  console.log('User ', user);
-
   const handleConfirmModal = () => {
     setConfirmModal((prev) => !prev);
   };

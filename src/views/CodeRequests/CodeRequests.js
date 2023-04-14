@@ -183,7 +183,7 @@ const CodeRequests = () => {
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Batch Requests</h3>
                   <Button disabled={loading} color='primary' onClick={handleExport} size='md'>
-                    Export all batch
+                    Export all batches
                   </Button>
                 </div>
               </CardHeader>
