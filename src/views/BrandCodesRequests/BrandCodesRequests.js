@@ -39,12 +39,15 @@ import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { capitalString } from 'utils/common';
 import moment from 'moment';
+import { handleExportCodes } from 'utils/exportCodes';
+import { Store } from 'StoreContext';
 
 const BrandCodesRequests = () => {
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const [allRequests, setAllRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = Store();
 
   useEffect(() => {
     getRequests();
@@ -70,7 +73,7 @@ const BrandCodesRequests = () => {
     setLoading(true);
     api('patch', `/requests/invalidate/${id}`)
       .then(() => {
-        toast.success('Codes has been invalidated for this request');
+        toast.success('Batches has been invalidated for this request');
         getRequests();
         setLoading(false);
       })
@@ -88,6 +91,30 @@ const BrandCodesRequests = () => {
         setLoading(false);
       })
       .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  /*    Export Codes against request    */
+  const handleExportForRequest = async (id) => {
+    setLoading(true);
+    api('get', `/codes/export?request=${id}`)
+      .then((res) => {
+        if (res.codes?.length > 0) {
+          const codesToExport = res?.codes;
+          if (codesToExport?.length > 0) {
+            const currentDate = moment().format('MM DD yyyy');
+            const fileName = `${user?.name} ${currentDate}`;
+            handleExportCodes(codesToExport, fileName);
+          } else {
+            toast.error('No batch exists');
+          }
+          setLoading(false);
+        } else {
+          toast.error('No batch exists');
+        }
+      })
+      .catch((err) => {
         setLoading(false);
       });
   };
@@ -115,10 +142,10 @@ const BrandCodesRequests = () => {
             <Card className='shadow'>
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Code Requests</h3>
+                  <h3 className='mb-0'>Batch Requests</h3>
                   <Button color='primary' onClick={handleModal} size='md'>
                     <i className='ni ni-fat-add'></i>
-                    Request New Codes
+                    Request New Batch
                   </Button>
                 </div>
               </CardHeader>
@@ -126,7 +153,7 @@ const BrandCodesRequests = () => {
                 <thead className='thead-light'>
                   <tr>
                     <th scope='col'>Name</th>
-                    <th scope='col'>Number of Codes</th>
+                    <th scope='col'>Number of Batch</th>
                     <th scope='col'>Text</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
@@ -199,6 +226,11 @@ const BrandCodesRequests = () => {
                                     Activate
                                   </DropdownItem>
                                 )
+                              )}
+                              {item.status !== 'pending' && (
+                                <DropdownItem onClick={() => handleExportForRequest(item._id)}>
+                                  Export batch
+                                </DropdownItem>
                               )}
                             </DropdownMenu>
                           </UncontrolledDropdown>

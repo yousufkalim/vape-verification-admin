@@ -20,12 +20,13 @@ import { useState, useEffect } from 'react';
 import { Store } from '../../StoreContext';
 import api from 'api';
 import {
+  Row,
+  Col,
   Card,
   CardHeader,
   Media,
   Table,
   Container,
-  Row,
   FormGroup,
   Input,
   Button,
@@ -39,6 +40,7 @@ import Loader from 'components/Spinner/Spinner';
 import moment from 'moment';
 import { exportToCSV } from 'utils/exportCodes';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+import { handleExportCodes } from 'utils/exportCodes';
 
 const headers = [
   'Code',
@@ -55,7 +57,6 @@ const BrandCodes = () => {
   const [page, setPage] = useState(1);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [exportCodes, setExportCodes] = useState([]);
   const [total, setTotal] = useState(0);
   const [confirmModal, setConfirmModal] = useState(false);
   const [confirmActivate, setConfirmActivate] = useState(false);
@@ -80,13 +81,15 @@ const BrandCodes = () => {
     }
   };
 
-  const handleSelectCodes = (e, id) => {
-    const isSelected = selectedCodes.find((item) => item === id);
+  const handleSelectCodes = (e, currentCode) => {
+    const isSelected = selectedCodes.find((item) => item.code === currentCode.code);
     if (isSelected) {
-      return setSelectedCodes(selectedCodes.filter((code) => code !== id));
+      return setSelectedCodes(selectedCodes.filter((item) => item.code !== currentCode.code));
     }
-    setSelectedCodes((prevState) => [...prevState, id]);
+    setSelectedCodes((prevState) => [...prevState, currentCode]);
   };
+
+  console.log('Codes ', selectedCodes);
 
   // const handleValidate = (code) => {
   //   const dataToSend = {
@@ -111,7 +114,8 @@ const BrandCodes = () => {
 
   const handleInValidate = () => {
     if (selectedCodes.length > 0) {
-      api('put', `/codes/invalidate`, { codes: selectedCodes }).then((res) => {
+      const data = selectedCodes.map(({ _id }) => _id);
+      api('put', `/codes/invalidate`, { codes: data }).then((res) => {
         if (res.success) {
           getCodes();
           setSelectedCodes([]);
@@ -120,13 +124,14 @@ const BrandCodes = () => {
         }
       });
     } else {
-      toast.error('Please select codes');
+      toast.error('Please select batches');
     }
   };
 
   const handleActivate = () => {
     if (selectedCodes.length > 0) {
-      api('put', `/codes/activate`, { codes: selectedCodes }).then((res) => {
+      const data = selectedCodes.map(({ _id }) => _id);
+      api('put', `/codes/activate`, { codes: data }).then((res) => {
         if (res.success) {
           getCodes();
           setSelectedCodes([]);
@@ -135,15 +140,9 @@ const BrandCodes = () => {
         }
       });
     } else {
-      toast.error('Please select codes');
+      toast.error('Please select batches');
     }
   };
-
-  useEffect(() => {
-    if (exportCodes?.length > 0) {
-      setExportCodes([]);
-    }
-  }, [exportCodes]);
 
   const handleExport = async () => {
     setLoading(true);
@@ -152,35 +151,20 @@ const BrandCodes = () => {
         if (res.codes?.length > 0) {
           const codesToExport = res?.codes;
           if (codesToExport?.length > 0) {
-            handleSubmitExcel(codesToExport);
+            const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
+            const fileName = `veriscan_export_${currentDate}`;
+            handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No codes exists');
+            toast.error('No batch exists');
           }
           setLoading(false);
         } else {
-          toast.error('No codes exists');
+          toast.error('No batch exists');
         }
       })
       .catch((err) => {
         setLoading(false);
       });
-  };
-
-  const handleSubmitExcel = (exportedCodes) => {
-    const updatedExportCodes = exportedCodes.map((item) => ({
-      Code: item.code,
-      'Scan Attempts': item.scan_attempts,
-      // eslint-disable-next-line no-underscore-dangle
-      'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
-      Status: item.status,
-      'IP Address': item?.ip_address,
-      'Created At': moment(item?.createdAt).format('MMMM DD, yyyy hh:mm A'),
-      'User Agent': item?.user_agent,
-    }));
-
-    const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
-    const fileName = `veriscan_export_${currentDate}`;
-    exportToCSV(updatedExportCodes, headers, fileName);
   };
 
   const handleInvalidateModal = () => {
@@ -193,6 +177,15 @@ const BrandCodes = () => {
 
   const btnDisabled = selectedCodes.length > 0 ? false : true;
   const isCodesExist = codes?.length > 0 ? true : false;
+
+  console.log('All codes ', codes);
+
+  const isActivated = selectedCodes.find((item) => item.status === 'invalidated') ? true : false;
+  const isInvalidated = selectedCodes.find((item) => item.status === '"pending"') ? true : false;
+
+  console.log('Enable activate ', isActivated);
+  console.log('Enable Invalidated ', isInvalidated);
+
   return (
     <>
       <Container className='mt--7' fluid>
@@ -202,60 +195,65 @@ const BrandCodes = () => {
           <div className='col'>
             <Card className='shadow'>
               <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>All Codes</h3>
-                  <div className='d-flex'>
-                    <Button
-                      disabled={btnDisabled}
-                      color='danger'
-                      onClick={handleConfirmActivateCodes}
-                      size='md'
-                    >
-                      Activate
-                    </Button>
-                    <Button
-                      disabled={btnDisabled}
-                      color='danger'
-                      onClick={handleConfirmInvalidateCodes}
-                      size='md'
-                    >
-                      Invalidate
-                    </Button>
-                    <Button
-                      disabled={!isCodesExist || loading}
-                      color='primary'
-                      onClick={handleExport}
-                      size='md'
-                    >
-                      Export
-                    </Button>
-                  </div>
-                </div>
+                <Row>
+                  <Col sm={3} xs={12}>
+                    <h3 className='mb-0'>All Batch</h3>
+                  </Col>
+                  <Col sm={'auto'} xs={12} className={'ml-auto mr-sm-0 mr-auto mt-sm-0 mt-2'}>
+                    <Row className='justify-content-end'>
+                      <Button
+                        disabled={btnDisabled}
+                        color='danger'
+                        onClick={handleConfirmActivateCodes}
+                        size='md'
+                      >
+                        Activate
+                      </Button>
+
+                      <Button
+                        disabled={btnDisabled}
+                        color='danger'
+                        onClick={handleConfirmInvalidateCodes}
+                        size='md'
+                      >
+                        Invalidate
+                      </Button>
+
+                      <Button
+                        disabled={!isCodesExist || loading}
+                        color='primary'
+                        onClick={handleExport}
+                        size='md'
+                      >
+                        Export
+                      </Button>
+                    </Row>
+                  </Col>
+                </Row>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
                     <th scope='col' />
                     <th scope='col' />
-                    <th scope='col'>Code</th>
+                    <th scope='col'>Batch</th>
                     <th scope='col'>Scan Attempts</th>
                     <th scope='col'>Scanned Time</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
-                    <th scope='col' />
                   </tr>
                 </thead>
                 <tbody>
                   {codes?.map((item) => {
                     return (
                       <tr>
-                        <td className='pr-0'>
+                        <td className='pr-0' style={{ verticalAlign: 'top' }}>
                           {item.status !== 'validated' && (
                             <FormGroup check>
                               <Input
                                 type='checkbox'
-                                checked={selectedCodes.includes(item._id)}
-                                onChange={(e) => handleSelectCodes(e, item._id)}
+                                checked={selectedCodes.find((c) => c._id === item._id)}
+                                onChange={(e) => handleSelectCodes(e, item)}
                               />
                             </FormGroup>
                           )}
@@ -325,8 +323,8 @@ const BrandCodes = () => {
       <ConfirmModal
         handleModal={handleInvalidateModal}
         openModal={confirmModal}
-        description={`You are about to invalidate the selected codes.`}
-        heading='Invalidate codes'
+        description={`You are about to invalidate the selected batches.`}
+        heading='Invalidate bachess'
         handleSubmit={handleInValidate}
         loading={loading}
       />
@@ -334,8 +332,8 @@ const BrandCodes = () => {
       <ConfirmModal
         handleModal={handleConfirmActivateCodes}
         openModal={confirmActivate}
-        description={`You are about to activate the selected codes.`}
-        heading='Activate codes'
+        description={`You are about to activate the selected batches.`}
+        heading='Activate batches'
         handleSubmit={handleActivate}
         loading={loading}
       />

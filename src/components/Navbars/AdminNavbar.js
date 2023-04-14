@@ -103,7 +103,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const handleColor = (e) => {
     setProfile((prev) => ({
       ...prev,
-      preferences: { ...prev.preferences, color: e.target.value },
+      preferences: { ...prev.preferences, [e.target.name]: e.target.value },
     }));
   };
 
@@ -292,33 +292,49 @@ const AdminNavbar = ({ brandText, getUser }) => {
                     </Col>
                   </Row>
                   {user?.role === 'brand' && (
-                    <Row>
-                      <Col lg='12' style={{ margin: 'auto' }}>
-                        <FormGroup>
-                          <label className='form-control-label'>Logo</label>
-                          <FilePicker
-                            accept='image/*'
-                            fileName={fileName}
-                            isDelete={true}
-                            handleDelete={handleDeleteImage}
-                            type='file'
-                            onChange={handleFile}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg='3' style={{ marginRight: 'auto' }}>
-                        <FormGroup>
-                          <label className='form-control-label'>Color</label>
-                          <Input
-                            className='form-control-alternative text-default color_field'
-                            type='color'
-                            value={profile?.preferences?.color}
-                            name='color'
-                            onChange={handleColor}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
+                    <>
+                      <Row>
+                        <Col lg='12' style={{ margin: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>Logo</label>
+                            <FilePicker
+                              accept='image/*'
+                              fileName={fileName}
+                              isDelete={true}
+                              handleDelete={handleDeleteImage}
+                              type='file'
+                              onChange={handleFile}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>Color</label>
+                            <Input
+                              className='form-control-alternative text-default color_field'
+                              type='color'
+                              value={profile?.preferences?.color}
+                              name='color'
+                              onChange={handleColor}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                          <FormGroup>
+                            <label className='form-control-label'>Secondary Color</label>
+                            <Input
+                              className='form-control-alternative text-default color_field'
+                              type='color'
+                              value={profile?.preferences?.secondaryColor}
+                              name='secondaryColor'
+                              onChange={handleColor}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </>
                   )}
                 </div>
               </Form>

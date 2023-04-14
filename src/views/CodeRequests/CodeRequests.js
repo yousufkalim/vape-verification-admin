@@ -39,17 +39,7 @@ import Loader from 'components/Spinner/Spinner';
 import { capitalString } from 'utils/common';
 import moment from 'moment';
 import { exportToCSV } from 'utils/exportCodes';
-
-const headers = [
-  'Code',
-  'Request Id',
-  'Scan Attempts',
-  'Scanned Date and Time',
-  'Status',
-  'IP Address',
-  'Created At',
-  'User Agent',
-];
+import { handleExportCodes } from 'utils/exportCodes';
 
 const CodeRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
@@ -89,7 +79,7 @@ const CodeRequests = () => {
     setLoading(true);
     api('patch', `/requests/invalidate/${id}`)
       .then(() => {
-        toast.success('Codes has been invalidated for this request');
+        toast.success('Batches has been invalidated for this request');
         getRequests();
         setLoading(false);
       })
@@ -137,15 +127,42 @@ const CodeRequests = () => {
       });
   };
 
+  /*    Export Codes against request    */
+  const handleExportForRequest = async (id, brandName) => {
+    setLoading(true);
+    api('get', `/codes/export?request=${id}`)
+      .then((res) => {
+        if (res.codes?.length > 0) {
+          const codesToExport = res?.codes;
+          if (codesToExport?.length > 0) {
+            const currentDate = moment().format('MM DD yyyy');
+            const fileName = `${brandName} ${currentDate}`;
+            handleExportCodes(codesToExport, fileName);
+          } else {
+            toast.error('No batch exists');
+          }
+          setLoading(false);
+        } else {
+          toast.error('No batch exists');
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
+  /*    Export All Codes    */
   const handleExport = async () => {
     setLoading(true);
     api('get', `/codes/export`)
       .then((res) => {
         const codesToExport = res?.codes;
         if (codesToExport?.length > 0) {
-          handleSubmitExcel(codesToExport);
+          const currentDate = moment().format('MM DD yyyy hh mm');
+          const fileName = `veriscan_export_${currentDate}`;
+          handleExportCodes(codesToExport, fileName);
         } else {
-          toast.error('No codes exists');
+          toast.error('No batch exists');
         }
         setLoading(false);
       })
@@ -154,22 +171,6 @@ const CodeRequests = () => {
       });
   };
 
-  const handleSubmitExcel = (exportedCodes) => {
-    const updatedExportCodes = exportedCodes.map((item) => ({
-      Code: item.code,
-      'Request Id': item?.request,
-      'Scan Attempts': item.scan_attempts,
-      // eslint-disable-next-line no-underscore-dangle
-      'Scanned Date and Time': moment(item?.validation_time).format('MMMM DD, yyyy hh:mm A'),
-      Status: item.status,
-      'IP Address': item?.ip_address,
-      'Created At': moment(item?.createdAt).format('MMMM DD, yyyy hh:mm A'),
-      'User Agent': item?.user_agent,
-    }));
-    const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
-    const fileName = `veriscan_export_${currentDate}`;
-    exportToCSV(updatedExportCodes, headers, fileName);
-  };
   return (
     <>
       <Container className='mt--7' fluid>
@@ -180,17 +181,17 @@ const CodeRequests = () => {
             <Card className='shadow'>
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Code Requests</h3>
+                  <h3 className='mb-0'>Batch Requests</h3>
                   <Button disabled={loading} color='primary' onClick={handleExport} size='md'>
-                    Export all codes
+                    Export all batch
                   </Button>
                 </div>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
-                    <th scope='col'>Code</th>
-                    <th scope='col'>Number of Codes</th>
+                    <th scope='col'>Batch</th>
+                    <th scope='col'>Number of Batch</th>
                     <th scope='col'>Text</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
@@ -249,7 +250,7 @@ const CodeRequests = () => {
                                   <DropdownItem
                                     onClick={() => history.push(`/admin/${item._id}/codes`)}
                                   >
-                                    View Codes
+                                    View Batch
                                   </DropdownItem>
                                 )}
                                 <DropdownItem onClick={() => handleApprove(item._id)}>
@@ -285,6 +286,11 @@ const CodeRequests = () => {
                                     Activate
                                   </DropdownItem>
                                 )}
+                                <DropdownItem
+                                  onClick={() => handleExportForRequest(item._id, item.brand.name)}
+                                >
+                                  Export batch
+                                </DropdownItem>
                               </DropdownMenu>
                             )}
                           </UncontrolledDropdown>
