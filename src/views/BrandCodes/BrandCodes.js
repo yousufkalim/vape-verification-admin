@@ -176,6 +176,9 @@ const BrandCodes = () => {
   const btnDisabled = selectedCodes.length > 0 ? false : true;
   const isCodesExist = codes?.length > 0 ? true : false;
 
+  const isActivated = selectedCodes.find((item) => item.status === 'invalidated') ? true : false;
+  const isInvalidated = selectedCodes.find((item) => item.status === 'pending') ? true : false;
+
   return (
     <>
       <Container className='mt--7' fluid>
@@ -187,27 +190,31 @@ const BrandCodes = () => {
               <CardHeader className='border-0'>
                 <Row>
                   <Col sm={3} xs={12}>
-                    <h3 className='mb-0'>All Batch</h3>
+                    <h3 className='mb-0'>All Batches</h3>
                   </Col>
                   <Col sm={'auto'} xs={12} className={'ml-auto mr-sm-0 mr-auto mt-sm-0 mt-2'}>
                     <Row className='justify-content-end'>
-                      <Button
-                        disabled={btnDisabled}
-                        color='danger'
-                        onClick={handleConfirmActivateCodes}
-                        size='md'
-                      >
-                        Activate
-                      </Button>
+                      {isActivated && (
+                        <Button
+                          disabled={btnDisabled}
+                          color='danger'
+                          onClick={handleConfirmActivateCodes}
+                          size='md'
+                        >
+                          Activate
+                        </Button>
+                      )}
 
-                      <Button
-                        disabled={btnDisabled}
-                        color='danger'
-                        onClick={handleConfirmInvalidateCodes}
-                        size='md'
-                      >
-                        Invalidate
-                      </Button>
+                      {isInvalidated && (
+                        <Button
+                          disabled={btnDisabled}
+                          color='danger'
+                          onClick={handleConfirmInvalidateCodes}
+                          size='md'
+                        >
+                          Invalidate
+                        </Button>
+                      )}
 
                       <Button
                         disabled={!isCodesExist || loading}
