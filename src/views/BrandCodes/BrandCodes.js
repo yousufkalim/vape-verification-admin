@@ -89,8 +89,6 @@ const BrandCodes = () => {
     setSelectedCodes((prevState) => [...prevState, currentCode]);
   };
 
-  console.log('Codes ', selectedCodes);
-
   // const handleValidate = (code) => {
   //   const dataToSend = {
   //     brandId: user._id,
@@ -178,14 +176,6 @@ const BrandCodes = () => {
   const btnDisabled = selectedCodes.length > 0 ? false : true;
   const isCodesExist = codes?.length > 0 ? true : false;
 
-  console.log('All codes ', codes);
-
-  const isActivated = selectedCodes.find((item) => item.status === 'invalidated') ? true : false;
-  const isInvalidated = selectedCodes.find((item) => item.status === '"pending"') ? true : false;
-
-  console.log('Enable activate ', isActivated);
-  console.log('Enable Invalidated ', isInvalidated);
-
   return (
     <>
       <Container className='mt--7' fluid>
@@ -251,6 +241,13 @@ const BrandCodes = () => {
                           {item.status !== 'validated' && (
                             <FormGroup check>
                               <Input
+                                disabled={
+                                  selectedCodes?.length === 0
+                                    ? false
+                                    : selectedCodes.find((c) => c.status === item.status)
+                                    ? false
+                                    : true
+                                }
                                 type='checkbox'
                                 checked={selectedCodes.find((c) => c._id === item._id)}
                                 onChange={(e) => handleSelectCodes(e, item)}
