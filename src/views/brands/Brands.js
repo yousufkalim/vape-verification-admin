@@ -56,6 +56,7 @@ const Brands = () => {
     _id: '',
     name: '',
     email: '',
+    url: '',
     logo: '',
     websiteLink: '',
     logoWidth: '',
@@ -93,6 +94,7 @@ const Brands = () => {
         _id: item._id,
         name: item.name,
         email: item.email,
+        url: item.url,
         websiteLink: item.websiteLink ? item.websiteLink : '',
         logo: item.preferences?.logo,
         logoWidth: item.logoWidth ? item.logoWidth : '',
@@ -202,7 +204,7 @@ const Brands = () => {
                         </td>
                         <td title={item.name}>
                           <a
-                            href={`${frontendUrl}/${encodeURI(item.name)}`}
+                            href={`${frontendUrl}${(item.url)}`}
                             target='_blank'
                             style={{
                               textDecoration: 'none',
@@ -210,7 +212,7 @@ const Brands = () => {
                               fontWeight: 'bold',
                             }}
                             rel='noreferrer'
-                          >{`/${encodeURI(item.name)}`}</a>
+                          >{`${(item.url)}`}</a>
                         </td>
 
                         <td>{item.active ? 'Active' : 'Deactivated'}</td>
@@ -227,7 +229,7 @@ const Brands = () => {
                               <i className='fas fa-ellipsis-v' />
                             </DropdownToggle>
                             <DropdownMenu className='dropdown-menu-arrow' right>
-                              <a
+                              {/* <a
                                 href={`${frontendUrl}/${encodeURI(item.name)}`}
                                 target='_blank'
                                 style={{
@@ -238,7 +240,7 @@ const Brands = () => {
                                 rel='noreferrer'
                               >
                                 <DropdownItem>View as client</DropdownItem>
-                              </a>
+                              </a> */}
                               <DropdownItem onClick={() => handleEditModal(item)}>
                                 Edit
                               </DropdownItem>

@@ -26,8 +26,21 @@ const EditBrand = ({
   setFileName,
   setLoading,
 }) => {
-  const handleInput = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const handleInput = (e) => {
+    if (e.target.name === 'url') {
+      if (e.target.value.length !== 0) {
+        if(e.target.value.charAt(0)!=='/'){
+          setUser({ ...user, [e.target.name]: `/${e.target.value}` });
+          return;
+        }
+        setUser({ ...user, [e.target.name]: e.target.value });
+      }else{
+        console.log(e.target.value,"else")
+        setUser({ ...user, [e.target.name]:'/' });
+      }
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    }
   };
 
   const handleDeleteImage = (e) => {
@@ -125,6 +138,21 @@ const EditBrand = ({
                           type='email'
                           value={user.email}
                           name='email'
+                          onChange={handleInput}
+                        />
+                      </FormGroup>
+                    </Col>
+                     <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <span style={{ color: 'red' }}>{user.url ? '' : '*'} </span>
+                        <label className='form-control-label'>Url</label>
+                        <Input
+                          className='form-control-alternative text-default'
+                          required={true}
+                          placeholder="Enter user's url"
+                          type='text'
+                          value={user.url}
+                          name='url'
                           onChange={handleInput}
                         />
                       </FormGroup>
