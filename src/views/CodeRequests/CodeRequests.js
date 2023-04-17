@@ -159,7 +159,7 @@ const CodeRequests = () => {
         const codesToExport = res?.codes;
         if (codesToExport?.length > 0) {
           const currentDate = moment().format('MM DD yyyy hh mm');
-          const fileName = `veriscan_export_${currentDate}`;
+          const fileName = `veriscan export ${currentDate}`;
           handleExportCodes(codesToExport, fileName);
         } else {
           toast.error('No code exists');

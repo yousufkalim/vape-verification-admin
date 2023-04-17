@@ -149,8 +149,8 @@ const BrandCodes = () => {
         if (res.codes?.length > 0) {
           const codesToExport = res?.codes;
           if (codesToExport?.length > 0) {
-            const currentDate = moment().format('MM/DD/YYYY_HH:mm:ss');
-            const fileName = `veriscan_export_${currentDate}`;
+            const currentDate = moment().format('MM DD yyyy hh mm');
+            const fileName = `veriscan export ${currentDate}`;
             handleExportCodes(codesToExport, fileName);
           } else {
             toast.error('No code exists');
