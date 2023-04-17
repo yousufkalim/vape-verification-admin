@@ -72,8 +72,6 @@ const AddBrand = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validInputRegex = /^\/[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*$/;
-    const isValid = validInputRegex.test(user.url);
     if (user.name === '') {
       return toast.error("Please enter user's name");
     }
