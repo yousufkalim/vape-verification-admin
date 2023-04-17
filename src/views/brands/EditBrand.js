@@ -78,7 +78,7 @@ const EditBrand = ({
       
       return toast.error('Please enter email');
     }
-      if (user.url === '' ||user.url === '/') {
+      if (user.url === '' || user.url === '/') {
       return toast.error('Please enter brand url');
     }
 
