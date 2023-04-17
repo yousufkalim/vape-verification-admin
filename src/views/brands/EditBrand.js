@@ -153,7 +153,7 @@ const EditBrand = ({
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder="Enter user's url"
+                          placeholder="Enter brands url"
                           type='text'
                           value={user.url}
                           name='url'
