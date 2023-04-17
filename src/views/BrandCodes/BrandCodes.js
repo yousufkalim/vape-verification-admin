@@ -122,7 +122,7 @@ const BrandCodes = () => {
         }
       });
     } else {
-      toast.error('Please select batches');
+      toast.error('Please select codes');
     }
   };
 
@@ -138,7 +138,7 @@ const BrandCodes = () => {
         }
       });
     } else {
-      toast.error('Please select batches');
+      toast.error('Please select codes');
     }
   };
 
@@ -153,11 +153,11 @@ const BrandCodes = () => {
             const fileName = `veriscan_export_${currentDate}`;
             handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No batch exists');
+            toast.error('No code exists');
           }
           setLoading(false);
         } else {
-          toast.error('No batch exists');
+          toast.error('No code exists');
         }
       })
       .catch((err) => {
@@ -190,7 +190,7 @@ const BrandCodes = () => {
               <CardHeader className='border-0'>
                 <Row>
                   <Col sm={3} xs={12}>
-                    <h3 className='mb-0'>All Batches</h3>
+                    <h3 className='mb-0'>All Codes</h3>
                   </Col>
                   <Col sm={'auto'} xs={12} className={'ml-auto mr-sm-0 mr-auto mt-sm-0 mt-2'}>
                     <Row className='justify-content-end'>
@@ -233,7 +233,7 @@ const BrandCodes = () => {
                   <tr>
                     <th scope='col' />
                     <th scope='col' />
-                    <th scope='col'>Batch</th>
+                    <th scope='col'>Code</th>
                     <th scope='col'>Scan Attempts</th>
                     <th scope='col'>Scanned Time</th>
                     <th scope='col'>Status</th>
@@ -327,8 +327,8 @@ const BrandCodes = () => {
       <ConfirmModal
         handleModal={handleInvalidateModal}
         openModal={confirmModal}
-        description={`You are about to invalidate the selected batches.`}
-        heading='Invalidate batches'
+        description={`You are about to invalidate the selected codes.`}
+        heading='Invalidate codes'
         handleSubmit={handleInValidate}
         loading={loading}
       />
@@ -336,8 +336,8 @@ const BrandCodes = () => {
       <ConfirmModal
         handleModal={handleConfirmActivateCodes}
         openModal={confirmActivate}
-        description={`You are about to activate the selected batches.`}
-        heading='Activate batches'
+        description={`You are about to activate the selected codes.`}
+        heading='Activate codes'
         handleSubmit={handleActivate}
         loading={loading}
       />

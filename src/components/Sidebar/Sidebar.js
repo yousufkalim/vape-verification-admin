@@ -291,7 +291,15 @@ const Sidebar = (props) => {
               </Row>
             </div>
             {/* Navigation */}
-            <Nav navbar>{createLinks(routes)}</Nav>
+            <Nav navbar>
+              {createLinks(routes)}
+              {user.role === 'brand' && (
+                <a className='view_brand' target='_blank'>
+                  <i className='ni ni-key-25 text-info' />
+                  <div>View Brand</div>
+                </a>
+              )}
+            </Nav>
           </Collapse>
         </Container>
       </Navbar>

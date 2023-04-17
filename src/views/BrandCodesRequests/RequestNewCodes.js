@@ -84,7 +84,7 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                       <FormGroup>
                         <label className='form-control-label'>
                           <span style={{ color: 'red' }}>{request.name ? '' : '*'} </span>
-                          Number of Batch
+                          Number of Codes
                         </label>
                         <Input
                           className='form-control-alternative text-default'
