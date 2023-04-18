@@ -44,7 +44,7 @@ const Header = () => {
                       {user?.role === 'brand' ? (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            Batches
+                            Codes
                           </CardTitle>
                           <span className='h2 font-weight-bold mb-0'>
                             {stats?.allCodesCount ?? 0}
@@ -53,7 +53,7 @@ const Header = () => {
                       ) : (
                         <div className='col'>
                           <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                            Batches
+                            Codes
                           </CardTitle>
                           <span className='h2 font-weight-bold mb-0'>{stats?.codesCount ?? 0}</span>
                         </div>
@@ -73,7 +73,7 @@ const Header = () => {
                     <Row>
                       <div className='col'>
                         <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                          Validated Batches
+                          Validated Codes
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0'>
                           {stats?.validatedCodesCount ?? 0}
@@ -96,7 +96,7 @@ const Header = () => {
                         <>
                           <div className='col'>
                             <CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-                              Invalidated Batches
+                              Invalidated Codes
                             </CardTitle>
                             <span className='h2 font-weight-bold mb-0'>
                               {stats?.invalidatedCodesCount ?? 0}

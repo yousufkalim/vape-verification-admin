@@ -28,7 +28,7 @@ const PendingRequests = ({ role, requests }) => {
           <thead className='thead-light'>
             <tr>
               <th scope='col'>Name</th>
-              <th scope='col'>Number of Batch</th>
+              <th scope='col'>Number of Codes</th>
               <th scope='col'>Text</th>
               <th scope='col'>Status</th>
               <th scope='col'>Created At</th>

@@ -79,7 +79,7 @@ const CodeRequests = () => {
     setLoading(true);
     api('patch', `/requests/invalidate/${id}`)
       .then(() => {
-        toast.success('Batches has been invalidated for this request');
+        toast.success('Codes has been invalidated for this request');
         getRequests();
         setLoading(false);
       })
@@ -139,11 +139,11 @@ const CodeRequests = () => {
             const fileName = `${brandName} ${currentDate}`;
             handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No batch exists');
+            toast.error('No code exists');
           }
           setLoading(false);
         } else {
-          toast.error('No batch exists');
+          toast.error('No code exists');
         }
       })
       .catch((err) => {
@@ -159,10 +159,10 @@ const CodeRequests = () => {
         const codesToExport = res?.codes;
         if (codesToExport?.length > 0) {
           const currentDate = moment().format('MM DD yyyy hh mm');
-          const fileName = `veriscan_export_${currentDate}`;
+          const fileName = `veriscan export ${currentDate}`;
           handleExportCodes(codesToExport, fileName);
         } else {
-          toast.error('No batch exists');
+          toast.error('No code exists');
         }
         setLoading(false);
       })
@@ -183,15 +183,15 @@ const CodeRequests = () => {
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Batch Requests</h3>
                   <Button disabled={loading} color='primary' onClick={handleExport} size='md'>
-                    Export all batches
+                    Export all codes
                   </Button>
                 </div>
               </CardHeader>
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
-                    <th scope='col'>Batch</th>
-                    <th scope='col'>Number of Batch</th>
+                    <th scope='col'>Code</th>
+                    <th scope='col'>Number of Codes</th>
                     <th scope='col'>Text</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
@@ -250,7 +250,7 @@ const CodeRequests = () => {
                                   <DropdownItem
                                     onClick={() => history.push(`/admin/${item._id}/codes`)}
                                   >
-                                    View Batch
+                                    View Code
                                   </DropdownItem>
                                 )}
                                 <DropdownItem onClick={() => handleApprove(item._id)}>
@@ -289,7 +289,7 @@ const CodeRequests = () => {
                                 <DropdownItem
                                   onClick={() => handleExportForRequest(item._id, item.brand.name)}
                                 >
-                                  Export batch
+                                  Export codes
                                 </DropdownItem>
                               </DropdownMenu>
                             )}
