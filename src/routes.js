@@ -34,7 +34,7 @@ var routes = [
     icon: 'ni ni-single-02 text-primary',
     component: AdminBrandCodes,
     layout: '/admin',
-    isChild: true,
+    isChild: true
   },
   {
     path: '/index',
@@ -42,7 +42,7 @@ var routes = [
     icon: 'ni ni-tv-2 text-red',
     component: Index,
     layout: '/admin',
-    isChild: false,
+    isChild: false
   },
   {
     path: '/brands',
@@ -50,7 +50,7 @@ var routes = [
     icon: 'fas fa-users text-primary',
     component: Brands,
     layout: '/admin',
-    isChild: false,
+    isChild: false
   },
   {
     path: '/batch-requests',
@@ -58,7 +58,7 @@ var routes = [
     icon: 'fas fa-plus-square text-primary',
     component: CodeRequests,
     layout: '/admin',
-    isChild: false,
+    isChild: false
   },
   /*    Brand Admin Routes    */
   {
@@ -67,7 +67,7 @@ var routes = [
     icon: 'ni ni-tv-2 text-red',
     component: BrandDashboard,
     layout: '/brand',
-    isChild: false,
+    isChild: false
   },
   {
     path: '/batch-requests',
@@ -75,7 +75,7 @@ var routes = [
     icon: 'fas fa-plus-square text-primary',
     component: BrandCodesRequests,
     layout: '/brand',
-    isChild: false,
+    isChild: false
   },
   {
     path: '/codes',
@@ -83,7 +83,7 @@ var routes = [
     icon: 'fas fa-barcode text-primary',
     component: BrandCodes,
     layout: '/brand',
-    isChild: false,
+    isChild: false
   },
   // {
   //   path: '/batch',
@@ -95,21 +95,21 @@ var routes = [
   //   isChild: false,
   // },
   /*    Auth Routes   */
-  {
-    path: '/register',
-    name: 'Register',
-    icon: 'ni ni-key-25 text-info',
-    component: Register,
-    layout: '/auth',
-    isChild: false,
-  },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   icon: 'ni ni-key-25 text-info',
+  //   component: Register,
+  //   layout: '/auth',
+  //   isChild: false
+  // },
   {
     path: '/login',
     name: 'Login',
     icon: 'ni ni-circle-08 text-pink',
     component: Login,
     layout: '/auth',
-    isChild: false,
+    isChild: false
   },
   {
     path: '/verify/:token',
@@ -117,7 +117,7 @@ var routes = [
     icon: 'ni ni-tv-2 text-red',
     component: ResetPassword,
     layout: '/reset',
-    isChild: false,
-  },
+    isChild: false
+  }
 ];
 export default routes;
