@@ -95,14 +95,14 @@ var routes = [
   //   isChild: false,
   // },
   /*    Auth Routes   */
-  {
-    path: '/register',
-    name: 'Register',
-    icon: 'ni ni-key-25 text-info',
-    component: Register,
-    layout: '/auth',
-    isChild: false
-  },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   icon: 'ni ni-key-25 text-info',
+  //   component: Register,
+  //   layout: '/auth',
+  //   isChild: false
+  // },
   {
     path: '/login',
     name: 'Login',
