@@ -19,12 +19,10 @@ if (window.location.host === 'vapeverification-admin-dev.falconweb.app') {
   baseUrl = 'https://vapeverification-api-staging.falconweb.app/api/v1';
   mediaUrl = 'https://vapeverification-api-staging.falconweb.app/';
   frontendUrl = 'https://vapeverification-staging.falconweb.app';
-} else if (
-  window.location.host === 'vapeverification-admin-prod.falconweb.app'
-) {
-  baseUrl = 'https://vapeverification-api-prod.falconweb.app/api/v1';
-  mediaUrl = 'https://vapeverification-api-prod.falconweb.app/';
-  frontendUrl = 'https://vapeverification-prod.falconweb.app';
+} else if (window.location.host === 'admin.getveriscan.com') {
+  baseUrl = 'https://api.getveriscan.com/api/v1';
+  mediaUrl = 'https://api.getveriscan.com/';
+  frontendUrl = 'https://getveriscan.com';
 }
 
 module.exports = { baseUrl, mediaUrl, frontendUrl };
