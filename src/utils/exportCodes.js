@@ -23,8 +23,8 @@ export const exportToCSV = (csvData, myHeader, fileName) => {
   });
 
   const wb = {
-    Sheets: { serviceHistory: ws },
-    SheetNames: ['serviceHistory'],
+    Sheets: { BatchRequest: ws },
+    SheetNames: ['BatchRequest'],
   };
 
   const excelBuffer = XLSX.write(wb, {
