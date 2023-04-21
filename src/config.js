@@ -22,7 +22,7 @@ if (window.location.host === 'vapeverification-admin-dev.falconweb.app') {
 } else if (window.location.host === 'admin.getveriscan.com') {
   baseUrl = 'https://api.getveriscan.com/api/v1';
   mediaUrl = 'https://api.getveriscan.com/';
-  frontendUrl = 'https://getveriscan.com';
+  frontendUrl = 'https://client.getveriscan.com';
 }
 
 module.exports = { baseUrl, mediaUrl, frontendUrl };
