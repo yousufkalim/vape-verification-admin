@@ -99,19 +99,20 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data('data' + index);
   };
+  console.log("stats2",stats)
   return (
     <>
       <Container className='mt--7' fluid>
         <Row>
           <Col xl='8'>
-            <PendingRequests role={user?.role} requests={stats?.pendingCodeRequests} />
+            <PendingRequests role={user?.role} requests={stats?.allRequests} />
           </Col>
           <Col xl='4'>
             <Card className='shadow'>
               <CardHeader className='bg-transparent'>
                 <Row className='align-items-center'>
                   <div className='col'>
-                    <h2 className='mb-0'>Brands Registrations</h2>
+                    <h2 className='mb-0'>Brand Registrations</h2>
                   </div>
                 </Row>
               </CardHeader>

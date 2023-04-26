@@ -170,6 +170,7 @@ const CodeRequests = () => {
         setLoading(false);
       });
   };
+  console.log("allRequests",allRequests)
 
   return (
     <>
@@ -190,8 +191,10 @@ const CodeRequests = () => {
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
-                    <th scope='col'>Code</th>
-                    <th scope='col'>Number of Codes</th>
+
+                    <th scope='col'>Brand Name</th>
+                    <th scope='col'>Batch</th>
+                    <th scope='col'>Number of Batch</th>
                     <th scope='col'>Text</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
@@ -206,13 +209,24 @@ const CodeRequests = () => {
                           <Media className='align-items-center'>
                             <Media>
                               <span className='mb-0 text-sm' title={item.name}>
+                                {item?.brand?.name?.length > 30
+                                  ? item.brand?.name?.substring(0, 30) + '...'
+                                  : item.brand?.name}
+                              </span>
+                            </Media>
+                          </Media>
+                        </th>
+                          <td scope='row'>
+                          <Media className='align-items-center'>
+                            <Media>
+                              <span className='mb-0 text-sm' title={item.name}>
                                 {item.name?.length > 30
                                   ? item.name?.substring(0, 30) + '...'
                                   : item.name}
                               </span>
                             </Media>
                           </Media>
-                        </th>
+                        </td>
                         <td>{item.number_of_codes}</td>
                         <td title={item.text}>
                           {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
