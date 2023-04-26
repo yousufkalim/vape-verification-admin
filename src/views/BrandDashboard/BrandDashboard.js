@@ -72,6 +72,7 @@ export const options = {
 const BrandDashboard = (props) => {
   const store = Store();
   const { stats, user } = store;
+  console.log("stats1",stats)
 
   const labels = stats?.stats ? Object.keys(stats?.stats) : [];
 
@@ -103,7 +104,7 @@ const BrandDashboard = (props) => {
               <CardHeader className='bg-transparent'>
                 <Row className='align-items-center'>
                   <div className='col'>
-                    <h2 className='mb-0'>Validated Bacthes</h2>
+                    <h2 className='mb-0'>Validated Codes</h2>
                   </div>
                 </Row>
               </CardHeader>

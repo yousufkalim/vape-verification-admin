@@ -48,6 +48,7 @@ const BrandCodesRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = Store();
+  
 
   useEffect(() => {
     getRequests();
@@ -131,6 +132,7 @@ const BrandCodesRequests = () => {
         setLoading(false);
       });
   };
+  
 
   return (
     <>

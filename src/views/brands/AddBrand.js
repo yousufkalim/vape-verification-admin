@@ -93,7 +93,7 @@ const AddBrand = ({
     api('post', '/users/brand', formData)
       .then((res) => {
         toast.success(
-          'Brand added successfully, Check your email to set password'
+          'Invitation sent to the brand'
         );
         getUsers();
         handleModal();
