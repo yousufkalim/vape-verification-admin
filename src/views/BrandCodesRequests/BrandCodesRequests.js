@@ -74,7 +74,7 @@ const BrandCodesRequests = () => {
     setLoading(true);
     api('patch', `/requests/invalidate/${id}`)
       .then(() => {
-        toast.success('Batches has been invalidated for this request');
+        toast.success('Codes has been invalidated for this request');
         getRequests();
         setLoading(false);
       })
@@ -108,11 +108,11 @@ const BrandCodesRequests = () => {
             const fileName = `${user?.name} ${currentDate}`;
             handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No batch exists');
+            toast.error('No code exists');
           }
           setLoading(false);
         } else {
-          toast.error('No batch exists');
+          toast.error('No code exists');
         }
       })
       .catch((err) => {
@@ -155,7 +155,7 @@ const BrandCodesRequests = () => {
                 <thead className='thead-light'>
                   <tr>
                     <th scope='col'>Name</th>
-                    <th scope='col'>Number of Batch</th>
+                    <th scope='col'>Number of Codes</th>
                     <th scope='col'>Text</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
@@ -231,7 +231,7 @@ const BrandCodesRequests = () => {
                               )}
                               {item.status !== 'pending' && (
                                 <DropdownItem onClick={() => handleExportForRequest(item._id)}>
-                                  Export batch
+                                  Export Codes
                                 </DropdownItem>
                               )}
                             </DropdownMenu>

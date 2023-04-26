@@ -3,7 +3,7 @@ import * as FileSaver from 'file-saver';
 import moment from 'moment';
 
 const headers = [
-  'Batch',
+  'Code',
   'Request Id',
   'Scan Attempts',
   'Scanned Date and Time',
@@ -39,7 +39,7 @@ export const exportToCSV = (csvData, myHeader, fileName) => {
 
 export const handleExportCodes = (exportedCodes, fileName) => {
   const updatedExportCodes = exportedCodes.map((item) => ({
-    Batch: item.code,
+    Code: item.code,
     'Request Id': item?.request_name,
     'Scan Attempts': item.scan_attempts,
     // eslint-disable-next-line no-underscore-dangle

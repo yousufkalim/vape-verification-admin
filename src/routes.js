@@ -29,8 +29,8 @@ import BrandCodesRequests from 'views/BrandCodesRequests/BrandCodesRequests';
 var routes = [
   /*    Super Admin Routes    */
   {
-    path: '/:id/batch',
-    name: 'Brand Batch',
+    path: '/:id/code',
+    name: 'Brand Codes',
     icon: 'ni ni-single-02 text-primary',
     component: AdminBrandCodes,
     layout: '/admin',
@@ -78,8 +78,8 @@ var routes = [
     isChild: false
   },
   {
-    path: '/batch',
-    name: 'All Batches',
+    path: '/codes',
+    name: 'All Codes',
     icon: 'fas fa-barcode text-primary',
     component: BrandCodes,
     layout: '/brand',
