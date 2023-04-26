@@ -156,6 +156,7 @@ const CodeRequests = () => {
     setLoading(true);
     api('get', `/codes/export`)
       .then((res) => {
+        console.log("res.codes",res.codes)
         const codesToExport = res?.codes;
         if (codesToExport?.length > 0) {
           const currentDate = moment().format('MM DD yyyy hh mm');
