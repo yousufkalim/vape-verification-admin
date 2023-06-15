@@ -60,7 +60,7 @@ const ResetPassword = () => {
       })
       .catch((err) => {
         console.log("verify 3")
-        toast.error('Your link has been expired');
+        toast.error('Your link is expired');
         history.push('/auth/login');
       });
   };
@@ -84,7 +84,7 @@ const ResetPassword = () => {
     } else if (user.password.length < 8 || user.confirmPassword.length < 8) {
       toast.error('Password should contains at least 8 characters');
     } else if (user.password !== user.confirmPassword) {
-      toast.error('Password and Confirm Password are not matching');
+      toast.error('Your passwords do not match');
     } else {
       api('put', `/auth/reset-password/${token}`, { password: user?.password })
         .then((res) => {
@@ -134,7 +134,7 @@ const ResetPassword = () => {
               <Card className='bg-secondary shadow border-0'>
                 <CardBody className='px-lg-5 py-lg-5'>
                   <div className='text-center text-muted mb-4'>
-                    <small>Reset Password</small>
+                    <small>Set Password</small>
                   </div>
                   <Form role='form'>
                     <FormGroup>
