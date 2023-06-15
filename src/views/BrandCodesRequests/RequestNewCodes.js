@@ -105,9 +105,9 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                         <Input
                           className='form-control-alternative text-default'
                           required={true}
-                          placeholder='Describe what product batch these codes will be used for'
+                          placeholder='Please provide information about the specific product batch associated with these codes for easy identification and record-keeping purposes.'
                           type='textarea'
-                          maxLength={300}
+                          maxLength={500}
                           value={request.text}
                           name='text'
                           onChange={handleInput}
