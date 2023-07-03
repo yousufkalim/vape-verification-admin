@@ -152,6 +152,15 @@
   align-items: center;
   justify-content: center;
 }
+.linkSaveBtn {
+  background-color: #219de3;
+  border: none;
+  padding: 9px 20px;
+  color: white;
+  border-radius: 10px;
+  margin: 8px 0px 8px 0px;
+  align-items: flex-end;
+}
 
 @media screen and (max-width: 680px) {
   .bdcolorrow {

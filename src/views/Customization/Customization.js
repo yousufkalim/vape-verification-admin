@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Store } from '../../StoreContext';
+import { Store, UpdateStore } from '../../StoreContext';
 import api from 'api';
 import {
   Row,
@@ -21,6 +21,11 @@ import selected1 from '../../assets/img/Filed.svg';
 import selected2 from '../../assets/img/Filed2.svg';
 import selected3 from '../../assets/img/Filed3.svg';
 import Addyourpic from '../../assets/img/addyourpic.svg';
+import Cancel from '../../assets/img/cancel.svg';
+import Facebook from '../../assets/img/Facebook.svg';
+// import {ReactComponent as Facebook} from '../../assets/img/Facebook.svg';
+import LinkedIn from '../../assets/img/LinkedIn.svg';
+import Reddit from '../../assets/img/Reddit.svg';
 import { mediaUrl } from '../../config';
 
 // core components
@@ -78,6 +83,16 @@ const fontSizes = [
   '40px'
 ];
 
+const socialMediaArray = [
+  { name: 'facebook', icon: Facebook },
+  { name: 'reddit', icon: Reddit },
+  { name: 'linkedIn', icon: LinkedIn },
+  { name: 'twitter', icon: Reddit },
+  { name: 'telegram', icon: Reddit },
+  { name: 'instagram', icon: Reddit },
+  { name: 'youtube', icon: Reddit }
+];
+
 const Customization = () => {
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState('');
@@ -107,7 +122,80 @@ const Customization = () => {
     img: '',
     color: ''
   });
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: {
+      link: '',
+      platform: 'facebook',
+      isOpen: false,
+      haveData: false
+    },
+    reddit: { link: '', platform: 'reddit', isOpen: false, haveData: false },
+    linkedIn: {
+      link: '',
+      platform: 'linkedIn',
+      isOpen: false,
+      haveData: false
+    },
+    twitter: { link: '', platform: 'twitter', isOpen: false, haveData: false },
+    telegram: {
+      link: '',
+      platform: 'telegram',
+      isOpen: false,
+      haveData: false
+    },
+    instagram: {
+      link: '',
+      platform: 'instagram',
+      isOpen: false,
+      haveData: false
+    },
+    youtube: { link: '', platform: 'youtube', isOpen: false, haveData: false }
+  });
+  const [socialFlag, setSocialFlag] = useState(false);
+  const getUser = () => {
+    api('get', `/users/${user._id}`).then((userData) => {
+      if (userData?.user && userData?.user?.active) {
+        console.log('userData.user in geUser', userData.user.socialMedia);
+        setSocialFlag(!socialFlag);
+        const updatedSocialLinks = { ...socialLinks }; // Create a copy of the socialLinks object
 
+        const { socialMedia } = userData.user;
+console.log("socialMedia",socialMedia)
+        socialMediaArray.forEach((item) => {
+          console.log("socialMedia[item.name]",socialMedia[item.name], item.name)
+          const media = socialMedia.find(socialvalue=>socialvalue.platform===item.name )
+          console.log("media",media)
+          updatedSocialLinks[item.name].link = media ? media?.link : '';
+          updatedSocialLinks[item.name].haveData = media?.link ? true : false;
+          updatedSocialLinks[item.name].id = media? media._id:"";
+        });
+        setSocialLinks(updatedSocialLinks);
+      }
+    });
+  };
+  useEffect(() => {
+    console.log('user useeffect', user);
+    getUser();
+  }, []);
+
+  const handleChangeSocial = (e) => {
+    setSocialLinks({
+      ...socialLinks,
+      [e.target.name]: { ...socialLinks[e.target.name], link: e.target.value }
+    });
+  };
+  const handleActive = (name) => {
+    setSocialLinks({
+      ...socialLinks,
+      [name]: { ...socialLinks[name], isOpen: true }
+    });
+  };
+  const handleInActive = (name) => {
+    setSocialLinks({
+      ...socialLinks,
+      [name]: { ...socialLinks[name], isOpen: false, link: '' }
+    });
+  };
 
   const handleFile = (e) => {
     if (e.target.files[0]) {
@@ -137,7 +225,6 @@ const Customization = () => {
       }
     }));
   };
-
 
   // background image
   const handleBackgroundImageChange = (e) => {
@@ -193,29 +280,55 @@ const Customization = () => {
         console.log('error');
       });
   };
-  const handleCancelBakgroungImg=()=>{
-     setBackground("");
+
+  const handleSubmitSocial = (e, platform) => {
+    e.preventDefault();
+    if (socialLinks[platform].link == '') {
+      return toast.error('Please Add Link');
+    }
+
+    const socialData = {
+      platform: socialLinks[platform].platform,
+      link: socialLinks[platform].link
+    };
+    api('put', `/users/brand/socialLinks/${user?._id}`, socialData)
+      .then((res) => {
+        getUser();
+        //  handleInActive(platform)
+        toast.success('Social Link Updated');
+      })
+      .catch(() => {
+        console.log('error');
+      });
+  };
+  const handleDeleteLink = (platform) => {
+    api('delete', `/users/brand/socialLinks/${user?._id}/${platform.id}`)
+      .then((res) => {
+        getUser();
+        //  handleInActive(platform)
+        toast.success('Social Link Deleted Successfully');
+      })
+      .catch(() => {
+        console.log('error');
+      });
+  };
+  const handleCancelBakgroungImg = () => {
+    setBackground('');
     setBackgroundImg({
-      
-      type:"",
-      selectedImg:"",
+      type: '',
+      selectedImg: '',
       img: '',
       color: ''
     });
-
-  }
+  };
   // background image End
 
   const store = Store();
+  const updateStore = UpdateStore();
   const { user } = store;
 
-  console.log('backgroundImg', backgroundImg);
-  console.log('background', background);
   console.log('user', user);
-  console.log(
-    'img',
-    mediaUrl + user?.backgroundimages[user?.backgroundimages.length - 1]
-  );
+
   return (
     <>
       <Container className="mt--7" fluid>
@@ -696,6 +809,148 @@ const Customization = () => {
                   </Button>
                 </Col>
               </Row>
+            </Card>
+
+            <Card className="shadow" style={{ margin: '10px 0px' }}>
+              <Row style={{ margin: '10px 35px' }}>
+                <Col sm={9} xs={10} style={{ margin: 'auto' }}>
+                  <h4 className="mb-0" style={{ fontWeight: '600' }}>
+                    Social Media
+                  </h4>
+                </Col>
+              </Row>
+              {socialMediaArray.map((platform) => (
+                <>
+                  <Row style={{ margin: '0px 5px', alignItems: 'center' }}>
+                    <Col xs={10} lg="3" style={{ marginRight: 'auto' }}>
+                      <img
+                        src={platform.icon}
+                        alt="Facebook"
+                        style={{ margin: '5px 15px' }}
+                      />
+                      {/* <Facebook /> */}
+                      <span style={{ fontWeight: '600', fontSize: '16px' }}>
+                        {platform.name}
+                      </span>
+                    </Col>
+                    {!socialLinks[platform.name].isOpen &&
+                    !socialLinks[platform.name].link ? (
+                      <>
+                        <Col
+                          xs={10}
+                          lg="7"
+                          style={{ margin: '20px auto', textAlign: 'right' }}
+                        >
+                          <Button
+                            color="primary"
+                            onClick={() => handleActive(platform.name)}
+                          >
+                            Link
+                          </Button>
+                        </Col>
+                      </>
+                    ) : (
+                      <Col xs={10} lg="5" style={{ margin: 'auto 0 auto 0' }}>
+                        <Row>
+                          {socialLinks[platform.name].link &&
+                          socialLinks[platform.name].haveData ? (
+                            <>
+                              <Col
+                                xs={9}
+                                lg="9"
+                                style={{ margin: 'auto 0', textAlign: 'end' }}
+                              >
+                                {' '}
+                                <h4 style={{ margin: '20px 0px' }}>
+                                  {socialLinks[platform.name].link}
+                                </h4>
+                              </Col>
+                              <Col
+                                xs={3}
+                                lg="1"
+                                style={{
+                                  margin: '22px auto auto 0',
+                                  textAlign: 'end'
+                                }}
+                              >
+                                <img
+                                  src={Cancel}
+                                  style={{
+                                    marginBottom: '20px',
+                                    cursor: 'pointer'
+                                  }}
+                                  alt="close"
+                                  onClick={() => {
+                                    handleDeleteLink(
+                                      socialLinks[platform.name]
+                                    );
+                                    // handleInActive(platform.name);
+                                  }}
+                                />
+                              </Col>
+                            </>
+                          ) : (
+                            <>
+                              <Col
+                                xs={3}
+                                lg="2"
+                                style={{ margin: 'auto 0', textAlign: 'end' }}
+                              >
+                                <button
+                                  className="linkSaveBtn"
+                                  color="primary"
+                                  onClick={(e) =>
+                                    handleSubmitSocial(e, platform.name)
+                                  }
+                                >
+                                  Save
+                                </button>
+                              </Col>
+                              <Col
+                                xs={6}
+                                lg="7"
+                                style={{ margin: 'auto  auto ' }}
+                              >
+                                <FormGroup style={{ margin: '1rem 0px' }}>
+                                  <Input
+                                    className="form-control-alternative text-default"
+                                    required={true}
+                                    placeholder="Add Your Link"
+                                    type="text"
+                                    value={socialLinks[platform.name].link}
+                                    name={platform.name}
+                                    onChange={handleChangeSocial}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col
+                                xs={1}
+                                lg="1"
+                                style={{
+                                  margin: 'auto auto auto 0',
+                                  textAlign: 'end'
+                                }}
+                              >
+                                <img
+                                  src={Cancel}
+                                  style={{
+                                    cursor: 'pointer'
+                                  }}
+                                  alt="close"
+                                  onClick={() => {
+                                    handleInActive(platform.name);
+                                  }}
+                                />
+                              </Col>
+                            </>
+                          )}
+                        </Row>
+                      </Col>
+                    )}
+                  </Row>
+                  <hr style={{ width: '96%', margin: '0px auto' }} />
+                </>
+              ))}
             </Card>
           </div>
         </Row>
