@@ -21,6 +21,7 @@ import Login from 'views/Login.js';
 import Brands from 'views/brands/Brands';
 import CodeRequests from 'views/CodeRequests/CodeRequests';
 import BrandCodes from 'views/BrandCodes/BrandCodes';
+import Customization from 'views/Customization/Customization';
 import AdminBrandCodes from 'views/AdminBrandCodes/AdminBrandCodes';
 import BrandDashboard from 'views/BrandDashboard/BrandDashboard';
 import ResetPassword from 'views/ResetPassword';
@@ -85,6 +86,15 @@ var routes = [
     layout: '/brand',
     isChild: false
   },
+  {
+    path: '/customization',
+    name: 'Customization',
+    icon: 'fa fa-list-alt text-primary',
+    component: Customization,
+    layout: '/brand',
+    isChild: false
+  },
+
   // {
   //   path: '/batch',
   //   name: 'View Brand',
