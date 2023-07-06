@@ -115,6 +115,11 @@
   border-radius: 10px;
   margin: auto;
 }
+.faciconUpload {
+  width: 160px;
+  border-radius: 10px;
+  margin: auto;
+}
 .backgroungImgColor {
   height: 100px;
   border-radius: 10px;
@@ -142,6 +147,20 @@
   align-items: center;
   justify-content: center;
 }
+.favIconDiv {
+  display: flex;
+}
+.recentFavIcon {
+  width: 100px;
+  height: 80px;
+  border-radius: 10px;
+  margin: 10px 10px;
+  border: 2px solid rgb(195, 190, 190);
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+}
 .selectedBackground1 {
   width: 160px;
   height: 100px;
@@ -161,7 +180,107 @@
   margin: 8px 0px 8px 0px;
   align-items: flex-end;
 }
-
+.customeBtndiv1 {
+  background-color: #e9e6e6;
+  margin: 10px 10px;
+  padding: 10px 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+.customebtnp1 {
+  background-color: #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+  border-radius: 5px;
+  color: white;
+}
+.customebtnp1:hover {
+  cursor: pointer;
+}
+.customebtnoutlinep1 {
+  background-color: transparent;
+  border: 1px solid #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+  border-radius: 5px;
+}
+.customebtnoutlinep1:hover {
+  cursor: pointer;
+}
+.customebtnp2 {
+  background-color: #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+  border-radius: 25px;
+  color: white;
+}
+.customebtnp2:hover {
+  cursor: pointer;
+}
+.customebtnoutlinep2 {
+  background-color: transparent;
+  border: 1px solid #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+  border-radius: 25px;
+}
+.customebtnoutlinep2:hover {
+  cursor: pointer;
+}
+.customebtnp3 {
+  background-color: #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+  color: white;
+}
+.customebtnp3:hover {
+  cursor: pointer;
+}
+.customebtnoutlinep3 {
+  background-color: transparent;
+  border: 1px solid #219de3;
+  padding: 8px 5px;
+  margin: 5px 5px;
+}
+.customebtnoutlinep3:hover {
+  cursor: pointer;
+}
+.customeBtnSelected {
+  border: 2px solid #219de3;
+}
+.colorDiv1 {
+  background-color: #219de3;
+  height: 50px;
+  width: 140px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.SelectedcolorDiv1 {
+  border: 2px solid #219de3;
+}
+.colorDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.btnColorDiv {
+  height: 50px;
+  width: 140px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
+.descriptionInput {
+  padding: 35px 20px;
+}
 @media screen and (max-width: 680px) {
   .bdcolorrow {
     display: block !important;
@@ -178,5 +297,15 @@
   }
   .backGroundImgUpload {
     margin-top: 10px;
+  }
+  .colorDiv {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .colorDiv1 {
+    margin: 10px 0px;
   }
 }
