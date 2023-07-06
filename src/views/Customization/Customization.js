@@ -23,10 +23,16 @@ import selected3 from '../../assets/img/Filed3.svg';
 import Addyourpic from '../../assets/img/addyourpic.svg';
 import Cancel from '../../assets/img/cancel.svg';
 import Facebook from '../../assets/img/Facebook.svg';
+import Twitter from '../../assets/img/Twitter.svg';
+import YouTube from '../../assets/img/YouTube.svg';
+import Instagram from '../../assets/img/Instagram.svg';
 // import {ReactComponent as Facebook} from '../../assets/img/Facebook.svg';
 import LinkedIn from '../../assets/img/LinkedIn.svg';
 import Reddit from '../../assets/img/Reddit.svg';
+import Telegram from '../../assets/img/Telegram.svg';
 import { mediaUrl } from '../../config';
+import CustomizeButton from './CustomizeButtons';
+import CustomizeDescriptiion from './CustomizeDescriptiion';
 
 // core components
 import { toast } from 'react-toastify';
@@ -87,10 +93,10 @@ const socialMediaArray = [
   { name: 'facebook', icon: Facebook },
   { name: 'reddit', icon: Reddit },
   { name: 'linkedIn', icon: LinkedIn },
-  { name: 'twitter', icon: Reddit },
-  { name: 'telegram', icon: Reddit },
-  { name: 'instagram', icon: Reddit },
-  { name: 'youtube', icon: Reddit }
+  { name: 'twitter', icon: Twitter },
+  { name: 'telegram', icon: Telegram },
+  { name: 'instagram', icon: Instagram },
+  { name: 'youtube', icon: YouTube }
 ];
 
 const Customization = () => {
@@ -98,11 +104,13 @@ const Customization = () => {
   const [fileName, setFileName] = useState('');
   let [customeForm, setCustomeForm] = useState({
     name: '',
+    email: '',
     url: '',
     logo: '',
     websiteLink: '',
     logoWidth: '',
     preferences: {
+      logo: '',
       color: '#000000',
       secondaryColor: 'black'
     }
@@ -151,30 +159,69 @@ const Customization = () => {
     },
     youtube: { link: '', platform: 'youtube', isOpen: false, haveData: false }
   });
-  const [socialFlag, setSocialFlag] = useState(false);
+
+  useEffect(() => {
+    console.log('user useeffect', user.name);
+    if (user) {
+      setCustomeForm({
+        ...customeForm,
+        name: user?.name ? user?.name : '',
+        email: user?.email ? user?.email : '',
+        websiteLink: user?.websiteLink ? user?.websiteLink : '',
+        logoWidth: user?.logoWidth ? user?.logoWidth : '',
+        logo: user?.logo ? user?.logo : '',
+        preferences: {
+          color: user?.preferences?.color ? user?.preferences?.color : '',
+          secondaryColor: user?.preferences?.secondaryColor
+            ? user?.preferences?.secondaryColor
+            : ''
+        }
+      });
+      setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : '');
+    
+    }
+    
+  }, []);
+  useEffect(()=>{
+    if(user){
+        // typography
+     if(typographyTitle==="Paragraph"){      
+      setTypography({...typography,
+        fontName:user?.textTypography?.Paragraph?.fontName?user?.textTypography?.Paragraph?.fontName:"",
+        fontWeight:user?.textTypography?.Paragraph?.fontWeight??"",
+        fontSize:user?.textTypography?.Paragraph?.fontSize??"",
+      })
+
+     }else if(typographyTitle==="Body"){
+
+     }else{
+
+     }
+    }
+
+  },[typographyTitle])
+  console.log("typography",typography)
   const getUser = () => {
     api('get', `/users/${user._id}`).then((userData) => {
       if (userData?.user && userData?.user?.active) {
-        console.log('userData.user in geUser', userData.user.socialMedia);
-        setSocialFlag(!socialFlag);
         const updatedSocialLinks = { ...socialLinks }; // Create a copy of the socialLinks object
-
         const { socialMedia } = userData.user;
-console.log("socialMedia",socialMedia)
         socialMediaArray.forEach((item) => {
-          console.log("socialMedia[item.name]",socialMedia[item.name], item.name)
-          const media = socialMedia.find(socialvalue=>socialvalue.platform===item.name )
-          console.log("media",media)
+          const media = socialMedia.find(
+            (socialvalue) => socialvalue.platform === item.name
+          );
           updatedSocialLinks[item.name].link = media ? media?.link : '';
           updatedSocialLinks[item.name].haveData = media?.link ? true : false;
-          updatedSocialLinks[item.name].id = media? media._id:"";
+          updatedSocialLinks[item.name].id = media ? media._id : '';
         });
         setSocialLinks(updatedSocialLinks);
+        updateStore({
+          user: userData.user
+        });
       }
     });
   };
   useEffect(() => {
-    console.log('user useeffect', user);
     getUser();
   }, []);
 
@@ -263,6 +310,27 @@ console.log("socialMedia",socialMedia)
     }));
   };
 
+  const handleUpdateBrand = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+
+    for (let key in customeForm) {
+      if (key === 'preferences') {
+        formData.append(key, JSON.stringify(customeForm[key]));
+      } else {
+        formData.append(key, customeForm[key]);
+      }
+    }
+    api('put', `/users/brand/${user._id}`, formData)
+      .then((res) => {
+        toast.success('Brand updated successfully');
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const handleSubmitBakgroungImg = (e) => {
     e.preventDefault();
     if (!backgroundImg.type) {
@@ -301,6 +369,21 @@ console.log("socialMedia",socialMedia)
         console.log('error');
       });
   };
+  const handleSubmitTypography = (e) => {
+    e.preventDefault();
+    let textTypography = {};
+    textTypography = { [typographyTitle]: typography };
+
+    api('put', `/users/brand/description/${user?._id}`, { textTypography })
+      .then((res) => {
+        toast.success('Updated successfull');
+        setTypography({ fontName: '', fontWeight: '', fontSize: '' });
+        setTypographyTitle('Heading');
+      })
+      .catch(() => {
+        console.log('error');
+      });
+  };
   const handleDeleteLink = (platform) => {
     api('delete', `/users/brand/socialLinks/${user?._id}/${platform.id}`)
       .then((res) => {
@@ -326,8 +409,6 @@ console.log("socialMedia",socialMedia)
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
-
-  console.log('user', user);
 
   return (
     <>
@@ -457,20 +538,20 @@ console.log("socialMedia",socialMedia)
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="9"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
-                  <Button color="secondary" onClick="">
+                  {/* <Button color="secondary" onClick="">
                     Cancel
-                  </Button>
+                  </Button> */}
                 </Col>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="1"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
-                  <Button color="primary" onClick="">
+                  <Button color="primary" onClick={handleUpdateBrand}>
                     Submit
                   </Button>
                 </Col>
@@ -579,10 +660,15 @@ console.log("socialMedia",socialMedia)
                   <FormGroup>
                     <label className="form-control-label">Select Font</label>
                     <Select
+                    placeholder={('Select...')}
                       onChange={(e) =>
                         setTypography({ ...typography, fontName: e.value })
                       }
                       name="fontName"
+                      defaultValue={
+                        typography.fontName &&{value:typography.fontName,
+                        label:typography.fontName}
+                      }
                       className="form-control-alternative"
                       options={FontNames?.map((font) => ({
                         value: font,
@@ -598,8 +684,11 @@ console.log("socialMedia",socialMedia)
                       onChange={(e) =>
                         setTypography({ ...typography, fontWeight: e.value })
                       }
-                      name="hospitals"
+                      name="fontWeight"
                       className="form-control-alternative"
+                      defaultValue={
+                        typography.fontWeight ? typography.fontWeight : ''
+                      }
                       options={fontWeights?.map((font) => ({
                         value: font,
                         label: `${font}`
@@ -616,6 +705,9 @@ console.log("socialMedia",socialMedia)
                       }
                       name="hospitals"
                       className="form-control-alternative"
+                      defaultValue={
+                        typography.fontSize ? typography.fontSize : ''
+                      }
                       options={fontSizes?.map((font) => ({
                         value: font,
                         label: `${font}`
@@ -626,7 +718,7 @@ console.log("socialMedia",socialMedia)
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="9"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
@@ -635,11 +727,11 @@ console.log("socialMedia",socialMedia)
                   </Button>
                 </Col>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="1"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
-                  <Button color="primary" onClick="">
+                  <Button color="primary" onClick={handleSubmitTypography}>
                     Submit
                   </Button>
                 </Col>
@@ -791,7 +883,7 @@ console.log("socialMedia",socialMedia)
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="9"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
@@ -800,7 +892,7 @@ console.log("socialMedia",socialMedia)
                   </Button>
                 </Col>
                 <Col
-                  xs={10}
+                  xs={5}
                   lg="1"
                   style={{ margin: '20px 10px', textAlign: 'end' }}
                 >
@@ -813,7 +905,7 @@ console.log("socialMedia",socialMedia)
 
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
-                <Col sm={9} xs={10} style={{ margin: 'auto' }}>
+                <Col sm={9} xs={10} style={{ margin: '10px 0px' }}>
                   <h4 className="mb-0" style={{ fontWeight: '600' }}>
                     Social Media
                   </h4>
@@ -952,6 +1044,8 @@ console.log("socialMedia",socialMedia)
                 </>
               ))}
             </Card>
+            <CustomizeButton />
+            <CustomizeDescriptiion />
           </div>
         </Row>
       </Container>
