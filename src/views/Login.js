@@ -37,12 +37,15 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   let [user, setUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const history = useHistory();
 
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -71,17 +74,23 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     api('post', '/auth/login', user)
       .then((res) => {
-        const { user } = res;
-        localStorage.setItem('token', res.token);
-        if (user?.role === 'admin') {
-          window.location = '/admin/index';
-        } else if (user?.role === 'brand') {
-          window.location = '/brand/index';
-        }
+        console.log('Rrrrr ', res);
+        toast.success(res?.message);
+        setLoading(false);
+        history.push(`/auth/verify-otp/${user.email}`);
+        // const { user } = res;
+        // localStorage.setItem('token', res.token);
+        // if (user?.role === 'admin') {
+        //   window.location = '/admin/index';
+        // } else if (user?.role === 'brand') {
+        //   window.location = '/brand/index';
+        // }
       })
       .catch((err) => {
+        setLoading(false);
         console.log('Error ', err);
       });
   };

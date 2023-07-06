@@ -51,15 +51,15 @@ const ResetPassword = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const verifyUser = () => {
-    console.log("verify 1")
+    console.log('verify 1');
     const url = baseUrl;
     axios
       .get(`${url}/auth/verify-token/${token}`)
       .then(() => {
-        console.log("verify 2")
+        console.log('verify 2');
       })
       .catch((err) => {
-        console.log("verify 3")
+        console.log('verify 3');
         toast.error('Your link is expired');
         history.push('/auth/login');
       });
@@ -79,10 +79,15 @@ const ResetPassword = () => {
   }, []);
 
   const handleSubmit = () => {
+    const checkPassword = new RegExp(
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
+    );
     if (!user.password || !user.confirmPassword) {
       toast.error('Please fill all the fields');
-    } else if (user.password.length < 8 || user.confirmPassword.length < 8) {
-      toast.error('Password should contains at least 8 characters');
+    } else if (!checkPassword.test(user.password) || !checkPassword.test(user.confirmPassword)) {
+      toast.error(
+        ' Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.'
+      );
     } else if (user.password !== user.confirmPassword) {
       toast.error('Your passwords do not match');
     } else {
