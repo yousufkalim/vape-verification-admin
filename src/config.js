@@ -1,5 +1,4 @@
-let baseUrl =
-  'https://azeem2795-ubiquitous-space-trout-jg7477r9r7r3pw6-5000.preview.app.github.dev/api/v1';
+let baseUrl = 'http://localhost:5000/api/v1';
 let mediaUrl = 'http://localhost:5000/';
 let frontendUrl = 'http://localhost:3000';
 

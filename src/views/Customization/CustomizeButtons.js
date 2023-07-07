@@ -108,7 +108,7 @@ customizeButton={...typography,btnType:buttonType,radius:btnRadius,bgColor:btnCo
 // if type is Outline then bg color is border
  api('put', `/users/brand/description/${user?._id}`, {customizeButton})
       .then((res) => {
-        toast.success('Updated successfull');
+        toast.success('Updated successfully');
         setTypography({ fontName: '',
     fontWeight: '',
     fontSize: ''});

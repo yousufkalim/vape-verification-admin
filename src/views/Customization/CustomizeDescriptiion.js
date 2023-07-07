@@ -63,7 +63,7 @@ const CustomizeButton = () => {
 
     api('put', `/users/brand/favIcon/${user?._id}`, formData)
       .then((res) => {
-        toast.success('Icon added successfull');
+        toast.success('Icon added successfully');
         setFavicon(null);
     setPreviewImage(null);
       })
@@ -80,7 +80,7 @@ return toast.error('Please add description');
 
  api('put', `/users/brand/description/${user?._id}`, {description})
       .then((res) => {
-        toast.success('updated successfull');
+        toast.success('updated successfully');
         setFavicon(null);
     setPreviewImage(null);
       })
@@ -94,7 +94,7 @@ return toast.error('Please add description');
       <Card className="shadow" style={{ margin: '10px 0px' }}>
         <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
             <Col xs={5} sm={11} style={{ margin: '20px 0px 5px 0px', fontWeight:900 }}>
-                <h2>Add Your Descriptiion</h2>
+                <h2>Add Your Description</h2>
             </Col>
             <Col xs={5} sm={11} style={{ margin: '20px 10px', fontWeight:900 }}>
                     <FormGroup>
@@ -130,7 +130,7 @@ return toast.error('Please add description');
       <Card className="shadow" style={{ margin: '10px 0px' }}>
         <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
             
-            <Col xs={5} sm={11} style={{ margin: '0px 10px', fontWeight:900 }}>
+            <Col xs={10} sm={11} style={{ margin: '0px 10px', fontWeight:900 }}>
                 
                 <h2 style={{margin:"20px 0px"}}>Select Your Favicon</h2>
             
@@ -153,7 +153,7 @@ return toast.error('Please add description');
                     </label>
                   </div>
             </Col>
-            <Col xs={5} sm={11} style={{ margin: '10px 10px', fontWeight:900 }}>
+            <Col xs={10} sm={11} style={{ margin: '10px 10px', fontWeight:900 }}>
                 <h4>Recent Icon</h4>
                     <div className="favIconDiv">
                   {user.favIcons?.length!==0 && user.favIcons.slice(user.favIcons.length-5,user.favIcons.length).map(icon=>(<>
