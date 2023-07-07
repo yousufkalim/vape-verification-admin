@@ -94,7 +94,7 @@ return toast.error('Please add description');
       <Card className="shadow" style={{ margin: '10px 0px' }}>
         <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
             <Col xs={5} sm={11} style={{ margin: '20px 0px 5px 0px', fontWeight:900 }}>
-                <h2>Add Your Descriptiion</h2>
+                <h2>Add Your Description</h2>
             </Col>
             <Col xs={5} sm={11} style={{ margin: '20px 10px', fontWeight:900 }}>
                     <FormGroup>

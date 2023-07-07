@@ -177,28 +177,42 @@ const Customization = () => {
         }
       });
       setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : '');
-    
     }
-    
   }, []);
-  useEffect(()=>{
-    if(user){
-        // typography
-     if(typographyTitle==="Paragraph"){      
-      setTypography({...typography,
-        fontName:user?.textTypography?.Paragraph?.fontName?user?.textTypography?.Paragraph?.fontName:"",
-        fontWeight:user?.textTypography?.Paragraph?.fontWeight??"",
-        fontSize:user?.textTypography?.Paragraph?.fontSize??"",
-      })
-
-     }else if(typographyTitle==="Body"){
-
-     }else{
-
-     }
+  useEffect(() => {
+    if (user) {
+      console.log("typographyTitle useeffect",typographyTitle)
+      // typography
+      if (typographyTitle === 'Paragraph') {
+        setTypography({
+          ...typography,
+          fontName: user?.textTypography?.Paragraph?.fontName
+            ? user?.textTypography?.Paragraph?.fontName
+            : '',
+          fontWeight: user?.textTypography?.Paragraph?.fontWeight ?? '',
+          fontSize: user?.textTypography?.Paragraph?.fontSize ?? ''
+        });
+      } else if (typographyTitle === 'Body') {
+        setTypography({
+          ...typography,
+          fontName: user?.textTypography?.Body?.fontName
+            ? user?.textTypography?.Body?.fontName
+            : '',
+          fontWeight: user?.textTypography?.Body?.fontWeight ?? '',
+          fontSize: user?.textTypography?.Body?.fontSize ?? ''
+        });
+      } else {
+        setTypography({
+          ...typography,
+          fontName: user?.textTypography?.Heading?.fontName
+            ? user?.textTypography?.Heading?.fontName
+            : '',
+          fontWeight: user?.textTypography?.Heading?.fontWeight ?? '',
+          fontSize: user?.textTypography?.Heading?.fontSize ?? ''
+        });
+      }
     }
-
-  },[typographyTitle])
+  }, [typographyTitle]);
   const getUser = () => {
     api('get', `/users/${user._id}`).then((userData) => {
       if (userData?.user && userData?.user?.active) {
@@ -311,6 +325,9 @@ const Customization = () => {
   const handleUpdateBrand = (e) => {
     e.preventDefault();
     let formData = new FormData();
+    if (customeForm.logoWidth > 300) {
+      return toast.error('Please add logo width less then 300');
+    }
 
     for (let key in customeForm) {
       if (key === 'preferences') {
@@ -403,7 +420,7 @@ const Customization = () => {
     });
   };
   // background image End
-
+console.log("typography",typography)
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
@@ -481,6 +498,7 @@ const Customization = () => {
                       value={customeForm.logoWidth}
                       name="logoWidth"
                       onChange={handleInput}
+                      max={300}
                     />
                   </FormGroup>
                 </Col>
@@ -658,14 +676,16 @@ const Customization = () => {
                   <FormGroup>
                     <label className="form-control-label">Select Font</label>
                     <Select
-                    placeholder={('Select...')}
+                      placeholder={'Select...'}
                       onChange={(e) =>
                         setTypography({ ...typography, fontName: e.value })
                       }
                       name="fontName"
                       defaultValue={
-                        typography.fontName &&{value:typography.fontName,
-                        label:typography.fontName}
+                        typography.fontName && {
+                          value: typography.fontName,
+                          label: typography.fontName
+                        }
                       }
                       className="form-control-alternative"
                       options={FontNames?.map((font) => ({
@@ -920,7 +940,8 @@ const Customization = () => {
                       />
                       {/* <Facebook /> */}
                       <span style={{ fontWeight: '600', fontSize: '16px' }}>
-                        {platform.name}
+                        {platform.name.charAt(0).toUpperCase() +
+                          platform.name.slice(1)}
                       </span>
                     </Col>
                     {!socialLinks[platform.name].isOpen &&
