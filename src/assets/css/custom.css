@@ -281,6 +281,24 @@
 .descriptionInput {
   padding: 35px 20px;
 }
+.map_legend_color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.duration_filter {
+  padding: 3px 10px;
+  border: 1px solid #2f2f2f;
+  border-radius: 6px;
+  margin-inline: 3px;
+  cursor: pointer;
+}
+.selected_duration_filter {
+  background-color: #219de3;
+  color: #ffffff;
+  border: 1px solid transparent;
+}
 @media screen and (max-width: 680px) {
   .bdcolorrow {
     display: block !important;

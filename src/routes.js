@@ -27,6 +27,7 @@ import BrandDashboard from 'views/BrandDashboard/BrandDashboard';
 import ResetPassword from 'views/ResetPassword';
 import BrandCodesRequests from 'views/BrandCodesRequests/BrandCodesRequests';
 import VerifyOtp from 'views/VerifyOtp';
+import VectorMap from 'views/Map/VectorMap';
 
 var routes = [
   /*    Super Admin Routes    */
@@ -51,6 +52,14 @@ var routes = [
     name: 'All Brands',
     icon: 'fas fa-users text-primary',
     component: Brands,
+    layout: '/admin',
+    isChild: false,
+  },
+  {
+    path: '/map',
+    name: 'Vector Map',
+    icon: 'fas fa-plus-square text-primary',
+    component: VectorMap,
     layout: '/admin',
     isChild: false,
   },
@@ -95,7 +104,14 @@ var routes = [
     layout: '/brand',
     isChild: false,
   },
-
+  {
+    path: '/map',
+    name: 'Vector Map',
+    icon: 'fas fa-plus-square text-primary',
+    component: VectorMap,
+    layout: '/brand',
+    isChild: false,
+  },
   // {
   //   path: '/batch',
   //   name: 'View Brand',
