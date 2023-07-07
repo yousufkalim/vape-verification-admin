@@ -281,6 +281,48 @@
 .descriptionInput {
   padding: 35px 20px;
 }
+.SwitchDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+.checkboxInput {
+  width: 26px;
+  height: 14px;
+  padding: 0px 10px;
+}
+.addFeedbackForm {
+  display: flex;
+  justify-content: center;
+  background-color: #c9dfed;
+  border-radius: 5px;
+  padding: 10% 0px;
+}
+.addfeedbackimg {
+  padding: 10px 0px;
+  cursor: pointer;
+}
+.labelInput {
+  border: none;
+  padding: 0px;
+}
+.deleteIcon {
+  position: relative;
+  left: 90%;
+  bottom: 36px;
+  cursor: pointer;
+  opacity: 0;
+}
+.deleteIcon:hover {
+  opacity: 3;
+}
+.inpuFiledfeedback {
+  border: 1px solid black;
+  border-radius: 10px;
+  color: gray !important;
+}
+
 @media screen and (max-width: 680px) {
   .bdcolorrow {
     display: block !important;
@@ -307,5 +349,8 @@
   }
   .colorDiv1 {
     margin: 10px 0px;
+  }
+  .favIconDiv {
+    display: block;
   }
 }

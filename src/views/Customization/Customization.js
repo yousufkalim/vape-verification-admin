@@ -37,6 +37,7 @@ import CustomizeDescriptiion from './CustomizeDescriptiion';
 // core components
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
+import FeedBackForm from './FeedBackForms';
 
 const Fonts = [
   { id: '1', name: 'a' },
@@ -105,7 +106,6 @@ const Customization = () => {
   let [customeForm, setCustomeForm] = useState({
     name: '',
     email: '',
-    url: '',
     logo: '',
     websiteLink: '',
     logoWidth: '',
@@ -161,7 +161,6 @@ const Customization = () => {
   });
 
   useEffect(() => {
-    console.log('user useeffect', user.name);
     if (user) {
       setCustomeForm({
         ...customeForm,
@@ -200,7 +199,6 @@ const Customization = () => {
     }
 
   },[typographyTitle])
-  console.log("typography",typography)
   const getUser = () => {
     api('get', `/users/${user._id}`).then((userData) => {
       if (userData?.user && userData?.user?.active) {
@@ -1044,6 +1042,7 @@ const Customization = () => {
                 </>
               ))}
             </Card>
+            <FeedBackForm />
             <CustomizeButton />
             <CustomizeDescriptiion />
           </div>
