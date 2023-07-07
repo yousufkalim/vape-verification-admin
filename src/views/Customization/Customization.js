@@ -374,7 +374,7 @@ const Customization = () => {
 
     api('put', `/users/brand/description/${user?._id}`, { textTypography })
       .then((res) => {
-        toast.success('Updated successfull');
+        toast.success('Updated successfully');
         setTypography({ fontName: '', fontWeight: '', fontSize: '' });
         setTypographyTitle('Heading');
       })
@@ -451,7 +451,7 @@ const Customization = () => {
                       <span style={{ color: 'red' }}>
                         {user.name ? '' : '*'}{' '}
                       </span>
-                      Brands Name
+                      Brand Name
                     </label>{' '}
                     <Input
                       className="form-control-alternative text-default"

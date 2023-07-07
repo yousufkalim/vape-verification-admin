@@ -87,7 +87,7 @@ const FeedBackForm = () => {
       .then((res) => {
         setFeedbackForms([...feedbackForms,res.newForm]);
         // getFeedbackForms();
-        // toast.success('Updated successfull');
+        // toast.success('Updated successfully');
       })
       .catch(() => {
         console.log('error');

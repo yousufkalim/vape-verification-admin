@@ -63,7 +63,7 @@ const CustomizeButton = () => {
 
     api('put', `/users/brand/favIcon/${user?._id}`, formData)
       .then((res) => {
-        toast.success('Icon added successfull');
+        toast.success('Icon added successfully');
         setFavicon(null);
     setPreviewImage(null);
       })
@@ -80,7 +80,7 @@ return toast.error('Please add description');
 
  api('put', `/users/brand/description/${user?._id}`, {description})
       .then((res) => {
-        toast.success('updated successfull');
+        toast.success('updated successfully');
         setFavicon(null);
     setPreviewImage(null);
       })
