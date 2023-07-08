@@ -29,14 +29,12 @@ const PendingRequests = ({ role, requests }) => {
         <Table className="align-items-center table-flush" responsive>
           <thead className="thead-light">
             <tr>
-
               <th scope="col">Brand Name</th>
               <th scope="col">Batch</th>
               <th scope="col">Number of Batch</th>
               <th scope="col">Text</th>
               <th scope="col">Status</th>
               <th scope="col">Created At</th>
-
             </tr>
           </thead>
           <tbody>
@@ -47,9 +45,9 @@ const PendingRequests = ({ role, requests }) => {
                     <Media className="align-items-center">
                       <Media>
                         <span className="mb-0 text-sm" title={item.name}>
-                          {item.brand.name?.length > 30
-                            ? item.brand.name?.substring(0, 30) + '...'
-                            : item.brand.name}
+                          {item.brand?.name?.length > 30
+                            ? item.brand?.name?.substring(0, 30) + '...'
+                            : item.brand?.name}
                         </span>
                       </Media>
                     </Media>
