@@ -324,7 +324,6 @@
   color: gray !important;
 }
 
-
 .map_legend_color {
   width: 10px;
   height: 10px;
@@ -343,7 +342,27 @@
   color: #ffffff;
   border: 1px solid transparent;
 }
-
+.animations {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.animations img {
+  width: 23%;
+  cursor: pointer;
+}
+.selected_animation {
+  border: 1px solid #50b0e4;
+  border-radius: 10px;
+}
+.animation_check {
+  position: absolute;
+  height: 20px;
+  top: 13px;
+  right: 0;
+}
 @media screen and (max-width: 680px) {
   .bdcolorrow {
     display: block !important;
