@@ -136,7 +136,7 @@ const CodeRequests = () => {
           const codesToExport = res?.codes;
           if (codesToExport?.length > 0) {
             const currentDate = moment().format('MM_DD_yyyy');
-            const fileName = `${brandName}_${currentDate}`.replace(/ /g, "_");
+            const fileName = `${brandName}_${currentDate}`.replace(/ /g, '_');
             handleExportCodes(codesToExport, fileName);
           } else {
             toast.error('No code exists');
@@ -156,11 +156,10 @@ const CodeRequests = () => {
     setLoading(true);
     api('get', `/codes/export`)
       .then((res) => {
-        console.log("res.codes",res.codes)
         const codesToExport = res?.codes;
         if (codesToExport?.length > 0) {
           const currentDate = moment().format('MM_DD_yyyy_hh_mm');
-          const fileName = `veriscan_export_${currentDate}`.replace(/ /g, "_");
+          const fileName = `veriscan_export_${currentDate}`.replace(/ /g, '_');
           handleExportCodes(codesToExport, fileName);
         } else {
           toast.error('No code exists');
@@ -171,8 +170,6 @@ const CodeRequests = () => {
         setLoading(false);
       });
   };
-  console.log("allRequests",allRequests)
-
   return (
     <>
       <Container className='mt--7' fluid>
@@ -192,11 +189,11 @@ const CodeRequests = () => {
               <Table className='align-items-center table-flush' responsive>
                 <thead className='thead-light'>
                   <tr>
-
                     <th scope='col'>Brand Name</th>
                     <th scope='col'>Batch</th>
                     <th scope='col'>Number of Batch</th>
                     <th scope='col'>Text</th>
+                    <th scope='col'>Code Type</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
                     <th scope='col' />
@@ -217,7 +214,7 @@ const CodeRequests = () => {
                             </Media>
                           </Media>
                         </th>
-                          <td scope='row'>
+                        <td scope='row'>
                           <Media className='align-items-center'>
                             <Media>
                               <span className='mb-0 text-sm' title={item.name}>
@@ -232,6 +229,7 @@ const CodeRequests = () => {
                         <td title={item.text}>
                           {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
+                        <td>{item.code_type === 'nfc' ? 'NFC' : 'Regular'}</td>
                         <td
                           // className={`${
                           //   item.status === 'pending'

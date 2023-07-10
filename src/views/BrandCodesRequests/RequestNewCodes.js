@@ -20,10 +20,15 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
     name: '',
     text: '',
     numberOfCodes: 0,
+    nfc: false,
   });
 
   const handleInput = (e) => {
     setRequest({ ...request, [e.target.name]: e.target.value });
+  };
+
+  const handleNfc = (e) => {
+    setRequest((prevState) => ({ ...prevState, nfc: !prevState.nfc }));
   };
 
   const handleSubmit = (e) => {
@@ -112,6 +117,21 @@ const RequestNewCodes = ({ openModal, handleModal, getUsers, setLoading }) => {
                           name='text'
                           onChange={handleInput}
                         />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row className='pl-4'>
+                    <Col lg='12' style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <Input
+                          className='form-control-alternative text-default'
+                          required={true}
+                          type='checkbox'
+                          value={request.text}
+                          name='nfc'
+                          onChange={handleNfc}
+                        />
+                        <label className='form-control-label'>NFC</label>
                       </FormGroup>
                     </Col>
                   </Row>
