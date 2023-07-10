@@ -236,6 +236,7 @@ const BrandCodes = () => {
                     <th scope='col'>Code</th>
                     <th scope='col'>Scan Attempts</th>
                     <th scope='col'>Scanned Time</th>
+                    <th scope='col'>Code Type</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
                   </tr>
@@ -290,6 +291,7 @@ const BrandCodes = () => {
                           {item.validation_time &&
                             moment(item.validation_time).format('MMMM DD, yyyy hh:mm A')}
                         </td>
+                        <td>{item.code_type === 'nfc' ? 'NFC' : 'Regular'}</td>
                         <td>
                           {item.status === 'pending'
                             ? 'Pending'

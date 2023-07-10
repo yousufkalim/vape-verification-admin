@@ -48,7 +48,6 @@ const BrandCodesRequests = () => {
   const [allRequests, setAllRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = Store();
-  
 
   useEffect(() => {
     getRequests();
@@ -132,7 +131,6 @@ const BrandCodesRequests = () => {
         setLoading(false);
       });
   };
-  
 
   return (
     <>
@@ -157,6 +155,7 @@ const BrandCodesRequests = () => {
                     <th scope='col'>Name</th>
                     <th scope='col'>Number of Codes</th>
                     <th scope='col'>Text</th>
+                    <th scope='col'>Code Type</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Created At</th>
                     <th scope='col' />
@@ -181,6 +180,7 @@ const BrandCodesRequests = () => {
                         <td title={item.text}>
                           {item.text?.length > 45 ? item.text?.substring(0, 45) + '...' : item.text}
                         </td>
+                        <td>{item.code_type === 'nfc' ? 'NFC' : 'Regular'}</td>
                         <td title={capitalString(item.status)}>{capitalString(item.status)}</td>
                         <td>{moment(item.createdAt).format('MMMM DD, yyyy hh:mm A')}</td>
                         <td className='text-right'>
