@@ -61,12 +61,12 @@ const PageAnimation = () => {
 
   return (
     <Card className='shadow' style={{ margin: '10px 0px' }}>
-      <Col xs={5} sm={11} style={{ margin: '20px 0px 5px 0px', fontWeight: 900 }}>
+      <Col xs={11} sm={11} style={{ margin: '20px 0px 5px 0px', fontWeight: 900 }}>
         <h2>Page Animations</h2>
       </Col>
       <div className='animations px-4 pb-4'>
         {animationImages?.map(({ image, value }) => (
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }} className="singleAnimation">
             <img
               key={value}
               className={value === animation && 'selected_animation'}

@@ -353,8 +353,21 @@
   width: 23%;
   cursor: pointer;
 }
+.layouts {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.layouts img {
+  cursor: pointer;
+}
 .selected_animation {
   border: 1px solid #50b0e4;
+  border-radius: 10px;
+}
+.selected_layout {
   border-radius: 10px;
 }
 .animation_check {
@@ -363,6 +376,13 @@
   top: 13px;
   right: 0;
 }
+.layout_check {
+  position: absolute;
+  height: 40px;
+  top: -14px;
+  right: -10px;
+}
+
 @media screen and (max-width: 680px) {
   .bdcolorrow {
     display: block !important;
@@ -392,5 +412,17 @@
   }
   .favIconDiv {
     display: block;
+  }
+  .layouts {
+    display: block;
+  }
+  .animations {
+    display: block;
+  }
+  .singleLayout {
+    margin: 30px 10px;
+  }
+  .singleAnimation {
+    margin: 30px 10px;
   }
 }
