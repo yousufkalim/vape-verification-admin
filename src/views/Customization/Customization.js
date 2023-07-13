@@ -46,6 +46,11 @@ const Fonts = [
   { id: '2', name: 'b' },
   { id: '3', name: 'c' }
 ];
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
 const FontNames = [
   'Arial',
   'Helvetica',
@@ -391,7 +396,7 @@ const Customization = () => {
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
 
-    api('put', `/users/brand/description/${user?._id}`, { textTypography })
+    api('put', `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
         toast.success('Updated successfully');
         setTypography({ fontName: '', fontWeight: '', fontSize: '' });
@@ -444,7 +449,7 @@ const Customization = () => {
                 </Row>
               </CardHeader>
               <Row>
-                <Col sm={3} xs={6} style={{ margin: '10px 0px 10px 30px' }}>
+                <Col sm={3} xs={10} style={{ margin: '10px 0px 10px 30px' }}>
                   <h5 className="mb-0" style={{ fontWeight: '600' }}>
                     Logo
                   </h5>
@@ -579,7 +584,7 @@ const Customization = () => {
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
                 <Col sm={9} xs={10} style={{ margin: 'auto' }}>
-                  <h4 className="mb-0" style={{ fontWeight: '600' }}>
+                  <h4 className="mb-0 heading22" style={{ fontWeight: '600' }} >
                     Typography
                   </h4>
                 </Col>
@@ -679,7 +684,7 @@ const Customization = () => {
                     <label className="form-control-label">Select Font</label>
 
                     {console.log(typography, 'in select line 661')}
-                    {/* <div>
+                    <div>
                     <select
                       placeholder={'Select...'}
                       onChange={(e) =>
@@ -687,7 +692,7 @@ const Customization = () => {
                       }
                       name="fontName"
                       value={typography.fontName}
-                      className="form-control-alternative"
+                      className="selectCustome"
                     >
                       <option value="">Select...</option>
                       {FontNames.map((font) => (
@@ -696,29 +701,47 @@ const Customization = () => {
                         </option>
                       ))}
                     </select>
-                    </div> */}
-                    <Select
+                    </div>
+                    {/* <Select
                       placeholder={'Select...'}
                       onChange={(e) => setTypography({ ...typography, fontName: e.value })}
                       name='fontName'
-                      defaultValue={
+                      value={
                          typography?.fontName &&{
                           value: typography?.fontName,
-                          label: typography?.fontName,
+                         
                         }
                       }
                       className='form-control-alternative'
                       options={FontNames?.map((font) => ({
                         value: font,
-                        label: `${font}`,
+                        label: font,
                       }))}
-                    />
+                    /> */}
                   </FormGroup>
                 </Col>
                 <Col xs={10} lg="4" style={{ margin: 'auto' }}>
                   <FormGroup>
                     <label className="form-control-label">Font Weight</label>
-                    <Select
+                     <div>
+                    <select
+                      placeholder={'Select...'}
+                      onChange={(e) =>
+                        setTypography({ ...typography, fontWeight: e.value })
+                      }
+                      name="fontWeight"
+                      value={typography.fontWeight}
+                      className="selectCustome"
+                    >
+                      <option value="">Select...</option>
+                      {fontWeights.map((font) => (
+                        <option key={font} value={font} style={{background:"white",color:"black"}} >
+                          {font}
+                        </option>
+                      ))}
+                    </select>
+                    </div>
+                    {/* <Select
                       onChange={(e) =>
                         setTypography({ ...typography, fontWeight: e.value })
                       }
@@ -731,13 +754,31 @@ const Customization = () => {
                         value: font,
                         label: `${font}`
                       }))}
-                    />
+                    /> */}
                   </FormGroup>
                 </Col>
                 <Col xs={10} lg="2" style={{ margin: 'auto' }}>
                   <FormGroup>
                     <label className="form-control-label">Select Size</label>
-                    <Select
+                    <div>
+                    <select
+                      placeholder={'Select...'}
+                      onChange={(e) =>
+                        setTypography({ ...typography, fontSize: e.value })
+                      }
+                      name="fontSize"
+                      value={typography.fontSize}
+                      className="selectCustome"
+                    >
+                      <option value="">Select...</option>
+                      {fontSizes.map((font) => (
+                        <option key={font} value={font} style={{background:"white",color:"black"}} >
+                          {font}
+                        </option>
+                      ))}
+                    </select>
+                    </div>
+                    {/* <Select
                       onChange={(e) =>
                         setTypography({ ...typography, fontSize: e.value })
                       }
@@ -750,7 +791,7 @@ const Customization = () => {
                         value: font,
                         label: `${font}`
                       }))}
-                    />
+                    /> */}
                   </FormGroup>
                 </Col>
               </Row>
@@ -779,7 +820,7 @@ const Customization = () => {
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row>
                 <Col xs={10} lg="2" style={{ margin: '10px 50px' }}>
-                  <h4 style={{ fontWeight: '600', margin: '5px 10px' }}>
+                  <h4 style={{ fontWeight: '600', margin: '5px 10px' }} className="headingbg">
                     {' '}
                     Background Image
                   </h4>
@@ -944,7 +985,7 @@ const Customization = () => {
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
                 <Col sm={9} xs={10} style={{ margin: '10px 0px' }}>
-                  <h4 className="mb-0" style={{ fontWeight: '600' }}>
+                  <h4 className="mb-0 headingbg" style={{ fontWeight: '600' }}>
                     Social Media
                   </h4>
                 </Col>

@@ -129,7 +129,7 @@ const FeedBackForm = () => {
     <>
       <Card className="shadow" style={{ margin: '10px 0px' }}>
         <Col
-          xs={5}
+          xs={11}
           sm={11}
           style={{ margin: '20px 0px 5px 0px', fontWeight: 900 }}
         >
