@@ -583,12 +583,12 @@ const Customization = () => {
 
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
-                <Col sm={9} xs={10} style={{ margin: 'auto' }}>
+                <Col lg={5} xs={10}  xl={6} style={{ margin: 'auto' }}>
                   <h4 className="mb-0 heading22" style={{ fontWeight: '600' }} >
                     Typography
                   </h4>
                 </Col>
-                <Col sm={1} xs={10}>
+                <Col md={1} xs={10}  lg={1} xl={2} >
                   {typographyTitle == 'Heading' ? (
                     <h5
                       size="sm"
@@ -617,7 +617,7 @@ const Customization = () => {
                     </h5>
                   )}
                 </Col>
-                <Col sm={1} xs={10}>
+                <Col md={1} xs={10} lg={1} xl={2}>
                   {typographyTitle == 'Paragraph' ? (
                     <h5
                       size="sm"
@@ -647,7 +647,7 @@ const Customization = () => {
                     </h5>
                   )}
                 </Col>
-                <Col sm={1} xs={10}>
+                <Col md={1} xs={10} lg={1} xl={2}>
                   {typographyTitle == 'Body' ? (
                     <h5
                       size="sm"
@@ -820,7 +820,7 @@ const Customization = () => {
             <Card className="shadow" style={{ margin: '10px 0px' }}>
               <Row>
                 <Col xs={10} lg="2" style={{ margin: '10px 50px' }}>
-                  <h4 style={{ fontWeight: '600', margin: '5px 10px' }} className="headingbg">
+                  <h4 style={{ fontWeight: '600', margin: '5px 5px' }} className="headingbg">
                     {' '}
                     Background Image
                   </h4>
