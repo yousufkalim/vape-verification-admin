@@ -395,12 +395,13 @@ const Customization = () => {
     e.preventDefault();
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
+    console.log("textTypography",textTypography)
 
     api('put', `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
         toast.success('Updated successfully');
-        setTypography({ fontName: '', fontWeight: '', fontSize: '' });
-        setTypographyTitle('Heading');
+        // setTypography({ fontName: '', fontWeight: '', fontSize: '' });
+        // setTypographyTitle('Heading');
       })
       .catch(() => {
         console.log('error');
@@ -688,7 +689,7 @@ const Customization = () => {
                     <select
                       placeholder={'Select...'}
                       onChange={(e) =>
-                        setTypography({ ...typography, fontName: e.value })
+                        setTypography({ ...typography, fontName: e.target.value })
                       }
                       name="fontName"
                       value={typography.fontName}
@@ -727,7 +728,7 @@ const Customization = () => {
                     <select
                       placeholder={'Select...'}
                       onChange={(e) =>
-                        setTypography({ ...typography, fontWeight: e.value })
+                        setTypography({ ...typography, fontWeight: e.target.value })
                       }
                       name="fontWeight"
                       value={typography.fontWeight}
@@ -764,7 +765,7 @@ const Customization = () => {
                     <select
                       placeholder={'Select...'}
                       onChange={(e) =>
-                        setTypography({ ...typography, fontSize: e.value })
+                        setTypography({ ...typography, fontSize: e.target.value })
                       }
                       name="fontSize"
                       value={typography.fontSize}

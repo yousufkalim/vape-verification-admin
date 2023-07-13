@@ -38,7 +38,19 @@ const CustomizeButton = () => {
   const updateStore = UpdateStore();
   const { user } = store;
 
-
+ const getUser = () => {
+    api('get', `/users/${user?._id}`)
+      .then((res) => {
+        setDescription(res?.user?.description);
+        //   toast.success('Background Updated');
+      })
+      .catch(() => {
+        console.log('error');
+      });
+  };
+    useEffect(() => {
+    getUser();
+  }, []);
    const handleIconChange = (e) => {
     const uploadedImg = e.target.files[0];
     setFavicon(uploadedImg)
