@@ -389,6 +389,30 @@
   border: 1px solid rgb(212, 206, 206);
   border-radius: 5px;
 }
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
+  .colorDivWidth {
+    width: 120px;
+    margin: 0px 10px;
+  }
+  .defaultDiv {
+    width: 120px;
+    height: 80px;
+  }
+  .uploadedBackgroundImg1 {
+    width: 120px;
+    height: 80px;
+  }
+  .backGroundImgUpload {
+    width: 120px;
+    height: 80px;
+  }
+  .backgroungImgColor {
+    height: 80px;
+  }
+  .colorDiv1 {
+    width: 100px;
+  }
+}
 
 @media screen and (max-width: 680px) {
   .bdcolorrow {
