@@ -53,6 +53,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    console.log('User ', user);
     if (user && user.role === 'brand') {
       setProfile({
         name: user?.name,
@@ -65,7 +66,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
         confirmPassword: '',
       });
 
-      setFileName(user?.preferences?.logo ? `${mediaUrl}${user?.preferences?.logo}` : '');
+      setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : '');
     } else if (user && user.role === 'admin') {
       setProfile({
         name: user?.name,
@@ -79,6 +80,8 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const handleModal = () => {
     setOpen((prev) => !prev);
   };
+
+  console.log('File name ', fileName);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -247,6 +250,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
                           required={true}
                           placeholder='Enter user email'
                           type='text'
+                          disabled
                           value={profile?.email}
                           name='email'
                           onChange={handleInput}

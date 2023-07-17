@@ -313,7 +313,7 @@
   left: 90%;
   bottom: 36px;
   cursor: pointer;
-  opacity: 0;
+  /* opacity: 0; */
 }
 .deleteIcon:hover {
   opacity: 3;

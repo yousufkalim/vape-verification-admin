@@ -23,7 +23,7 @@ import { Bar } from 'react-chartjs-2';
 import { Card, CardHeader, CardBody, Container, Row, Col } from 'reactstrap';
 
 // core components
-import { chartOptions, parseOptions, chartExample2 } from 'variables/charts.js';
+import { chartOptions, parseOptions } from 'variables/charts.js';
 
 import { Store } from 'StoreContext';
 import PendingRequests from 'components/PendingRequests/PendingRequests';
@@ -69,10 +69,10 @@ export const options = {
   },
 };
 
-const BrandDashboard = (props) => {
+const BrandDashboard = () => {
   const store = Store();
   const { stats, user } = store;
-  console.log("stats1",stats)
+  console.log('stats1', stats);
 
   const labels = stats?.stats ? Object.keys(stats?.stats) : [];
 
@@ -97,7 +97,7 @@ const BrandDashboard = (props) => {
       <Container className='mt--7' fluid>
         <Row>
           <Col xl='8'>
-            <PendingRequests role={user?.role} requests={stats?.pendingCodeRequests} />
+            <PendingRequests role={user?.role} requests={stats?.allRequests} />
           </Col>
           <Col xl='4'>
             <Card className='shadow'>

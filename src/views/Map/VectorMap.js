@@ -149,7 +149,7 @@ const VectorMaps = () => {
               <CardHeader className='border-0'>
                 <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Map</h3>
-                  <div className='d-flex gap-5'>
+                  <div className='d-md-flex d-none gap-5'>
                     <div
                       onClick={() => handleDurationFilter('week')}
                       className={`duration_filter ${
@@ -207,6 +207,32 @@ const VectorMaps = () => {
                       {/* <DropdownMenu className='dropdown-menu-arrow' right>
                       </DropdownMenu> */}
                     </UncontrolledDropdown>
+                  </div>
+                </div>
+                <div className='d-flex d-md-none gap-5 justify-content-center mt-2'>
+                  <div
+                    onClick={() => handleDurationFilter('week')}
+                    className={`duration_filter ${
+                      durationFilter === 'week' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Week
+                  </div>
+                  <div
+                    onClick={() => handleDurationFilter('month')}
+                    className={`duration_filter ${
+                      durationFilter === 'month' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Month
+                  </div>
+                  <div
+                    onClick={() => handleDurationFilter('year')}
+                    className={`duration_filter ${
+                      durationFilter === 'year' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Year
                   </div>
                 </div>
               </CardHeader>
