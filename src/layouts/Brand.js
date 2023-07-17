@@ -103,7 +103,7 @@ const Brand = (props) => {
     history.push('/admin/index');
   }
 
-  const logo = `${mediaUrl}${store?.user?.preferences?.logo}`;
+  const logo = `${mediaUrl}${store?.user?.logo}`;
 
   return (
     <>

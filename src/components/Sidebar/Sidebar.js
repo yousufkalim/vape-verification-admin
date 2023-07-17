@@ -342,6 +342,7 @@ const Sidebar = (props) => {
                           required={true}
                           placeholder='Enter user email'
                           type='text'
+                          disabled={true}
                           value={profile?.email}
                           name='email'
                           onChange={handleInput}
