@@ -1,25 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Store, UpdateStore } from '../../StoreContext';
 import api from 'api';
-import {
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  Media,
-  Table,
-  Badge,
-  Container,
-  FormGroup,
-  Input,
-  Button,
-  CardFooter
-} from 'reactstrap';
-import Select from 'react-select';
+import { Row, Col, Card, CardHeader, Container, FormGroup, Input, Button } from 'reactstrap';
+// import Select from 'react-select';
 import FilePicker from 'components/FilePicker/FilePicker';
 import selected1 from '../../assets/img/Filed.svg';
 import selected2 from '../../assets/img/Filed2.svg';
-import selected3 from '../../assets/img/Filed3.svg';
+// import selected3 from '../../assets/img/Filed3.svg';
 import Addyourpic from '../../assets/img/addyourpic.svg';
 import Cancel from '../../assets/img/cancel.svg';
 import Facebook from '../../assets/img/Facebook.svg';
@@ -41,16 +28,16 @@ import FeedBackForm from './FeedBackForms';
 import PageAnimation from './PageAnimation';
 import LayoutDesign from './LayoutDesign';
 
-const Fonts = [
-  { id: '1', name: 'a' },
-  { id: '2', name: 'b' },
-  { id: '3', name: 'c' }
-];
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+// const Fonts = [
+//   { id: '1', name: 'a' },
+//   { id: '2', name: 'b' },
+//   { id: '3', name: 'c' },
+// ];
+// const options = [
+//   { value: 'chocolate', label: 'Chocolate' },
+//   { value: 'strawberry', label: 'Strawberry' },
+//   { value: 'vanilla', label: 'Vanilla' },
+// ];
 const FontNames = [
   'Arial',
   'Helvetica',
@@ -66,7 +53,7 @@ const FontNames = [
   'Arial Black',
   'Impact',
   'Lucida Sans',
-  'Tahoma'
+  'Tahoma',
 ];
 const fontWeights = [
   'normal',
@@ -81,7 +68,7 @@ const fontWeights = [
   '600',
   '700',
   '800',
-  '900'
+  '900',
 ];
 const fontSizes = [
   '10px',
@@ -94,7 +81,7 @@ const fontSizes = [
   '28px',
   '32px',
   '36px',
-  '40px'
+  '40px',
 ];
 
 const socialMediaArray = [
@@ -104,7 +91,7 @@ const socialMediaArray = [
   { name: 'twitter', icon: Twitter },
   { name: 'telegram', icon: Telegram },
   { name: 'instagram', icon: Instagram },
-  { name: 'youtube', icon: YouTube }
+  { name: 'youtube', icon: YouTube },
 ];
 
 const Customization = () => {
@@ -119,14 +106,14 @@ const Customization = () => {
     preferences: {
       logo: '',
       color: '#000000',
-      secondaryColor: 'black'
-    }
+      secondaryColor: 'black',
+    },
   });
   const [typographyTitle, setTypographyTitle] = useState('Heading');
   const [typography, setTypography] = useState({
     fontName: '',
     fontWeight: '',
-    fontSize: ''
+    fontSize: '',
   });
 
   const [background, setBackground] = useState('');
@@ -135,36 +122,36 @@ const Customization = () => {
     type: '',
     selectedImg: '',
     img: '',
-    color: ''
+    color: '',
   });
   const [socialLinks, setSocialLinks] = useState({
     facebook: {
       link: '',
       platform: 'facebook',
       isOpen: false,
-      haveData: false
+      haveData: false,
     },
     reddit: { link: '', platform: 'reddit', isOpen: false, haveData: false },
     linkedIn: {
       link: '',
       platform: 'linkedIn',
       isOpen: false,
-      haveData: false
+      haveData: false,
     },
     twitter: { link: '', platform: 'twitter', isOpen: false, haveData: false },
     telegram: {
       link: '',
       platform: 'telegram',
       isOpen: false,
-      haveData: false
+      haveData: false,
     },
     instagram: {
       link: '',
       platform: 'instagram',
       isOpen: false,
-      haveData: false
+      haveData: false,
     },
-    youtube: { link: '', platform: 'youtube', isOpen: false, haveData: false }
+    youtube: { link: '', platform: 'youtube', isOpen: false, haveData: false },
   });
 
   useEffect(() => {
@@ -180,8 +167,8 @@ const Customization = () => {
           color: user?.preferences?.color ? user?.preferences?.color : '',
           secondaryColor: user?.preferences?.secondaryColor
             ? user?.preferences?.secondaryColor
-            : ''
-        }
+            : '',
+        },
       });
       setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : '');
     }
@@ -197,7 +184,7 @@ const Customization = () => {
             ? user?.textTypography?.Paragraph?.fontName
             : '',
           fontWeight: user?.textTypography?.Paragraph?.fontWeight ?? '',
-          fontSize: user?.textTypography?.Paragraph?.fontSize ?? ''
+          fontSize: user?.textTypography?.Paragraph?.fontSize ?? '',
         });
       } else if (typographyTitle === 'Body') {
         setTypography({
@@ -206,7 +193,7 @@ const Customization = () => {
             ? user?.textTypography?.Body?.fontName
             : '',
           fontWeight: user?.textTypography?.Body?.fontWeight ?? '',
-          fontSize: user?.textTypography?.Body?.fontSize ?? ''
+          fontSize: user?.textTypography?.Body?.fontSize ?? '',
         });
       } else {
         setTypography({
@@ -215,7 +202,7 @@ const Customization = () => {
             ? user?.textTypography?.Heading?.fontName
             : '',
           fontWeight: user?.textTypography?.Heading?.fontWeight ?? '',
-          fontSize: user?.textTypography?.Heading?.fontSize ?? ''
+          fontSize: user?.textTypography?.Heading?.fontSize ?? '',
         });
       }
     }
@@ -226,16 +213,14 @@ const Customization = () => {
         const updatedSocialLinks = { ...socialLinks }; // Create a copy of the socialLinks object
         const { socialMedia } = userData.user;
         socialMediaArray.forEach((item) => {
-          const media = socialMedia.find(
-            (socialvalue) => socialvalue.platform === item.name
-          );
+          const media = socialMedia.find((socialvalue) => socialvalue.platform === item.name);
           updatedSocialLinks[item.name].link = media ? media?.link : '';
           updatedSocialLinks[item.name].haveData = media?.link ? true : false;
           updatedSocialLinks[item.name].id = media ? media._id : '';
         });
         setSocialLinks(updatedSocialLinks);
         updateStore({
-          user: userData.user
+          user: userData.user,
         });
       }
     });
@@ -247,19 +232,19 @@ const Customization = () => {
   const handleChangeSocial = (e) => {
     setSocialLinks({
       ...socialLinks,
-      [e.target.name]: { ...socialLinks[e.target.name], link: e.target.value }
+      [e.target.name]: { ...socialLinks[e.target.name], link: e.target.value },
     });
   };
   const handleActive = (name) => {
     setSocialLinks({
       ...socialLinks,
-      [name]: { ...socialLinks[name], isOpen: true }
+      [name]: { ...socialLinks[name], isOpen: true },
     });
   };
   const handleInActive = (name) => {
     setSocialLinks({
       ...socialLinks,
-      [name]: { ...socialLinks[name], isOpen: false, link: '' }
+      [name]: { ...socialLinks[name], isOpen: false, link: '' },
     });
   };
 
@@ -267,7 +252,7 @@ const Customization = () => {
     if (e.target.files[0]) {
       setCustomeForm((prev) => ({
         ...prev,
-        logo: e.target.files[0]
+        logo: e.target.files[0],
       }));
       setFileName(URL.createObjectURL(e.target.files[0]));
     }
@@ -287,8 +272,8 @@ const Customization = () => {
       ...prev,
       preferences: {
         ...customeForm.preferences,
-        [e.target.name]: e.target.value
-      }
+        [e.target.name]: e.target.value,
+      },
     }));
   };
 
@@ -300,7 +285,7 @@ const Customization = () => {
       type: 'img',
       selectedImg: '',
       img: uploadedImg,
-      color: ''
+      color: '',
     }));
 
     if (uploadedImg) {
@@ -315,7 +300,7 @@ const Customization = () => {
       type: 'color',
       selectedImg: '',
       img: '',
-      color: e.target.value
+      color: e.target.value,
     }));
   };
   const handleBackgroundImg = (type, selectedImg) => {
@@ -325,7 +310,7 @@ const Customization = () => {
       type,
       selectedImg,
       img: '',
-      color: ''
+      color: '',
     }));
   };
 
@@ -364,7 +349,7 @@ const Customization = () => {
     }
     api('put', `/users/brand/bgImg/${user?._id}`, formData)
       .then((res) => {
-        setPreviewImage(null)
+        setPreviewImage(null);
         toast.success('Background Updated');
       })
       .catch(() => {
@@ -380,7 +365,7 @@ const Customization = () => {
 
     const socialData = {
       platform: socialLinks[platform].platform,
-      link: socialLinks[platform].link
+      link: socialLinks[platform].link,
     };
     api('put', `/users/brand/socialLinks/${user?._id}`, socialData)
       .then((res) => {
@@ -396,7 +381,7 @@ const Customization = () => {
     e.preventDefault();
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
-    console.log("textTypography",textTypography)
+    console.log('textTypography', textTypography);
 
     api('put', `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
@@ -425,7 +410,7 @@ const Customization = () => {
       type: '',
       selectedImg: '',
       img: '',
-      color: ''
+      color: '',
     });
   };
   // background image End
@@ -436,15 +421,15 @@ const Customization = () => {
 
   return (
     <>
-      <Container className="mt--7" fluid>
+      <Container className='mt--7' fluid>
         {loading && <Loader />}
         <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="border-0">
+          <div className='col'>
+            <Card className='shadow'>
+              <CardHeader className='border-0'>
                 <Row>
                   <Col sm={3} xs={12}>
-                    <h3 className="mb-0" style={{ fontWeight: '600' }}>
+                    <h3 className='mb-0' style={{ fontWeight: '600' }}>
                       Page Customization
                     </h3>
                   </Col>
@@ -452,7 +437,7 @@ const Customization = () => {
               </CardHeader>
               <Row>
                 <Col sm={3} xs={10} style={{ margin: '10px 0px 10px 30px' }}>
-                  <h5 className="mb-0" style={{ fontWeight: '600' }}>
+                  <h5 className='mb-0' style={{ fontWeight: '600' }}>
                     Logo
                   </h5>
                 </Col>
@@ -460,180 +445,166 @@ const Customization = () => {
               <Row>
                 <Col sm={2} xs={6} style={{ margin: '10px 0px 20px 50px' }}>
                   <FilePicker
-                    accept="image/*"
+                    accept='image/*'
                     fileName={fileName}
                     isDelete={true}
                     handleDelete={handleDeleteImage}
-                    type="file"
+                    type='file'
                     onChange={handleFile}
                   />
                 </Col>
               </Row>
               <Row>
-                <Col xs={10} lg="3" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='3' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">
+                    <label className='form-control-label'>
                       {' '}
-                      <span style={{ color: 'red' }}>
-                        {user.name ? '' : '*'}{' '}
-                      </span>
+                      <span style={{ color: 'red' }}>{user.name ? '' : '*'} </span>
                       Brand Name
                     </label>{' '}
                     <Input
-                      className="form-control-alternative text-default"
+                      className='form-control-alternative text-default'
                       required={true}
-                      placeholder="Enter brand name"
-                      type="text"
+                      placeholder='Enter brand name'
+                      type='text'
                       value={customeForm.name}
-                      name="name"
+                      name='name'
                       onChange={handleInput}
                     />
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg="3" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='3' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">
+                    <label className='form-control-label'>
                       {' '}
-                      <span style={{ color: 'red' }}>
-                        {user.name ? '' : '*'}{' '}
-                      </span>
+                      <span style={{ color: 'red' }}>{user.name ? '' : '*'} </span>
                       Logo Width
                     </label>{' '}
                     <Input
-                      className="form-control-alternative text-default"
+                      className='form-control-alternative text-default'
                       required={true}
-                      placeholder="600"
-                      type="number"
+                      placeholder='600'
+                      type='number'
                       value={customeForm.logoWidth}
-                      name="logoWidth"
+                      name='logoWidth'
                       onChange={handleInput}
                       max={300}
                     />
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg="3" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='3' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">
+                    <label className='form-control-label'>
                       {' '}
-                      <span style={{ color: 'red' }}>
-                        {user.name ? '' : '*'}{' '}
-                      </span>
+                      <span style={{ color: 'red' }}>{user.name ? '' : '*'} </span>
                       Logo Hyper Link
                     </label>{' '}
                     <Input
-                      className="form-control-alternative text-default"
+                      className='form-control-alternative text-default'
                       required={true}
-                      placeholder="Enter website Link"
-                      type="text"
+                      placeholder='Enter website Link'
+                      type='text'
                       value={customeForm.websiteLink}
-                      name="websiteLink"
+                      name='websiteLink'
                       onChange={handleInput}
                     />
                   </FormGroup>
                 </Col>
               </Row>
               <Row>
-                <Col xs={10} lg="5" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='5' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label"> Primary Color</label>{' '}
+                    <label className='form-control-label'> Primary Color</label>{' '}
                     <Input
-                      className="form-control-alternative text-default color_field"
-                      type="color"
+                      className='form-control-alternative text-default color_field'
+                      type='color'
                       value={customeForm.preferences.color}
-                      name="color"
+                      name='color'
                       onChange={handleColor}
                     />
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg="5" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='5' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">
-                      {' '}
-                      Secondary Color
-                    </label>{' '}
+                    <label className='form-control-label'> Secondary Color</label>{' '}
                     <Input
-                      className="form-control-alternative text-default color_field"
-                      type="color"
+                      className='form-control-alternative text-default color_field'
+                      type='color'
                       value={customeForm.preferences.secondaryColor}
-                      name="secondaryColor"
+                      name='secondaryColor'
                       onChange={handleColor}
                     />
                   </FormGroup>
                 </Col>
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
-                <Col
-                  xs={5}
-                  lg="9"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
+                <Col xs={5} lg='9' style={{ margin: '20px 10px', textAlign: 'end' }}>
                   {/* <Button color="secondary" onClick="">
                     Cancel
                   </Button> */}
                 </Col>
-                <Col
-                  xs={5}
-                  lg="1"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
-                  <Button color="primary" onClick={handleUpdateBrand}>
+                <Col xs={5} lg='1' style={{ margin: '20px 10px', textAlign: 'end' }}>
+                  <Button color='primary' onClick={handleUpdateBrand}>
                     Submit
                   </Button>
                 </Col>
               </Row>
             </Card>
 
-            <Card className="shadow" style={{ margin: '10px 0px' }}>
+            <Card className='shadow' style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
-                <Col lg={5} xs={10}  xl={6} style={{ margin: 'auto' }}>
-                  <h4 className="mb-0 heading22" style={{ fontWeight: '600' }} >
+                <Col lg={5} xs={10} xl={6} style={{ margin: 'auto', marginLeft: 0 }}>
+                  <h4 className='mb-0 heading22' style={{ fontWeight: '600' }}>
                     Typography
                   </h4>
                 </Col>
-                <Col md={1} xs={10}  lg={1} xl={2} >
+                <Col md={1} xs={10} lg={1} xl={2}>
                   {typographyTitle == 'Heading' ? (
                     <h5
-                      size="sm"
+                      size='sm'
                       style={{
                         background: '#0397EB1A',
                         color: '#219DE3',
                         borderRadius: '10px',
                         padding: '5px 5px',
                         margin: '7px 0px',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        cursor: 'pointer',
                       }}
                       onClick={() => setTypographyTitle('Heading')}
                     >
-                      Heading
+                      Headline
                     </h5>
                   ) : (
                     <h5
                       style={{
                         color: 'gray',
                         margin: '7px 0px',
-                        padding: '5px 5px'
+                        padding: '5px 5px',
+                        cursor: 'pointer',
                       }}
                       onClick={() => setTypographyTitle('Heading')}
                     >
-                      Heading
+                      Headline
                     </h5>
                   )}
                 </Col>
                 <Col md={1} xs={10} lg={1} xl={2}>
                   {typographyTitle == 'Paragraph' ? (
                     <h5
-                      size="sm"
+                      size='sm'
                       style={{
                         background: '#0397EB1A',
                         color: '#219DE3',
                         borderRadius: '10px',
                         padding: '5px 5px',
                         margin: '7px 0px',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        cursor: 'pointer',
                       }}
                       onClick={() => setTypographyTitle('Paragraph')}
                     >
-                      Paragraph
+                      Body Text
                     </h5>
                   ) : (
                     <h5
@@ -641,25 +612,25 @@ const Customization = () => {
                         color: 'gray',
                         margin: '7px 0px',
                         cursor: 'pointer',
-                        padding: '5px 5px'
+                        padding: '5px 5px',
                       }}
                       onClick={() => setTypographyTitle('Paragraph')}
                     >
-                      Paragraph
+                      Body Text
                     </h5>
                   )}
                 </Col>
-                <Col md={1} xs={10} lg={1} xl={2}>
+                {/* <Col md={1} xs={10} lg={1} xl={2}>
                   {typographyTitle == 'Body' ? (
                     <h5
-                      size="sm"
+                      size='sm'
                       style={{
                         background: '#0397EB1A',
                         color: '#219DE3',
                         borderRadius: '10px',
                         padding: '5px 5px',
                         margin: '7px 0px',
-                        textAlign: 'center'
+                        textAlign: 'center',
                       }}
                       onClick={() => setTypographyTitle('Body')}
                     >
@@ -671,38 +642,40 @@ const Customization = () => {
                         color: 'gray',
                         margin: '7px 0px',
                         cursor: 'pointer',
-                        padding: '5px 5px'
+                        padding: '5px 5px',
                       }}
                       onClick={() => setTypographyTitle('Body')}
                     >
                       Body
                     </h5>
                   )}
-                </Col>
+                </Col> */}
               </Row>
               <Row style={{ margin: '0px 5px' }}>
-                <Col xs={10} lg="4" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='4' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">Select Font</label>
+                    <label className='form-control-label'>Select Font</label>
 
                     {console.log(typography, 'in select line 661')}
                     <div>
-                    <select
-                      placeholder={'Select...'}
-                      onChange={(e) =>
-                        setTypography({ ...typography, fontName: e.target.value })
-                      }
-                      name="fontName"
-                      value={typography.fontName}
-                      className="selectCustome"
-                    >
-                      <option value="">Select...</option>
-                      {FontNames.map((font) => (
-                        <option key={font} value={font} style={{background:"white",color:"black"}} >
-                          {font}
-                        </option>
-                      ))}
-                    </select>
+                      <select
+                        placeholder={'Select...'}
+                        onChange={(e) => setTypography({ ...typography, fontName: e.target.value })}
+                        name='fontName'
+                        value={typography.fontName}
+                        className='selectCustome'
+                      >
+                        <option value=''>Select...</option>
+                        {FontNames.map((font) => (
+                          <option
+                            key={font}
+                            value={font}
+                            style={{ background: 'white', color: 'black' }}
+                          >
+                            {font}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     {/* <Select
                       placeholder={'Select...'}
@@ -722,26 +695,30 @@ const Customization = () => {
                     /> */}
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg="4" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='4' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">Font Weight</label>
-                     <div>
-                    <select
-                      placeholder={'Select...'}
-                      onChange={(e) =>
-                        setTypography({ ...typography, fontWeight: e.target.value })
-                      }
-                      name="fontWeight"
-                      value={typography.fontWeight}
-                      className="selectCustome"
-                    >
-                      <option value="">Select...</option>
-                      {fontWeights.map((font) => (
-                        <option key={font} value={font} style={{background:"white",color:"black"}} >
-                          {font}
-                        </option>
-                      ))}
-                    </select>
+                    <label className='form-control-label'>Font Weight</label>
+                    <div>
+                      <select
+                        placeholder={'Select...'}
+                        onChange={(e) =>
+                          setTypography({ ...typography, fontWeight: e.target.value })
+                        }
+                        name='fontWeight'
+                        value={typography.fontWeight}
+                        className='selectCustome'
+                      >
+                        <option value=''>Select...</option>
+                        {fontWeights.map((font) => (
+                          <option
+                            key={font}
+                            value={font}
+                            style={{ background: 'white', color: 'black' }}
+                          >
+                            {font}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     {/* <Select
                       onChange={(e) =>
@@ -759,26 +736,28 @@ const Customization = () => {
                     /> */}
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg="2" style={{ margin: 'auto' }}>
+                <Col xs={10} lg='2' style={{ margin: 'auto' }}>
                   <FormGroup>
-                    <label className="form-control-label">Select Size</label>
+                    <label className='form-control-label'>Select Size</label>
                     <div>
-                    <select
-                      placeholder={'Select...'}
-                      onChange={(e) =>
-                        setTypography({ ...typography, fontSize: e.target.value })
-                      }
-                      name="fontSize"
-                      value={typography.fontSize}
-                      className="selectCustome"
-                    >
-                      <option value="">Select...</option>
-                      {fontSizes.map((font) => (
-                        <option key={font} value={font} style={{background:"white",color:"black"}} >
-                          {font}
-                        </option>
-                      ))}
-                    </select>
+                      <select
+                        placeholder={'Select...'}
+                        onChange={(e) => setTypography({ ...typography, fontSize: e.target.value })}
+                        name='fontSize'
+                        value={typography.fontSize}
+                        className='selectCustome'
+                      >
+                        <option value=''>Select...</option>
+                        {fontSizes.map((font) => (
+                          <option
+                            key={font}
+                            value={font}
+                            style={{ background: 'white', color: 'black' }}
+                          >
+                            {font}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     {/* <Select
                       onChange={(e) =>
@@ -798,141 +777,108 @@ const Customization = () => {
                 </Col>
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
-                <Col
-                  xs={5}
-                  lg="9"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
-                  <Button color="secondary" onClick="">
+                <Col xs={5} lg='9' style={{ margin: '20px 10px', textAlign: 'end' }}>
+                  <Button color='secondary' onClick=''>
                     Cancel
                   </Button>
                 </Col>
-                <Col
-                  xs={5}
-                  lg="1"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
-                  <Button color="primary" onClick={handleSubmitTypography}>
+                <Col xs={5} lg='1' style={{ margin: '20px 10px', textAlign: 'end' }}>
+                  <Button color='primary' onClick={handleSubmitTypography}>
                     Submit
                   </Button>
                 </Col>
               </Row>
             </Card>
 
-            <Card className="shadow" style={{ margin: '10px 0px' }}>
+            <Card className='shadow' style={{ margin: '10px 0px' }}>
               <Row>
-                <Col xs={10} lg="2" style={{ margin: '10px 50px' }}>
-                  <h4 style={{ fontWeight: '600', margin: '5px 5px' }} className="headingbg">
+                <Col xs={10} lg='4' style={{ margin: '10px 50px' }}>
+                  <h4 style={{ fontWeight: '600', margin: '5px 5px' }} className='headingbg'>
                     {' '}
                     Background Image
                   </h4>
                 </Col>
               </Row>
-              <Row style={{ justifyContent: 'center' }} className="bdcolorrow">
-                <div className="colorDivWidth ">
+              <Row style={{ justifyContent: 'center' }} className='bdcolorrow'>
+                <div className='colorDivWidth '>
                   <div
-                    className={`defaultDiv ${
-                      background == 'default' ? 'selectedBackground' : ''
-                    }`}
+                    className={`defaultDiv ${background == 'default' ? 'selectedBackground' : ''}`}
                     onClick={() => handleBackgroundImg('default', '')}
                   >
                     Default
                   </div>
                 </div>
 
-                <div className="colorDivWidth">
+                <div className='colorDivWidth'>
                   <div
-                    className={`defaultDiv ${
-                      background == 'NoBG' ? 'selectedBackground' : ''
-                    }`}
+                    className={`defaultDiv ${background == 'NoBG' ? 'selectedBackground' : ''}`}
                     onClick={() => handleBackgroundImg('NoBG', '')}
                   >
                     No Background
                   </div>
                 </div>
-                <div className="colorDivWidth">
+                <div className='colorDivWidth'>
                   <img
                     src={`${
                       user?.backgroundimages[user?.backgroundimages.length - 3]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 3
-                          ]
+                        ? mediaUrl + user?.backgroundimages[user?.backgroundimages.length - 3]
                         : selected1
                     }`}
-                    alt="logo"
+                    alt='logo'
                     className={`${
-                      background == 'selected1'
-                        ? 'selectedBackground1'
-                        : 'uploadedBackgroundImg1'
+                      background == 'selected1' ? 'selectedBackground1' : 'uploadedBackgroundImg1'
                     }`}
                     onClick={() =>
                       handleBackgroundImg(
                         'selected1',
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 3
-                        ]
+                        user?.backgroundimages[user?.backgroundimages.length - 3]
                       )
                     }
                   />
                 </div>
-                <div className="colorDivWidth">
+                <div className='colorDivWidth'>
                   <img
                     src={`${
                       user?.backgroundimages[user?.backgroundimages.length - 2]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 2
-                          ]
+                        ? mediaUrl + user?.backgroundimages[user?.backgroundimages.length - 2]
                         : selected2
                     }`}
-                    alt="logo"
+                    alt='logo'
                     className={`${
-                      background == 'selected2'
-                        ? 'selectedBackground1'
-                        : 'uploadedBackgroundImg1'
+                      background == 'selected2' ? 'selectedBackground1' : 'uploadedBackgroundImg1'
                     }`}
                     onClick={() =>
                       handleBackgroundImg(
                         'selected2',
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 2
-                        ]
+                        user?.backgroundimages[user?.backgroundimages.length - 2]
                       )
                     }
                   />
                 </div>
-                <div className="colorDivWidth">
+                <div className='colorDivWidth'>
                   <img
                     src={`${
                       user?.backgroundimages[user?.backgroundimages.length - 1]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 1
-                          ]
+                        ? mediaUrl + user?.backgroundimages[user?.backgroundimages.length - 1]
                         : ''
                     }`}
-                    alt="logo"
+                    alt='logo'
                     className={`${
-                      background == 'selected3'
-                        ? 'selectedBackground1'
-                        : 'uploadedBackgroundImg1'
+                      background == 'selected3' ? 'selectedBackground1' : 'uploadedBackgroundImg1'
                     }`}
                     onClick={() =>
                       handleBackgroundImg(
                         'selected3',
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 1
-                        ]
+                        user?.backgroundimages[user?.backgroundimages.length - 1]
                       )
                     }
                   />
                 </div>
-                <div className="colorDivWidth">
-                  <div className="HPimgprofiile">
+                <div className='colorDivWidth'>
+                  <div className='HPimgprofiile'>
                     <label>
                       <input
-                        type="file"
+                        type='file'
                         hidden
                         onChange={(e) => {
                           handleBackgroundImageChange(e);
@@ -941,18 +887,16 @@ const Customization = () => {
                       <div style={{ cursor: 'pointer' }}>
                         <img
                           src={previewImage ?? Addyourpic}
-                          className={`backGroundImgUpload ${
-                            background == 'upload' ? '' : ''
-                          } `}
+                          className={`backGroundImgUpload ${background == 'upload' ? '' : ''} `}
                           onClick={(e) => setBackground('upload')}
                         />
                       </div>
                     </label>
                   </div>
                 </div>
-                <div className="colorDivWidth2">
+                <div className='colorDivWidth2'>
                   <Input
-                    type="color"
+                    type='color'
                     value={backgroundImg.color}
                     className={`backgroungImgColor ${
                       background == 'color' ? 'selectedBackground' : ''
@@ -963,31 +907,23 @@ const Customization = () => {
                 </div>
               </Row>
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
-                <Col
-                  xs={5}
-                  lg="9"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
-                  <Button color="secondary" onClick={handleCancelBakgroungImg}>
+                <Col xs={5} lg='9' style={{ margin: '20px 10px', textAlign: 'end' }}>
+                  <Button color='secondary' onClick={handleCancelBakgroungImg}>
                     Cancel
                   </Button>
                 </Col>
-                <Col
-                  xs={5}
-                  lg="1"
-                  style={{ margin: '20px 10px', textAlign: 'end' }}
-                >
-                  <Button color="primary" onClick={handleSubmitBakgroungImg}>
+                <Col xs={5} lg='1' style={{ margin: '20px 10px', textAlign: 'end' }}>
+                  <Button color='primary' onClick={handleSubmitBakgroungImg}>
                     Submit
                   </Button>
                 </Col>
               </Row>
             </Card>
 
-            <Card className="shadow" style={{ margin: '10px 0px' }}>
+            <Card className='shadow' style={{ margin: '10px 0px' }}>
               <Row style={{ margin: '10px 35px' }}>
                 <Col sm={9} xs={10} style={{ margin: '10px 0px' }}>
-                  <h4 className="mb-0 headingbg" style={{ fontWeight: '600' }}>
+                  <h4 className='mb-0 headingbg' style={{ fontWeight: '600' }}>
                     Social Media
                   </h4>
                 </Col>
@@ -995,45 +931,28 @@ const Customization = () => {
               {socialMediaArray.map((platform) => (
                 <>
                   <Row style={{ margin: '0px 5px', alignItems: 'center' }}>
-                    <Col xs={10} lg="3" style={{ marginRight: 'auto' }}>
-                      <img
-                        src={platform.icon}
-                        alt="Facebook"
-                        style={{ margin: '5px 15px' }}
-                      />
+                    <Col xs={10} lg='3' style={{ marginRight: 'auto' }}>
+                      <img src={platform.icon} alt='Facebook' style={{ margin: '5px 15px' }} />
                       {/* <Facebook /> */}
                       <span style={{ fontWeight: '600', fontSize: '16px' }}>
-                        {platform.name.charAt(0).toUpperCase() +
-                          platform.name.slice(1)}
+                        {platform.name.charAt(0).toUpperCase() + platform.name.slice(1)}
                       </span>
                     </Col>
-                    {!socialLinks[platform.name].isOpen &&
-                    !socialLinks[platform.name].link ? (
+                    {!socialLinks[platform.name].isOpen && !socialLinks[platform.name].link ? (
                       <>
-                        <Col
-                          xs={10}
-                          lg="7"
-                          style={{ margin: '20px auto', textAlign: 'right' }}
-                        >
-                          <Button
-                            color="primary"
-                            onClick={() => handleActive(platform.name)}
-                          >
+                        <Col xs={10} lg='7' style={{ margin: '20px auto', textAlign: 'right' }}>
+                          <Button color='primary' onClick={() => handleActive(platform.name)}>
                             Link
                           </Button>
                         </Col>
                       </>
                     ) : (
-                      <Col xs={10} lg="5" style={{ margin: 'auto 0 auto 0' }}>
+                      <Col xs={10} lg='5' style={{ margin: 'auto 0 auto 0' }}>
                         <Row>
                           {socialLinks[platform.name].link &&
                           socialLinks[platform.name].haveData ? (
                             <>
-                              <Col
-                                xs={9}
-                                lg="9"
-                                style={{ margin: 'auto 0', textAlign: 'end' }}
-                              >
+                              <Col xs={9} lg='9' style={{ margin: 'auto 0', textAlign: 'end' }}>
                                 {' '}
                                 <h4 style={{ margin: '20px 0px' }}>
                                   {socialLinks[platform.name].link}
@@ -1041,23 +960,21 @@ const Customization = () => {
                               </Col>
                               <Col
                                 xs={3}
-                                lg="1"
+                                lg='1'
                                 style={{
                                   margin: '22px auto auto 0',
-                                  textAlign: 'end'
+                                  textAlign: 'end',
                                 }}
                               >
                                 <img
                                   src={Cancel}
                                   style={{
                                     marginBottom: '20px',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                   }}
-                                  alt="close"
+                                  alt='close'
                                   onClick={() => {
-                                    handleDeleteLink(
-                                      socialLinks[platform.name]
-                                    );
+                                    handleDeleteLink(socialLinks[platform.name]);
                                     // handleInActive(platform.name);
                                   }}
                                 />
@@ -1065,32 +982,22 @@ const Customization = () => {
                             </>
                           ) : (
                             <>
-                              <Col
-                                xs={3}
-                                lg="2"
-                                style={{ margin: 'auto 0', textAlign: 'end' }}
-                              >
+                              <Col xs={3} lg='2' style={{ margin: 'auto 0', textAlign: 'end' }}>
                                 <button
-                                  className="linkSaveBtn"
-                                  color="primary"
-                                  onClick={(e) =>
-                                    handleSubmitSocial(e, platform.name)
-                                  }
+                                  className='linkSaveBtn'
+                                  color='primary'
+                                  onClick={(e) => handleSubmitSocial(e, platform.name)}
                                 >
                                   Save
                                 </button>
                               </Col>
-                              <Col
-                                xs={6}
-                                lg="7"
-                                style={{ margin: 'auto  auto ' }}
-                              >
+                              <Col xs={6} lg='7' style={{ margin: 'auto  auto ' }}>
                                 <FormGroup style={{ margin: '1rem 0px' }}>
                                   <Input
-                                    className="form-control-alternative text-default"
+                                    className='form-control-alternative text-default'
                                     required={true}
-                                    placeholder="Add Your Link"
-                                    type="text"
+                                    placeholder='Add Your Link'
+                                    type='text'
                                     value={socialLinks[platform.name].link}
                                     name={platform.name}
                                     onChange={handleChangeSocial}
@@ -1099,18 +1006,18 @@ const Customization = () => {
                               </Col>
                               <Col
                                 xs={1}
-                                lg="1"
+                                lg='1'
                                 style={{
                                   margin: 'auto auto auto 0',
-                                  textAlign: 'end'
+                                  textAlign: 'end',
                                 }}
                               >
                                 <img
                                   src={Cancel}
                                   style={{
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                   }}
-                                  alt="close"
+                                  alt='close'
                                   onClick={() => {
                                     handleInActive(platform.name);
                                   }}
