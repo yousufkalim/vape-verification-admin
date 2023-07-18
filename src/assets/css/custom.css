@@ -15,6 +15,10 @@
   display: none;
 }
 
+.bdcolorrow {
+  padding-inline: 15px;
+}
+
 .filepicker_main_div {
   width: 78%;
   height: auto;
@@ -160,6 +164,9 @@
   align-items: center;
   justify-content: flex-start;
   cursor: pointer;
+}
+.request_status {
+  text-transform: capitalize;
 }
 .selectedBackground1 {
   width: 160px;
@@ -391,7 +398,7 @@
 }
 @media screen and (min-width: 1200px) and (max-width: 1600px) {
   .colorDivWidth {
-    width: 120px;
+    width: 115px;
     margin: 0px 10px;
   }
   .defaultDiv {
