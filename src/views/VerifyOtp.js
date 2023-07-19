@@ -69,7 +69,11 @@ const VerifyOtp = () => {
         .catch((err) => {
           setLoading(false);
           console.error('Error ', err);
-          toast.error('An unexpected error occurred. Please try again later.');
+          if (err.response?.data?.code === 'invalid_code') {
+            toast.error('Invalid One-Time Password code. Please check the code and try again.');
+          } else {
+            toast.error('An unexpected error occurred. Please try again later.');
+          }
         });
     }
   };
