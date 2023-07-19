@@ -92,7 +92,7 @@ const VerifyOtp = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Enter One-Time Password code here'
+                    placeholder='Enter One-Time Password'
                     type='text'
                     name='otp'
                     autoComplete='otp'
