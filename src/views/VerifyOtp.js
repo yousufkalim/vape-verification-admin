@@ -48,9 +48,11 @@ const VerifyOtp = () => {
   const handleSubmit = () => {
     const trimmedCode = code.trim();
     if (!param.email) {
-      toast.error('Email is required');
-    } else if (!trimmedCode || isNaN(trimmedCode)) {
-      toast.error('Code is required and should be a number');
+      toast.error('No email provided. Please provide an email to proceed.');
+    } else if (!trimmedCode) {
+      toast.error('No One-Time Password code provided. Please enter the code you received in your email.');
+    } else if (isNaN(trimmedCode)) {
+      toast.error('Invalid One-Time Password code. The code should only contain numbers. Please check the code and try again.');
     } else {
       setLoading(true);
       const data = { email: param.email, code: parseInt(trimmedCode, 10) };
@@ -66,7 +68,8 @@ const VerifyOtp = () => {
         })
         .catch((err) => {
           setLoading(false);
-          console.log('Error ', err);
+          console.error('Error ', err);
+          toast.error('An unexpected error occurred. Please try again later.');
         });
     }
   };
@@ -78,7 +81,7 @@ const VerifyOtp = () => {
         <Card className='bg-secondary shadow border-0'>
           <CardBody className='px-lg-5 py-lg-5'>
             <div className='text-center text-muted mb-4'>
-              <small>Verify Code</small>
+              <small>Please check your email for the One-Time Password code and enter it below.</small>
             </div>
             <Form role='form'>
               <FormGroup>
@@ -89,15 +92,15 @@ const VerifyOtp = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Enter code here'
+                    placeholder='Enter One-Time Password code here'
                     type='text'
                     name='otp'
                     autoComplete='otp'
                     onChange={handleCode}
+                    style={{appearance: 'textfield'}}
                   />
                 </InputGroup>
               </FormGroup>
-
               <div className='text-center'>
                 <Button className='my-4' color='primary' type='button' onClick={handleSubmit}>
                   Submit
