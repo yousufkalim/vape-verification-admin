@@ -36,24 +36,24 @@ import Loader from 'components/Spinner/Spinner';
 import { useParams } from 'react-router-dom';
 
 const VerifyOtp = () => {
-  const [code, setCode] = useState(null);
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const param = useParams();
 
   const handleCode = (e) => {
-    const trimmedCode = e.target.value.trim();
-    setCode(trimmedCode);
+    setCode(e.target.value);
   };
 
   const handleSubmit = () => {
+    const trimmedCode = code.trim();
     if (!param.email) {
       toast.error('Email is required');
-    } else if (!code) {
-      toast.error('Code is required');
+    } else if (!trimmedCode || isNaN(trimmedCode)) {
+      toast.error('Code is required and should be a number');
     } else {
       setLoading(true);
-      const data = { email: param.email, code: parseInt(code) };
+      const data = { email: param.email, code: parseInt(trimmedCode, 10) };
       api('post', '/auth/verify-code', data)
         .then((res) => {
           const { user } = res;
@@ -90,7 +90,7 @@ const VerifyOtp = () => {
                   </InputGroupAddon>
                   <Input
                     placeholder='Enter code here'
-                    type='number'
+                    type='text'
                     name='otp'
                     autoComplete='otp'
                     onChange={handleCode}
