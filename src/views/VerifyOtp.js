@@ -42,7 +42,8 @@ const VerifyOtp = () => {
   const param = useParams();
 
   const handleCode = (e) => {
-    setCode(e.target.value);
+    const trimmedCode = e.target.value.trim();
+    setCode(trimmedCode);
   };
 
   const handleSubmit = () => {
