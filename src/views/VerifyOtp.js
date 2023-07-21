@@ -17,7 +17,8 @@
 */
 
 // reactstrap components
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import api from 'api';
 import {
   Button,
@@ -29,33 +30,46 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Col,
+  Col
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { useParams } from 'react-router-dom';
+import reactSelect from 'react-select';
 
 const VerifyOtp = () => {
-  const [code, setCode] = useState(null);
+  const [code, setCode] = useState('');
+  
   const [loading, setLoading] = useState(false);
 
   const param = useParams();
+
+
 
   const handleCode = (e) => {
     setCode(e.target.value);
   };
 
   const handleSubmit = () => {
+    const trimmedCode = code.trim();
     if (!param.email) {
-      toast.error('Email is required');
-    } else if (!code) {
-      toast.error('Code is required');
+      toast.error('No email provided. Please provide an email to proceed.');
+    } else if (!trimmedCode) {
+      toast.error(
+        'No One-Time Password code provided. Please enter the code you received in your email.'
+      );
+    } else if (isNaN(trimmedCode)) {
+      toast.error(
+        'Invalid One-Time Password code. The code should only contain numbers. Please check the code and try again.'
+      );
     } else {
       setLoading(true);
-      const data = { email: param.email, code: parseInt(code) };
+      const data = { email: param.email, code: parseInt(trimmedCode, 10) };
       api('post', '/auth/verify-code', data)
         .then((res) => {
           const { user } = res;
+          console.log('user is', user);
+          Cookies.set(user.email, user.email);
           localStorage.setItem('token', res.token);
           if (user?.role === 'admin') {
             window.location = '/admin/index';
@@ -65,7 +79,35 @@ const VerifyOtp = () => {
         })
         .catch((err) => {
           setLoading(false);
-          console.log('Error ', err);
+          // console.error('Error ', err);
+          // if (err.response?.data?.code === 'invalid_code') { 
+          //   toast.error(
+          //     'Invalid One-Time Password code. Please check the code and try again.'
+          //   );
+          // } else {
+          //   toast.error(
+          //     'An unexpected error occurred. Please try again later.'
+          //   );
+          // }
+        });
+    }
+  };
+  const handleResend = () => {
+    if (!param.email) {
+      toast.error('No email provided. Please provide an email to proceed.');
+    } else {
+      setLoading(true);
+      const data = { email: param.email };
+      api('post', '/auth/resendotp', data)
+        .then((res) => {
+          setLoading(false);
+          toast.success(res?.message);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.error('Error ', err);
+
+          toast.error('An unexpected error occurred. Please try again later.');
         });
     }
   };
@@ -73,32 +115,50 @@ const VerifyOtp = () => {
   return (
     <>
       {loading && <Loader />}
-      <Col lg='5' md='7' style={{ position: 'relative' }}>
-        <Card className='bg-secondary shadow border-0'>
-          <CardBody className='px-lg-5 py-lg-5'>
-            <div className='text-center text-muted mb-4'>
-              <small>Verify Code</small>
+      <Col lg="5" md="7" style={{ position: 'relative' }}>
+        <Card className="bg-secondary shadow border-0">
+          <CardBody className="px-lg-5 py-lg-5">
+            <div className="text-center text-muted mb-4">
+              <small>
+                Please check your email for the One-Time Password code and enter
+                it below.
+              </small>
             </div>
-            <Form role='form'>
+            <Form role="form">
               <FormGroup>
-                <InputGroup className='input-group-alternative'>
-                  <InputGroupAddon addonType='prepend'>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className='ni ni-lock-circle-open' />
+                      <i className="ni ni-lock-circle-open" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Enter code here'
-                    type='number'
-                    name='otp'
-                    autoComplete='otp'
+                    placeholder="Enter One-Time Password"
+                    type="text"
+                    name="otp"
+                    autoComplete="otp"
                     onChange={handleCode}
+                    style={{ appearance: 'textfield' }}
                   />
                 </InputGroup>
               </FormGroup>
-
-              <div className='text-center'>
-                <Button className='my-4' color='primary' type='button' onClick={handleSubmit}>
+              <div className="text-center">
+                <Button
+                  className="my-4"
+                  color="primary"
+                  type="button"
+                  disabled={loading }
+                  onClick={handleResend}
+                >
+                  Resend
+                </Button>
+                <Button
+                disabled={loading}
+                  className="my-4"
+                  color="primary"
+                  type="button"
+                  onClick={handleSubmit}
+                >
                   Submit
                 </Button>
               </div>
