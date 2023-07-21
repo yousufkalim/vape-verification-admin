@@ -77,7 +77,6 @@ const Login = () => {
     setLoading(true);
     api('post', '/auth/login', user)
       .then((res) => {
-        console.log('Rrrrr ', res);
         toast.success(res?.message);
         setLoading(false);
         history.push(`/auth/verify-otp/${user.email}`);

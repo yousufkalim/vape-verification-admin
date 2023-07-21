@@ -147,7 +147,7 @@ const VectorMaps = () => {
           <div className='col'>
             <Card className='shadow'>
               <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between '>
+                <div className='d-flex justify-content-between align-items-center'>
                   <h3 className='mb-0'>Map</h3>
                   <div className='d-md-flex d-none gap-5'>
                     <div
@@ -176,14 +176,14 @@ const VectorMaps = () => {
                     </div>
                   </div>
                   <div className='d-flex align-items-center'>
-                    <div>
-                      Invalid:{' '}
+                    {/* <div>
+                      Repeated{' '}
                       <span className='map_legend_color' style={{ background: '#ff0000' }}></span>
                     </div>
                     <div className='ml-4 mr-6'>
-                      Valid:{' '}
+                      Valid
                       <span className='map_legend_color' style={{ background: '#00ff00' }}></span>
-                    </div>
+                    </div> */}
 
                     <UncontrolledDropdown>
                       <DropdownToggle
@@ -198,7 +198,7 @@ const VectorMaps = () => {
 
                       <DropdownMenu className='dropdown-menu-arrow' right>
                         <DropdownItem onClick={() => handleFilterWithStatus('invalid')}>
-                          Invalid Attempts
+                          Repeated Attempts
                         </DropdownItem>
                         <DropdownItem onClick={() => handleFilterWithStatus('valid')}>
                           Valid Attempts
