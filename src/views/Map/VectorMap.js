@@ -72,14 +72,16 @@ const VectorMaps = () => {
       const url = location.pathname.includes('admin') ? 'all-locations' : `locations/${user._id}`;
       const res = await api('get', `/codes/${url}`);
       const data = res.data.locations?.map((item) => {
-        const { code, city, country, timestamp, ipAddress, batch } = item;
+        const { code, city, country, timestamp, ipAddress, batch, region, zip } = item;
         const time = moment(timestamp).format('DD-MM-YYYY HH:MM');
         const name = `Batch = "${batch}", 
                                Code = "${code}"
                       City = "${city}",
                       Country = "${country}",
                       IP Address = "${ipAddress}",
-                      Timestamp = "${time}" `;
+                      Timestamp = "${time}",
+                      Zip code = "${zip}"
+                      Region = "${region}"`;
         return { ...item, name };
       });
       setLocations(data);
@@ -147,9 +149,9 @@ const VectorMaps = () => {
           <div className='col'>
             <Card className='shadow'>
               <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between align-items-center'>
+                <div className='d-flex justify-content-between '>
                   <h3 className='mb-0'>Map</h3>
-                  <div className='d-md-flex d-none gap-5'>
+                  <div className='d-flex gap-5'>
                     <div
                       onClick={() => handleDurationFilter('week')}
                       className={`duration_filter ${
@@ -176,14 +178,14 @@ const VectorMaps = () => {
                     </div>
                   </div>
                   <div className='d-flex align-items-center'>
-                    {/* <div>
-                      Repeated{' '}
+                    <div>
+                      Invalid:{' '}
                       <span className='map_legend_color' style={{ background: '#ff0000' }}></span>
                     </div>
                     <div className='ml-4 mr-6'>
-                      Valid
+                      Valid:{' '}
                       <span className='map_legend_color' style={{ background: '#00ff00' }}></span>
-                    </div> */}
+                    </div>
 
                     <UncontrolledDropdown>
                       <DropdownToggle
@@ -198,7 +200,7 @@ const VectorMaps = () => {
 
                       <DropdownMenu className='dropdown-menu-arrow' right>
                         <DropdownItem onClick={() => handleFilterWithStatus('invalid')}>
-                          Repeated Attempts
+                          Invalid Attempts
                         </DropdownItem>
                         <DropdownItem onClick={() => handleFilterWithStatus('valid')}>
                           Valid Attempts
@@ -207,32 +209,6 @@ const VectorMaps = () => {
                       {/* <DropdownMenu className='dropdown-menu-arrow' right>
                       </DropdownMenu> */}
                     </UncontrolledDropdown>
-                  </div>
-                </div>
-                <div className='d-flex d-md-none gap-5 justify-content-center mt-2'>
-                  <div
-                    onClick={() => handleDurationFilter('week')}
-                    className={`duration_filter ${
-                      durationFilter === 'week' && 'selected_duration_filter'
-                    }`}
-                  >
-                    Week
-                  </div>
-                  <div
-                    onClick={() => handleDurationFilter('month')}
-                    className={`duration_filter ${
-                      durationFilter === 'month' && 'selected_duration_filter'
-                    }`}
-                  >
-                    Month
-                  </div>
-                  <div
-                    onClick={() => handleDurationFilter('year')}
-                    className={`duration_filter ${
-                      durationFilter === 'year' && 'selected_duration_filter'
-                    }`}
-                  >
-                    Year
                   </div>
                 </div>
               </CardHeader>
