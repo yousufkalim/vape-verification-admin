@@ -18,6 +18,7 @@
 
 // reactstrap components
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 import api from 'api';
 import {
   Button,
@@ -33,7 +34,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Col,
+  Col
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
@@ -75,19 +76,32 @@ const Login = () => {
 
   const handleSubmit = () => {
     setLoading(true);
+    let twoFactor = false;
+    let userCookie = Cookies.get(user.email);
+    console.log('userCookie', userCookie);
+    if (userCookie) {
+      twoFactor = true;
+    }
+    user.twoFactor = twoFactor;
+
     api('post', '/auth/login', user)
       .then((res) => {
         console.log('Rrrrr ', res);
-        toast.success(res?.message);
-        setLoading(false);
-        history.push(`/auth/verify-otp/${user.email}`);
-        // const { user } = res;
-        // localStorage.setItem('token', res.token);
-        // if (user?.role === 'admin') {
-        //   window.location = '/admin/index';
-        // } else if (user?.role === 'brand') {
-        //   window.location = '/brand/index';
-        // }
+        if (res.token) {
+          setLoading(false);
+          const { user } = res;
+          localStorage.setItem('token', res.token);
+          if (user?.role === 'admin') {
+            window.location = '/admin/index';
+          } else if (user?.role === 'brand') {
+            window.location = '/brand/index';
+          }
+        } else {
+          toast.success(res?.message);
+          setLoading(false);
+
+          history.push(`/auth/verify-otp/${user.email}`);
+        }
       })
       .catch((err) => {
         setLoading(false);
@@ -102,58 +116,74 @@ const Login = () => {
   return (
     <>
       {loading && <Loader />}
-      <Col lg='5' md='7' style={{ position: 'relative' }}>
-        <Card className='bg-secondary shadow border-0'>
-          <CardBody className='px-lg-5 py-lg-5'>
-            <div className='text-center text-muted mb-4'>
+      <Col lg="5" md="7" style={{ position: 'relative' }}>
+        <Card className="bg-secondary shadow border-0">
+          <CardBody className="px-lg-5 py-lg-5">
+            <div className="text-center text-muted mb-4">
               <small>Sign In</small>
             </div>
-            <Form role='form'>
-              <FormGroup className='mb-3'>
-                <InputGroup className='input-group-alternative'>
-                  <InputGroupAddon addonType='prepend'>
+            <Form role="form">
+              <FormGroup className="mb-3">
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className='ni ni-email-83' />
+                      <i className="ni ni-email-83" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Email'
-                    type='email'
-                    name='email'
-                    autoComplete='new-email'
+                    placeholder="Email"
+                    type="email"
+                    name="email"
+                    autoComplete="new-email"
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className='input-group-alternative'>
-                  <InputGroupAddon addonType='prepend'>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className='ni ni-lock-circle-open' />
+                      <i className="ni ni-lock-circle-open" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder='Password'
-                    type='password'
-                    name='password'
-                    autoComplete='new-password'
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    autoComplete="new-password"
                     onChange={handleInput}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className='custom-control custom-control-alternative custom-checkbox'>
-                <input className='custom-control-input' id=' customCheckLogin' type='checkbox' />
-                <label className='custom-control-label' htmlFor=' customCheckLogin'>
-                  <span className='text-muted'>Remember me</span>
+              <div className="custom-control custom-control-alternative custom-checkbox">
+                <input
+                  className="custom-control-input"
+                  id=" customCheckLogin"
+                  type="checkbox"
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor=" customCheckLogin"
+                >
+                  <span className="text-muted">Remember me</span>
                 </label>
               </div>
-              <div className='text-center'>
-                <Button className='my-4' color='primary' type='button' onClick={handleSubmit}>
+              <div className="text-center">
+                <Button
+                  className="my-4"
+                  color="primary"
+                  type="button"
+                  onClick={handleSubmit}
+                >
                   Sign in
                 </Button>
               </div>
-              <div className='text-primary text-center' color='primary'>
-                <span type='button' onClick={toggleModal} className='d-inline-block'>
+              <div className="text-primary text-center" color="primary">
+                <span
+                  type="button"
+                  onClick={toggleModal}
+                  className="d-inline-block"
+                >
                   Forgot Password?
                 </span>
               </div>
@@ -164,19 +194,19 @@ const Login = () => {
       <Modal isOpen={isModalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Forgot Password</ModalHeader>
         <ModalBody>
-          <Form role='form'>
+          <Form role="form">
             <FormGroup>
-              <InputGroup className='input-group-alternative'>
-                <InputGroupAddon addonType='prepend'>
+              <InputGroup className="input-group-alternative">
+                <InputGroupAddon addonType="prepend">
                   <InputGroupText>
-                    <i className='ni ni-lock-circle-open' />
+                    <i className="ni ni-lock-circle-open" />
                   </InputGroupText>
                 </InputGroupAddon>
                 <Input
-                  placeholder='Enter your Email'
-                  type='email'
-                  name='email'
-                  autoComplete='new-password'
+                  placeholder="Enter your Email"
+                  type="email"
+                  name="email"
+                  autoComplete="new-password"
                   onChange={handleEmail}
                 />
               </InputGroup>
@@ -184,10 +214,15 @@ const Login = () => {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button disabled={loading} color='primary' onClick={handleForgotPassword}>
+          
+          <Button
+            disabled={loading}
+            color="primary"
+            onClick={handleForgotPassword}
+          >
             Submit
           </Button>{' '}
-          <Button color='secondary' onClick={toggleModal}>
+          <Button color="secondary" onClick={toggleModal}>
             Cancel
           </Button>
         </ModalFooter>
