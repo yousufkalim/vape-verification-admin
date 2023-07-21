@@ -17,7 +17,7 @@
 */
 
 // reactstrap components
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import api from 'api';
 import {
@@ -35,17 +35,16 @@ import {
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { useParams } from 'react-router-dom';
+import reactSelect from 'react-select';
 
 const VerifyOtp = () => {
   const [code, setCode] = useState('');
-  const [reloadFlag, setRelodFlag] = useState(true);
+  
   const [loading, setLoading] = useState(false);
 
   const param = useParams();
 
-setTimeout(() => {
-  setRelodFlag(false)
-}, 600000);
+
 
   const handleCode = (e) => {
     setCode(e.target.value);
@@ -148,7 +147,7 @@ setTimeout(() => {
                   className="my-4"
                   color="primary"
                   type="button"
-                  disabled={loading || reloadFlag}
+                  disabled={loading }
                   onClick={handleResend}
                 >
                   Resend
