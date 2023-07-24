@@ -31,7 +31,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem
 } from 'reactstrap';
 
 // core components
@@ -51,7 +51,7 @@ const mapData = {
   CN: 250,
   IN: 220,
   PK: 300,
-  JP: 20070,
+  JP: 20070
 };
 
 const VectorMaps = () => {
@@ -69,12 +69,23 @@ const VectorMaps = () => {
   const getUserLocations = async () => {
     try {
       setLoading(true);
-      const url = location.pathname.includes('admin') ? 'all-locations' : `locations/${user._id}`;
+      const url = location.pathname.includes('admin')
+        ? 'all-locations'
+        : `locations/${user._id}`;
       const res = await api('get', `/codes/${url}`);
       const data = res.data.locations?.map((item) => {
-        const { code, city, country, timestamp, ipAddress, batch, region, zip } = item;
+        const {
+          code,
+          city,
+          country,
+          timestamp,
+          ipAddress,
+          batch,
+          region,
+          zip
+        } = item;
         const time = moment(timestamp).format('DD-MM-YYYY HH:MM');
-        const name = `Batch = "${batch}", 
+        const name = `Batch = "${batch ? batch : ''}", 
                                Code = "${code}"
                       City = "${city}",
                       Country = "${country}",
@@ -142,16 +153,16 @@ const VectorMaps = () => {
 
   return (
     <>
-      <Container className='mt--7' fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         {loading && <Loader />}
         <Row>
-          <div className='col'>
-            <Card className='shadow'>
-              <CardHeader className='border-0'>
-                <div className='d-flex justify-content-between '>
-                  <h3 className='mb-0'>Map</h3>
-                  <div className='d-flex gap-5'>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <div className="d-flex justify-content-between ">
+                  <h3 className="mb-0">Map</h3>
+                  <div className="d-md-flex d-none gap-5">
                     <div
                       onClick={() => handleDurationFilter('week')}
                       className={`duration_filter ${
@@ -177,32 +188,59 @@ const VectorMaps = () => {
                       Year
                     </div>
                   </div>
-                  <div className='d-flex align-items-center'>
-                    <div>
-                      Invalid:{' '}
-                      <span className='map_legend_color' style={{ background: '#ff0000' }}></span>
-                    </div>
-                    <div className='ml-4 mr-6'>
-                      Valid:{' '}
-                      <span className='map_legend_color' style={{ background: '#00ff00' }}></span>
-                    </div>
 
+                  <div className="d-md-flex d-none align-items-center">
+                    <div className="ml-4 mr-6">
+                      Invalid:{' '}
+                      <span
+                        className="map_legend_color"
+                        style={{ background: '#FF0000' }}
+                      ></span>
+                    </div>
+                    <div className="ml-4 mr-6">
+                      Valid:{' '}
+                      <span
+                        className="map_legend_color"
+                        style={{ background: '#00ff00' }}
+                      ></span>
+                    </div>
+                    <div>
+                      Repeated:{' '}
+                      <span
+                        className="map_legend_color"
+                        style={{ background: '#FFA500' }}
+                      ></span>
+                    </div>
+                  </div>
+
+                  <div>
                     <UncontrolledDropdown>
                       <DropdownToggle
-                        className='btn-icon-only text-light'
-                        role='button'
-                        size='sm'
-                        color=''
+                        className="btn-icon-only text-light"
+                        role="button"
+                        size="sm"
+                        color=""
                         onClick={(e) => e.preventDefault()}
                       >
-                        <i className='fas fa-ellipsis-v' />
+                        <i className="fas fa-ellipsis-v" />
                       </DropdownToggle>
 
-                      <DropdownMenu className='dropdown-menu-arrow' right>
-                        <DropdownItem onClick={() => handleFilterWithStatus('invalid')}>
+                      <DropdownMenu className="dropdown-menu-arrow" right>
+                        <DropdownItem
+                          onClick={() => handleFilterWithStatus('repeated')}
+                        >
+                          Repeated Attempts
+                        </DropdownItem>
+                        <DropdownItem
+                          onClick={() =>
+                            handleFilterWithStatus('invalid_attempt')
+                          }
+                        >
                           Invalid Attempts
                         </DropdownItem>
-                        <DropdownItem onClick={() => handleFilterWithStatus('valid')}>
+                        <DropdownItem
+                          onClick={() => handleFilterWithStatus('valid')}
+                        >
                           Valid Attempts
                         </DropdownItem>
                       </DropdownMenu>
@@ -211,22 +249,48 @@ const VectorMaps = () => {
                     </UncontrolledDropdown>
                   </div>
                 </div>
+                <div className="d-md-none d-flex justify-content-center gap-5 mt-1">
+                  <div
+                    onClick={() => handleDurationFilter('week')}
+                    className={`duration_filter ${
+                      durationFilter === 'week' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Week
+                  </div>
+                  <div
+                    onClick={() => handleDurationFilter('month')}
+                    className={`duration_filter ${
+                      durationFilter === 'month' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Month
+                  </div>
+                  <div
+                    onClick={() => handleDurationFilter('year')}
+                    className={`duration_filter ${
+                      durationFilter === 'year' && 'selected_duration_filter'
+                    }`}
+                  >
+                    Year
+                  </div>
+                </div>
               </CardHeader>
               <CardBody style={{ height: '80vh' }}>
                 <VectorMap
-                  map='world_mill' // Choose the map type (world, world_mill, etc.)
-                  backgroundColor='#FFFFFF'
-                  hoverOpacity='0.7'
+                  map="world_mill" // Choose the map type (world, world_mill, etc.)
+                  backgroundColor="#FFFFFF"
+                  hoverOpacity="0.7"
                   zoomMax={200}
                   containerStyle={{
                     width: '100%',
-                    height: '100%',
+                    height: '100%'
                   }}
                   markerStyle={{
                     initial: {
                       fill: '#F8E23B',
-                      stroke: '#383f47',
-                    },
+                      stroke: '#383f47'
+                    }
                   }}
                   //   onMarkerClick={handleClick}
                   markers={filteredData?.map((location) => ({
@@ -234,36 +298,36 @@ const VectorMaps = () => {
                     name: location.name,
                     style: {
                       fill: location.color, // Use the color property from your locations data
-                      stroke: '#383f47',
-                    },
+                      stroke: '#383f47'
+                    }
                   }))}
                   // onMarkerTipShow={handleTip}
-                  containerClassName='map'
+                  containerClassName="map"
                   regionStyle={{
                     initial: {
                       fill: '#e4e4e4',
                       'fill-opacity': 1,
                       stroke: 'none',
                       'stroke-width': 0,
-                      'stroke-opacity': 1,
-                    },
+                      'stroke-opacity': 1
+                    }
                   }}
                   series={{
                     regions: [
                       {
                         values: mapData,
                         scale: ['#C8EEFF', '#0071A4', '#223A2f'],
-                        normalizeFunction: 'polynomial',
-                      },
+                        normalizeFunction: 'polynomial'
+                      }
                     ],
                     markers: [
                       {
                         attribute: 'fill',
                         scale: ['#ff0000', '#00ff00'], // Define the range of colors
                         // values: ['#ff0000', '#00ff00'],
-                        normalizeFunction: 'polynomial',
-                      },
-                    ],
+                        normalizeFunction: 'polynomial'
+                      }
+                    ]
                   }}
                 />
               </CardBody>
