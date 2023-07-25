@@ -110,7 +110,7 @@ const VectorMaps = () => {
 
   const handleFilterWithStatus = (check) => {
     // const filteredData = locations?.filter((item) => item.status === check);
-    // setLocations([...filteredData]);
+    
     setStatusFilter(check);
   };
 
