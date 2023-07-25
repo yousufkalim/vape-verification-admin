@@ -511,7 +511,7 @@ const Customization = () => {
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
+              {/* <Row>
                 <Col xs={10} lg='5' style={{ margin: 'auto' }}>
                   <FormGroup>
                     <label className='form-control-label'> Primary Color</label>{' '}
@@ -536,7 +536,7 @@ const Customization = () => {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
+              </Row> */}
               <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
                 <Col xs={5} lg='9' style={{ margin: '20px 10px', textAlign: 'end' }}>
                   {/* <Button color="secondary" onClick="">
