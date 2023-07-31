@@ -9,14 +9,13 @@ import selected2 from '../../assets/img/Filed2.svg';
 // import selected3 from '../../assets/img/Filed3.svg';
 import Addyourpic from '../../assets/img/addyourpic.svg';
 import Cancel from '../../assets/img/cancel.svg';
-import Facebook from '../../assets/img/Facebook.svg';
-import Twitter from '../../assets/img/Twitter.svg';
-import YouTube from '../../assets/img/YouTube.svg';
-import Instagram from '../../assets/img/Instagram.svg';
-// import {ReactComponent as Facebook} from '../../assets/img/Facebook.svg';
-import LinkedIn from '../../assets/img/LinkedIn.svg';
-import Reddit from '../../assets/img/Reddit.svg';
-import Telegram from '../../assets/img/Telegram.svg';
+import { ReactComponent as Facebook } from '../../assets/img/Facebook.svg';
+import { ReactComponent as Twitter } from '../../assets/img/Twitter.svg';
+import { ReactComponent as YouTube } from '../../assets/img/YouTube.svg';
+import { ReactComponent as Instagram } from '../../assets/img/Instagram.svg';
+import { ReactComponent as LinkedIn } from '../../assets/img/LinkedIn.svg';
+import { ReactComponent as Reddit } from '../../assets/img/Reddit.svg';
+import { ReactComponent as Telegram } from '../../assets/img/Telegram.svg';
 import { mediaUrl } from '../../config';
 import CustomizeButton from './CustomizeButtons';
 import CustomizeDescriptiion from './CustomizeDescriptiion';
@@ -85,17 +84,20 @@ const fontSizes = [
 ];
 
 const socialMediaArray = [
-  { name: 'facebook', icon: Facebook },
-  { name: 'reddit', icon: Reddit },
-  { name: 'linkedIn', icon: LinkedIn },
-  { name: 'twitter', icon: Twitter },
-  { name: 'telegram', icon: Telegram },
-  { name: 'instagram', icon: Instagram },
-  { name: 'youtube', icon: YouTube },
+  { name: 'facebook', Icon: Facebook, defaultColor: '#1877F2' },
+  { name: 'reddit', Icon: Reddit, defaultColor: '#FF4500' },
+  { name: 'linkedIn', Icon: LinkedIn, defaultColor: '#0A66C2' },
+  { name: 'twitter', Icon: Twitter, defaultColor: '#919B9B' },
+  { name: 'telegram', Icon: Telegram, defaultColor: '#919B9B' },
+  { name: 'instagram', Icon: Instagram, defaultColor: '#919B9B' },
+  { name: 'youtube', Icon: YouTube, defaultColor: '#919B9B' },
 ];
+
+const colors = ['#219de3', '#CD01FB', '#01FBB7', '#9101FB', '#ADD010', '#FB014B', '#FB0171'];
 
 const Customization = () => {
   const [loading, setLoading] = useState(false);
+  const [btnColor, setBtnColor] = useState('');
   const [fileName, setFileName] = useState('');
   let [customeForm, setCustomeForm] = useState({
     name: '',
@@ -175,7 +177,6 @@ const Customization = () => {
   }, []);
   useEffect(() => {
     if (user) {
-      console.log('typographyTitle useeffect', typographyTitle);
       // typography
       if (typographyTitle === 'Paragraph') {
         setTypography({
@@ -211,7 +212,8 @@ const Customization = () => {
     api('get', `/users/${user._id}`).then((userData) => {
       if (userData?.user && userData?.user?.active) {
         const updatedSocialLinks = { ...socialLinks }; // Create a copy of the socialLinks object
-        const { socialMedia } = userData.user;
+        const { socialMedia, socialMediaColor } = userData.user;
+        setBtnColor(socialMediaColor);
         socialMediaArray.forEach((item) => {
           const media = socialMedia.find((socialvalue) => socialvalue.platform === item.name);
           updatedSocialLinks[item.name].link = media ? media?.link : '';
@@ -377,11 +379,23 @@ const Customization = () => {
         console.log('error');
       });
   };
+
+  const handleSocialMediaColor = (item) => {
+    api('patch', `/users/brand/socialMediaColor/${user?._id}`, { socialMediaColor: item })
+      .then((res) => {
+        getUser();
+        //  handleInActive(platform)
+        toast.success('Social Link Updated');
+        setBtnColor(item);
+      })
+      .catch(() => {
+        console.log('error');
+      });
+  };
   const handleSubmitTypography = (e) => {
     e.preventDefault();
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
-    console.log('textTypography', textTypography);
 
     api('put', `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
@@ -414,7 +428,6 @@ const Customization = () => {
     });
   };
   // background image End
-  console.log('typography', typography);
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
@@ -655,8 +668,6 @@ const Customization = () => {
                 <Col xs={10} lg='4' style={{ margin: 'auto' }}>
                   <FormGroup>
                     <label className='form-control-label'>Select Font</label>
-
-                    {console.log(typography, 'in select line 661')}
                     <div>
                       <select
                         placeholder={'Select...'}
@@ -928,20 +939,24 @@ const Customization = () => {
                   </h4>
                 </Col>
               </Row>
-              {socialMediaArray.map((platform) => (
+              {socialMediaArray.map(({ Icon, name, defaultColor }) => (
                 <>
                   <Row style={{ margin: '0px 5px', alignItems: 'center' }}>
                     <Col xs={10} lg='3' style={{ marginRight: 'auto' }}>
-                      <img src={platform.icon} alt='Facebook' style={{ margin: '5px 15px' }} />
+                      <Icon
+                        fill={btnColor ? btnColor : defaultColor}
+                        alt='Facebook'
+                        style={{ margin: '5px 15px' }}
+                      />
                       {/* <Facebook /> */}
                       <span style={{ fontWeight: '600', fontSize: '16px' }}>
-                        {platform.name.charAt(0).toUpperCase() + platform.name.slice(1)}
+                        {name.charAt(0).toUpperCase() + name.slice(1)}
                       </span>
                     </Col>
-                    {!socialLinks[platform.name].isOpen && !socialLinks[platform.name].link ? (
+                    {!socialLinks[name].isOpen && !socialLinks[name].link ? (
                       <>
                         <Col xs={10} lg='7' style={{ margin: '20px auto', textAlign: 'right' }}>
-                          <Button color='primary' onClick={() => handleActive(platform.name)}>
+                          <Button color='primary' onClick={() => handleActive(name)}>
                             Link
                           </Button>
                         </Col>
@@ -949,14 +964,11 @@ const Customization = () => {
                     ) : (
                       <Col xs={10} lg='5' style={{ margin: 'auto 0 auto 0' }}>
                         <Row>
-                          {socialLinks[platform.name].link &&
-                          socialLinks[platform.name].haveData ? (
+                          {socialLinks[name].link && socialLinks[name].haveData ? (
                             <>
                               <Col xs={9} lg='9' style={{ margin: 'auto 0', textAlign: 'end' }}>
                                 {' '}
-                                <h4 style={{ margin: '20px 0px' }}>
-                                  {socialLinks[platform.name].link}
-                                </h4>
+                                <h4 style={{ margin: '20px 0px' }}>{socialLinks[name].link}</h4>
                               </Col>
                               <Col
                                 xs={3}
@@ -974,8 +986,8 @@ const Customization = () => {
                                   }}
                                   alt='close'
                                   onClick={() => {
-                                    handleDeleteLink(socialLinks[platform.name]);
-                                    // handleInActive(platform.name);
+                                    handleDeleteLink(socialLinks[name]);
+                                    // handleInActive(name);
                                   }}
                                 />
                               </Col>
@@ -986,7 +998,7 @@ const Customization = () => {
                                 <button
                                   className='linkSaveBtn'
                                   color='primary'
-                                  onClick={(e) => handleSubmitSocial(e, platform.name)}
+                                  onClick={(e) => handleSubmitSocial(e, name)}
                                 >
                                   Save
                                 </button>
@@ -998,8 +1010,8 @@ const Customization = () => {
                                     required={true}
                                     placeholder='Add Your Link'
                                     type='text'
-                                    value={socialLinks[platform.name].link}
-                                    name={platform.name}
+                                    value={socialLinks[name].link}
+                                    name={name}
                                     onChange={handleChangeSocial}
                                   />
                                 </FormGroup>
@@ -1019,7 +1031,7 @@ const Customization = () => {
                                   }}
                                   alt='close'
                                   onClick={() => {
-                                    handleInActive(platform.name);
+                                    handleInActive(name);
                                   }}
                                 />
                               </Col>
@@ -1032,6 +1044,33 @@ const Customization = () => {
                   <hr style={{ width: '96%', margin: '0px auto' }} />
                 </>
               ))}
+
+              <div style={{ padding: '20px 50px' }}>
+                <p>Select Icons Color</p>
+                <div className='colorDiv'>
+                  {colors.map((color) => (
+                    <>
+                      <div
+                        className={`colorDiv1 ${btnColor === color && 'SelectedcolorDiv1'}`}
+                        style={{ background: color }}
+                        onClick={() => {
+                          handleSocialMediaColor(color);
+                        }}
+                      >
+                        {btnColor === color && 'Selected'}
+                      </div>
+                    </>
+                  ))}
+                  <div className='colorDiv1'>
+                    <Input
+                      type='color'
+                      // value={backgroundImg.color}
+                      className='btnColorDiv'
+                      onChange={(e) => handleSocialMediaColor(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
             </Card>
             <FeedBackForm />
             <CustomizeButton />
