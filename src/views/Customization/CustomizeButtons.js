@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Store, UpdateStore } from '../../StoreContext';
-import api from 'api';
+import { useState, useEffect } from "react";
+import { Store, UpdateStore } from "../../StoreContext";
+import api from "api";
 import {
   Row,
   Col,
@@ -14,77 +14,85 @@ import {
   Input,
   Button,
   CardFooter,
-} from 'reactstrap';
-import Select from 'react-select';
+} from "reactstrap";
+import Select from "react-select";
 
 // import {ReactComponent as Facebook} from '../../assets/img/Facebook.svg';
-import { mediaUrl } from '../../config';
+import { mediaUrl } from "../../config";
 // core components
-import { toast } from 'react-toastify';
-import Loader from 'components/Spinner/Spinner';
+import { toast } from "react-toastify";
+import Loader from "components/Spinner/Spinner";
 
-const colors = ['#219de3', '#CD01FB', '#01FBB7', '#9101FB', '#ADD010', '#FB014B', '#FB0171'];
+const colors = [
+  "#219de3",
+  "#CD01FB",
+  "#01FBB7",
+  "#9101FB",
+  "#ADD010",
+  "#FB014B",
+  "#FB0171",
+];
 const Fonts = [
-  { id: '1', name: 'a' },
-  { id: '2', name: 'b' },
-  { id: '3', name: 'c' },
+  { id: "1", name: "a" },
+  { id: "2", name: "b" },
+  { id: "3", name: "c" },
 ];
 const FontNames = [
-  'Arial',
-  'Helvetica',
-  'Times New Roman',
-  'Courier New',
-  'Verdana',
-  'Georgia',
-  'Palatino',
-  'Garamond',
-  'Bookman',
-  'Comic Sans MS',
-  'Trebuchet MS',
-  'Arial Black',
-  'Impact',
-  'Lucida Sans',
-  'Tahoma',
+  "Arial",
+  "Helvetica",
+  "Times New Roman",
+  "Courier New",
+  "Verdana",
+  "Georgia",
+  "Palatino",
+  "Garamond",
+  "Bookman",
+  "Comic Sans MS",
+  "Trebuchet MS",
+  "Arial Black",
+  "Impact",
+  "Lucida Sans",
+  "Tahoma",
 ];
 const fontWeights = [
-  'normal',
-  'bold',
-  'bolder',
-  'lighter',
-  '100',
-  '200',
-  '300',
-  '400',
-  '500',
-  '600',
-  '700',
-  '800',
-  '900',
+  "normal",
+  "bold",
+  "bolder",
+  "lighter",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
 ];
 const fontSizes = [
-  '10px',
-  '12px',
-  '14px',
-  '16px',
-  '18px',
-  '20px',
-  '24px',
-  '28px',
-  '32px',
-  '36px',
-  '40px',
+  "10px",
+  "12px",
+  "14px",
+  "16px",
+  "18px",
+  "20px",
+  "24px",
+  "28px",
+  "32px",
+  "36px",
+  "40px",
 ];
 
 const CustomizeButton = () => {
   const [loading, setLoading] = useState(false);
-  const [btnColor, setBtnColor] = useState('');
-  const [btnRadius, setBtnRadius] = useState('');
+  const [btnColor, setBtnColor] = useState("");
+  const [btnRadius, setBtnRadius] = useState("");
 
-  const [buttonType, setButtonType] = useState('solid');
+  const [buttonType, setButtonType] = useState("solid");
   const [typography, setTypography] = useState({
-    fontName: '',
-    fontWeight: '',
-    fontSize: '',
+    fontName: "",
+    fontWeight: "",
+    fontSize: "",
   });
 
   const store = Store();
@@ -94,84 +102,103 @@ const CustomizeButton = () => {
   const handleSubmitCustomizeButton = (e) => {
     e.preventDefault();
     let customizeButton = {};
-    customizeButton = { ...typography, btnType: buttonType, radius: btnRadius, bgColor: btnColor };
+    customizeButton = {
+      ...typography,
+      btnType: buttonType,
+      radius: btnRadius,
+      bgColor: btnColor,
+    };
     // if type is Outline then bg color is border
-    api('put', `/users/brand/description/${user?._id}`, { customizeButton })
+    api("put", `/users/brand/description/${user?._id}`, { customizeButton })
       .then((res) => {
-        toast.success('Updated successfully');
-        setTypography({ fontName: '', fontWeight: '', fontSize: '' });
-        setButtonType('solid');
-        setBtnRadius('');
-        setBtnColor('');
+        toast.success("Updated successfully");
+        setTypography({ fontName: "", fontWeight: "", fontSize: "" });
+        setButtonType("solid");
+        setBtnRadius("");
+        setBtnColor("");
       })
       .catch(() => {
-        console.log('error');
+        console.log("error");
       });
   };
 
   return (
     <>
-      <Card className='shadow' style={{ margin: '10px 0px' }}>
-        <Row style={{ margin: '10px 35px' }}>
-          <Col sm={9} xs={10} style={{ margin: 'auto 0' }}>
-            <h2 className='mb-0' style={{ fontWeight: '600' }}>
+      <Card className="shadow" style={{ margin: "10px 0px" }}>
+        <Row className="mobRow">
+          <Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={6}
+            xl={8}
+            // style={{ margin: "auto 0" }}
+          >
+            <h2 className="mb-0 heading22" style={{ fontWeight: "600" }}>
               Customizeable Button
             </h2>
           </Col>
-          <Col sm={1} xs={10}>
-            {buttonType == 'solid' ? (
+          <Col xs={6} sm={5} lg={3} xl={2}>
+            {buttonType == "solid" ? (
               <h5
-                size='sm'
+                size="sm"
                 style={{
-                  background: '#0397EB1A',
-                  color: '#219DE3',
-                  borderRadius: '10px',
-                  padding: '5px 5px',
-                  margin: '7px 0px',
-                  textAlign: 'center',
+                  background: "#0397EB1A",
+                  color: "#219DE3",
+                  borderRadius: "10px",
+                  padding: "5px 5px",
+                  margin: "7px 0px",
+                  textAlign: "center",
                 }}
-                onClick={() => setButtonType('solid')}
+                onClick={() => setButtonType("solid")}
               >
                 Solid
               </h5>
             ) : (
               <h5
                 style={{
-                  color: 'gray',
-                  margin: '7px 0px',
-                  padding: '5px 5px',
+                  borderRadius: "10px",
+                  border: ".5px solid #e5e3e3",
+                  color: "#b6afaf",
+                  textAlign: "center",
+                  margin: "7px 0px",
+                  padding: "5px",
+                  cursor: "pointer",
                 }}
-                onClick={() => setButtonType('solid')}
+                onClick={() => setButtonType("solid")}
               >
                 Solid
               </h5>
             )}
           </Col>
-          <Col sm={1} xs={10}>
-            {buttonType == 'outline' ? (
+          <Col xs={6} sm={5} lg={3} xl={2}>
+            {buttonType == "outline" ? (
               <h5
-                size='sm'
+                size="sm"
                 style={{
-                  background: '#0397EB1A',
-                  color: '#219DE3',
-                  borderRadius: '10px',
-                  padding: '5px 5px',
-                  margin: '7px 0px',
-                  textAlign: 'center',
+                  background: "#0397EB1A",
+                  color: "#219DE3",
+                  borderRadius: "10px",
+                  padding: "5px 5px",
+                  margin: "7px 0px",
+                  textAlign: "center",
                 }}
-                onClick={() => setButtonType('outline')}
+                onClick={() => setButtonType("outline")}
               >
                 Outline
               </h5>
             ) : (
               <h5
                 style={{
-                  color: 'gray',
-                  margin: '7px 0px',
-                  cursor: 'pointer',
-                  padding: '5px 5px',
+                  borderRadius: "10px",
+                  border: ".5px solid #e5e3e3",
+                  color: "#b6afaf",
+                  textAlign: "center",
+                  margin: "7px 0px",
+                  cursor: "pointer",
+                  padding: "5px 5px",
                 }}
-                onClick={() => setButtonType('outline')}
+                onClick={() => setButtonType("outline")}
               >
                 Outline
               </h5>
@@ -179,33 +206,59 @@ const CustomizeButton = () => {
           </Col>
         </Row>
         <>
-          <div style={{ margin: '5px 0px 0px 30px', fontWeight: 600 }}>Select Button Style</div>
-          <Row style={{ justifyContent: 'end', margin: '5px 10px' }}>
-            <Col sm={4} xs={10} style={{ margin: 'auto' }}>
-              <div className={`customeBtndiv1 ${btnRadius === '10px' && 'customeBtnSelected'}`}>
+          <div style={{ margin: "5px 0px 0px 30px", fontWeight: 600 }}>
+            Select Button Style
+          </div>
+          <Row style={{ justifyContent: "end", margin: "5px 10px" }}>
+            <Col sm={4} xs={10} style={{ margin: "auto" }}>
+              <div
+                className={`customeBtndiv1 ${
+                  btnRadius === "10px" && "customeBtnSelected"
+                }`}
+              >
                 <p
-                  className={`${buttonType === 'solid' ? 'customebtnp1' : 'customebtnoutlinep1'}`}
-                  onClick={() => setBtnRadius('10px')}
+                  className={`${
+                    buttonType === "solid"
+                      ? "customebtnp1"
+                      : "customebtnoutlinep1"
+                  }`}
+                  onClick={() => setBtnRadius("10px")}
                 >
                   Add Your Text
                 </p>
               </div>
             </Col>
-            <Col sm={4} xs={10} style={{ margin: 'auto' }}>
-              <div className={`customeBtndiv1 ${btnRadius === '25px' && 'customeBtnSelected'}`}>
+            <Col sm={4} xs={10} style={{ margin: "auto" }}>
+              <div
+                className={`customeBtndiv1 ${
+                  btnRadius === "25px" && "customeBtnSelected"
+                }`}
+              >
                 <p
-                  className={`${buttonType === 'solid' ? 'customebtnp2' : 'customebtnoutlinep2'}`}
-                  onClick={() => setBtnRadius('25px')}
+                  className={`${
+                    buttonType === "solid"
+                      ? "customebtnp2"
+                      : "customebtnoutlinep2"
+                  }`}
+                  onClick={() => setBtnRadius("25px")}
                 >
                   Add Your Text
                 </p>
               </div>
             </Col>
-            <Col sm={4} xs={10} style={{ margin: 'auto' }}>
-              <div className={`customeBtndiv1 ${btnRadius === '1px' && 'customeBtnSelected'}`}>
+            <Col sm={4} xs={10} style={{ margin: "auto" }}>
+              <div
+                className={`customeBtndiv1 ${
+                  btnRadius === "1px" && "customeBtnSelected"
+                }`}
+              >
                 <p
-                  className={`${buttonType === 'solid' ? 'customebtnp3' : 'customebtnoutlinep3'}`}
-                  onClick={() => setBtnRadius('1px')}
+                  className={`${
+                    buttonType === "solid"
+                      ? "customebtnp3"
+                      : "customebtnoutlinep3"
+                  }`}
+                  onClick={() => setBtnRadius("1px")}
                 >
                   Add Your Text
                 </p>
@@ -213,15 +266,17 @@ const CustomizeButton = () => {
             </Col>
           </Row>
         </>
-        <Row style={{ margin: '5px 10px' }}>
-          <Col xs={10} sm={5} style={{ margin: 'auto' }}>
+        <Row style={{ margin: "5px 10px" }}>
+          <Col xs={10} sm={5} style={{ margin: "auto" }}>
             <FormGroup>
-              <label className='form-control-label'>Select Font</label>
+              <label className="form-control-label">Select Font</label>
               <Select
-                onChange={(e) => setTypography({ ...typography, fontName: e.value })}
-                name='fontName'
-                defaultValue={typography.fontName ? typography.fontName : ''}
-                className='form-control-alternative'
+                onChange={(e) =>
+                  setTypography({ ...typography, fontName: e.value })
+                }
+                name="fontName"
+                defaultValue={typography.fontName ? typography.fontName : ""}
+                className="form-control-alternative"
                 options={FontNames?.map((font) => ({
                   value: font,
                   label: `${font}`,
@@ -229,14 +284,18 @@ const CustomizeButton = () => {
               />
             </FormGroup>
           </Col>
-          <Col xs={10} sm={5} style={{ margin: 'auto' }}>
+          <Col xs={10} sm={5} style={{ margin: "auto" }}>
             <FormGroup>
-              <label className='form-control-label'>Font Weight</label>
+              <label className="form-control-label">Font Weight</label>
               <Select
-                onChange={(e) => setTypography({ ...typography, fontWeight: e.value })}
-                defaultValue={typography.fontWeight ? typography.fontWeight : ''}
-                name='fontWeight'
-                className='form-control-alternative'
+                onChange={(e) =>
+                  setTypography({ ...typography, fontWeight: e.value })
+                }
+                defaultValue={
+                  typography.fontWeight ? typography.fontWeight : ""
+                }
+                name="fontWeight"
+                className="form-control-alternative"
                 options={fontWeights?.map((font) => ({
                   value: font,
                   label: `${font}`,
@@ -244,14 +303,16 @@ const CustomizeButton = () => {
               />
             </FormGroup>
           </Col>
-          <Col xs={10} sm={2} style={{ margin: 'auto' }}>
+          <Col xs={10} sm={2} style={{ margin: "auto" }}>
             <FormGroup>
-              <label className='form-control-label'>Select Size</label>
+              <label className="form-control-label">Select Size</label>
               <Select
-                onChange={(e) => setTypography({ ...typography, fontSize: e.value })}
-                name='fontSize'
-                defaultValue={typography.fontSize ? typography.fontSize : ''}
-                className='form-control-alternative'
+                onChange={(e) =>
+                  setTypography({ ...typography, fontSize: e.value })
+                }
+                name="fontSize"
+                defaultValue={typography.fontSize ? typography.fontSize : ""}
+                className="form-control-alternative"
                 options={fontSizes?.map((font) => ({
                   value: font,
                   label: `${font}`,
@@ -260,40 +321,55 @@ const CustomizeButton = () => {
             </FormGroup>
           </Col>
         </Row>
-        <div style={{ padding: '0px 50px' }}>
+        <div style={{ padding: "0px 50px" }}>
           <p>Select Color</p>
-          <div className='colorDiv'>
+          <div className="colorDiv">
             {colors.map((color) => (
               <>
                 <div
-                  className={`colorDiv1 ${btnColor === color && 'SelectedcolorDiv1'}`}
+                  className={`colorDiv1 ${
+                    btnColor === color && "SelectedcolorDiv1"
+                  }`}
                   style={{ background: color }}
                   onClick={() => {
                     setBtnColor(color);
                   }}
                 >
-                  {btnColor === color && 'Selected'}
+                  {btnColor === color && "Selected"}
                 </div>
               </>
             ))}
-            <div className='colorDiv1'>
+            <div className="colorDiv1">
               <Input
-                type='color'
+                type="color"
                 // value={backgroundImg.color}
-                className='btnColorDiv'
+                className="btnColorDiv"
                 onChange={(e) => setBtnColor(e.target.value)}
               />
             </div>
           </div>
         </div>
-        <Row style={{ justifyContent: 'end', marginRight: '20px' }}>
-          <Col xs={5} lg='9' style={{ margin: '20px 10px', textAlign: 'end' }}>
-            <Button color='secondary' onClick=''>
+        <Row style={{ justifyContent: "end", marginRight: "20px" }}>
+          {/* <Col xs={5} lg="9" style={{ margin: "20px 10px", textAlign: "end" }}>
+            <Button color="secondary" onClick="">
               Cancel
             </Button>
-          </Col>
-          <Col xs={5} lg='1' style={{ margin: '20px 10px', textAlign: 'end' }}>
-            <Button color='primary' onClick={handleSubmitCustomizeButton}>
+          </Col> */}
+          <Col
+            xs={12}
+            style={{
+              padding: "20px 10px",
+              textAlign: "end",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "3%",
+            }}
+          >
+            <Button color="secondary" onClick="">
+              Cancel
+            </Button>
+            <Button color="primary" onClick={handleSubmitCustomizeButton}>
               Submit
             </Button>
           </Col>
