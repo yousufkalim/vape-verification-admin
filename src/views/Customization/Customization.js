@@ -107,9 +107,9 @@ const colors = [
   "#CD01FB",
   "#01FBB7",
   "#9101FB",
-  "#ADD010",
-  "#FB014B",
-  "#FB0171",
+  // "#ADD010",
+  // "#FB014B",
+  // "#FB0171",
 ];
 
 const Customization = () => {
@@ -543,7 +543,7 @@ const Customization = () => {
                     <Input
                       className="form-control-alternative text-default"
                       required={true}
-                      placeholder="Enter website Link"
+                      placeholder="https://app.getveriscan.com"
                       type="text"
                       value={customeForm.websiteLink}
                       name="websiteLink"
@@ -901,7 +901,7 @@ const Customization = () => {
                 </Col>
               </Row>
 
-              <Row style={{ justifyContent: "center" }} className="bdcolorrow">
+              <Row className="bdcolorrow">
                 <div className="colorDivWidth ">
                   <div
                     className={`defaultDiv ${
@@ -1011,7 +1011,13 @@ const Customization = () => {
                           handleBackgroundImageChange(e);
                         }}
                       />
-                      <div style={{ cursor: "pointer" }}>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
                         <img
                           src={previewImage ?? Addyourpic}
                           className={`backGroundImgUpload ${
@@ -1069,11 +1075,11 @@ const Customization = () => {
             </Card>
 
             <Card className="shadow" style={{ margin: "10px 0px" }}>
-              <Row style={{ margin: "10px 35px" }}>
-                <Col sm={9} xs={10} style={{ margin: "10px 0px" }}>
-                  <h4 className="mb-0 headingbg" style={{ fontWeight: "600" }}>
+              <Row className="mobRow">
+                <Col xs={12} style={{ margin: "10px 0px" }}>
+                  <h3 className="mb-0 headingbg" style={{ fontWeight: "600" }}>
                     Social Media
-                  </h4>
+                  </h3>
                 </Col>
               </Row>
               {socialMediaArray.map(({ Icon, name, defaultColor }) => (

@@ -17,8 +17,8 @@ x
 */
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap';
-import { Store } from 'StoreContext';
+import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Store } from "StoreContext";
 
 const Header = () => {
   const store = Store();
@@ -30,8 +30,8 @@ const Header = () => {
     let lastMonth = new Date();
     currentMonth.setMonth(currentMonth.getMonth() - 1);
     lastMonth.setMonth(currentMonth.getMonth() - 2);
-    currentMonth = currentMonth.toLocaleString('default', { month: 'short' });
-    lastMonth = lastMonth.toLocaleString('default', { month: 'short' });
+    currentMonth = currentMonth.toLocaleString("default", { month: "short" });
+    lastMonth = lastMonth.toLocaleString("default", { month: "short" });
 
     const growthPercentage =
       ((stats?.stats[currentMonth] - stats?.stats[lastMonth]) /
@@ -40,9 +40,9 @@ const Header = () => {
 
     return (
       <span
-        className={`text-${growthPercentage > 0 ? 'success' : 'danger'} mr-2`}
+        className={`text-${growthPercentage > 0 ? "success" : "danger"} mr-2`}
       >
-        <i className={`fa fa-arrow-${growthPercentage > 0 ? 'up' : 'down'}`} />{' '}
+        <i className={`fa fa-arrow-${growthPercentage > 0 ? "up" : "down"}`} />{" "}
         {!isNaN(growthPercentage.toFixed(2)) ? growthPercentage.toFixed(2) : 0}%
       </span>
     );
@@ -53,7 +53,7 @@ const Header = () => {
       <div
         className="header pb-8 pt-5 pt-md-8"
         style={{
-          background: 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
+          background: "linear-gradient(87deg, #11cdef 0, #1171ef 100%)",
         }}
       >
         <Container fluid>
@@ -64,7 +64,7 @@ const Header = () => {
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
-                      {user?.role === 'brand' ? (
+                      {user?.role === "brand" ? (
                         <div className="col">
                           <CardTitle
                             tag="h5"
@@ -98,7 +98,7 @@ const Header = () => {
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
                         <i />
-                      </span>{' '}
+                      </span>{" "}
                       <span className="text-nowrap" />
                     </p>
                   </CardBody>
@@ -136,7 +136,7 @@ const Header = () => {
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
-                      {user?.role === 'brand' ? (
+                      {user?.role === "brand" ? (
                         <>
                           <div className="col">
                             <CardTitle
@@ -179,7 +179,7 @@ const Header = () => {
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
                         <i />
-                      </span>{' '}
+                      </span>{" "}
                       <span className="text-nowrap" />
                     </p>
                   </CardBody>
@@ -209,7 +209,7 @@ const Header = () => {
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
                         <i />
-                      </span>{' '}
+                      </span>{" "}
                       <span className="text-nowrap" />
                     </p>
                   </CardBody>

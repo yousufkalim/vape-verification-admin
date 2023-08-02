@@ -16,7 +16,12 @@
 }
 
 .bdcolorrow {
-  padding-inline: 15px;
+  /* padding-inline: 15px; */
+  display: flex;
+  gap: 1%;
+  /* align-items: center; */
+  padding-left: 3%;
+  overflow: hidden;
 }
 
 .filepicker_main_div {
@@ -117,19 +122,21 @@
 }
 
 .colorDivWidth {
-  width: 13%;
+  width: 12%;
+  /* height: 100%; */
 }
 .colorDivWidth2 {
-  width: 13%;
+  width: 12%;
 }
 .selectedBackground {
   border: 2px solid #219de3 !important;
 }
 .backGroundImgUpload {
-  width: 160px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
-  margin: auto;
+  /* margin: auto; */
 }
 .faciconUpload {
   width: 160px;
@@ -141,9 +148,10 @@
   border-radius: 10px;
   padding: 5px;
   margin: 0px;
+  width: 100%;
 }
 .defaultDiv {
-  width: 160px;
+  width: 100%;
   height: 100px;
   border-radius: 10px;
   margin: auto;
@@ -154,7 +162,7 @@
   cursor: pointer;
 }
 .uploadedBackgroundImg1 {
-  width: 160px;
+  width: 100%;
   height: 100px;
   border-radius: 10px;
   margin: auto;
@@ -165,6 +173,7 @@
 }
 .favIconDiv {
   display: flex;
+  overflow-x: scroll;
 }
 .recentFavIcon {
   width: 100px;
@@ -181,7 +190,7 @@
   text-transform: capitalize;
 }
 .selectedBackground1 {
-  width: 160px;
+  width: 100%;
   height: 100px;
   border-radius: 10px;
   margin: auto;
@@ -268,11 +277,19 @@
   border: 2px solid #219de3;
 }
 .colorDiv1 {
-  background-color: #219de3;
+  /* background-color: #219de3; */
   height: 50px;
-  width: 140px;
+  width: 14%;
   border-radius: 10px;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.colorDiv2 {
+  height: 50px;
+  width: 14%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -283,13 +300,15 @@
 }
 .colorDiv {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  gap: 2%;
+  /* flex-direction: row; */
+  /* flex-wrap: nowrap; */
+  /* justify-content: space-between; */
 }
+
 .btnColorDiv {
-  height: 50px;
-  width: 140px;
+  height: 100%;
+  width: 100%;
   border-radius: 10px;
   color: white;
   display: flex;
@@ -297,6 +316,7 @@
   align-items: center;
   padding: 2px;
   cursor: pointer;
+  /* background: red; */
 }
 .descriptionInput {
   padding: 35px 20px;
@@ -415,32 +435,61 @@
   /* background-color: red; */
   margin: 10px;
 }
+.HPimgprofiile {
+  width: 100%;
+  /* height: 80px; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* height: 50px; */
+}
+.HPimgprofiile label {
+  width: 100%;
+  height: 100%;
+}
 @media screen and (min-width: 1200px) and (max-width: 1600px) {
   .colorDivWidth {
-    width: 115px;
-    margin: 0px 10px;
+    /* width: 115px; */
+    /* margin: 0px 10px; */
   }
   .defaultDiv {
-    width: 120px;
+    /* width: 120px; */
     height: 80px;
   }
   .uploadedBackgroundImg1 {
-    width: 120px;
+    /* width: 120px; */
+    height: 80px;
+  }
+  .HPimgprofiile {
     height: 80px;
   }
   .backGroundImgUpload {
-    width: 120px;
+    /* width: 120px; */
     height: 80px;
   }
   .backgroungImgColor {
     height: 80px;
   }
   .colorDiv1 {
-    width: 100px;
+    width: 16%;
   }
   .selectedBackground1 {
-    width: 120px;
+    /* width: 120px; */
     height: 80px;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .bdcolorrow {
+    flex-wrap: wrap;
+    margin: 1% 0;
+  }
+  .colorDivWidth {
+    width: 23%;
+    margin: 1% 0;
+  }
+  .colorDivWidth2 {
+    width: 23%;
+    margin: 1% 0;
   }
 }
 @media only screen and (max-width: 991px) {
@@ -450,30 +499,52 @@
     align-items: center;
     justify-content: center;
   }
+  .colorDiv1 {
+    width: 30%;
+    margin: 1% 0;
+  }
+  .colorDiv {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    align-items: center;
+  }
+  .colorDivWidth {
+    width: 30%;
+  }
+  .colorDivWidth2 {
+    width: 30%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .colorDiv1 {
+    width: 47%;
+  }
 }
 @media screen and (max-width: 680px) {
   .bdcolorrow {
-    display: block !important;
+    /* display: block !important; */
   }
   .colorDivWidth {
-    width: 80%;
-    margin: 10px auto;
+    width: 45%;
+    /* margin: 10px auto; */
     text-align: center;
   }
   .colorDivWidth2 {
     width: 45%;
-    margin: 10px auto;
+    /* margin: 10px auto; */
     text-align: center;
   }
   .backGroundImgUpload {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
   .colorDiv {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
   }
   .colorDiv1 {
     margin: 10px 0px;
@@ -500,5 +571,13 @@
     /* text-align: left; */
     /* font-size: 20px; */
     /* margin: 10px 0px; */
+  }
+}
+@media screen and (max-width: 520px) {
+  .colorDiv1 {
+    width: 100%;
+  }
+  .colorDiv {
+    justify-content: center;
   }
 }

@@ -324,7 +324,7 @@ const CustomizeButton = () => {
         <div style={{ padding: "0px 50px" }}>
           <p>Select Color</p>
           <div className="colorDiv">
-            {colors.map((color) => (
+            {/* {colors.map((color) => (
               <>
                 <div
                   className={`colorDiv1 ${
@@ -338,7 +338,7 @@ const CustomizeButton = () => {
                   {btnColor === color && "Selected"}
                 </div>
               </>
-            ))}
+            ))} */}
             <div className="colorDiv1">
               <Input
                 type="color"
