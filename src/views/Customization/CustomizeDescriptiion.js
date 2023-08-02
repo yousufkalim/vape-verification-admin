@@ -149,7 +149,7 @@ const CustomizeButton = () => {
         <Row
           style={{
             // justifyContent: "end",
-            margin: "0 20px",
+            margin: "10px 20px 0 20px",
           }}
         >
           <Col xs={12} style={{ padding: "0" }}>

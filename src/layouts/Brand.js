@@ -15,20 +15,26 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect } from 'react';
-import { useLocation, Route, Switch, Redirect, useHistory } from 'react-router-dom';
-import api from 'api';
-import { Store, UpdateStore } from 'StoreContext';
+import React, { useEffect } from "react";
+import {
+  useLocation,
+  Route,
+  Switch,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
+import api from "api";
+import { Store, UpdateStore } from "StoreContext";
 // reactstrap components
-import { Container } from 'reactstrap';
+import { Container } from "reactstrap";
 // core components
-import AdminNavbar from 'components/Navbars/AdminNavbar.js';
-import AdminFooter from 'components/Footers/AdminFooter.js';
-import Sidebar from 'components/Sidebar/Sidebar.js';
+import AdminNavbar from "components/Navbars/AdminNavbar.js";
+import AdminFooter from "components/Footers/AdminFooter.js";
+import Sidebar from "components/Sidebar/Sidebar.js";
 
-import routes from 'routes.js';
-import Header from 'components/Headers/Header';
-import { mediaUrl } from 'config';
+import routes from "routes.js";
+import Header from "components/Headers/Header";
+import { mediaUrl } from "config";
 
 const Brand = (props) => {
   const mainContent = React.useRef(null);
@@ -39,7 +45,9 @@ const Brand = (props) => {
   const updateStore = UpdateStore();
   const store = Store();
 
-  const sidebarRoutes = routes.filter((route) => !route.isChild && route.layout === '/brand');
+  const sidebarRoutes = routes.filter(
+    (route) => !route.isChild && route.layout === "/brand"
+  );
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -51,8 +59,8 @@ const Brand = (props) => {
   }, [location]);
 
   const getUser = () => {
-    api('get', '/auth').then((data) => {
-      api('get', `/users/${data.user._id}`).then((userData) => {
+    api("get", "/auth").then((data) => {
+      api("get", `/users/${data.user._id}`).then((userData) => {
         if (userData?.user && userData?.user?.active) {
           updateStore({
             user: userData.user,
@@ -60,8 +68,8 @@ const Brand = (props) => {
             token: data.token,
           });
         } else {
-          localStorage.setItem('token', '');
-          history.push('/auth/login');
+          localStorage.setItem("token", "");
+          history.push("/auth/login");
         }
       });
     });
@@ -72,15 +80,22 @@ const Brand = (props) => {
   }, []);
 
   const getStats = () => {
-    api('get', '/users/stats').then((res) => {
+    api("get", "/users/stats").then((res) => {
       updateStore({ stats: res?.stats });
     });
   };
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === '/brand' && loggedIn) {
-        return <Route exact path={prop.layout + prop.path} component={prop.component} key={key} />;
+      if (prop.layout === "/brand" && loggedIn) {
+        return (
+          <Route
+            exact
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
       } else {
         return null;
       }
@@ -89,18 +104,21 @@ const Brand = (props) => {
 
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
-      if (props.location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
+      if (
+        props.location.pathname.indexOf(routes[i].layout + routes[i].path) !==
+        -1
+      ) {
         return routes[i].name;
       }
     }
-    return 'Brand';
+    return "Brand";
   };
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) {
-    history.push('/auth/login');
-  } else if (store?.user?.role === 'admin') {
-    history.push('/admin/index');
+    history.push("/auth/login");
+  } else if (store?.user?.role === "admin") {
+    history.push("/admin/index");
   }
 
   const logo = `${mediaUrl}${store?.user?.logo}`;
@@ -112,12 +130,12 @@ const Brand = (props) => {
         routes={sidebarRoutes}
         getUser={getUser}
         logo={{
-          innerLink: '/admin/index',
+          innerLink: "/admin/index",
           imgSrc: logo,
-          imgAlt: '...',
+          imgAlt: "...",
         }}
       />
-      <div className='main-content' ref={mainContent}>
+      <div className="main-content" ref={mainContent}>
         <AdminNavbar
           getUser={getUser}
           {...props}
@@ -126,7 +144,7 @@ const Brand = (props) => {
         <Header />
         <Switch>
           {getRoutes(routes)}
-          <Redirect from='*' to='/brand/index' />
+          <Redirect from="*" to="/brand/index" />
         </Switch>
         <Container fluid>
           <AdminFooter />
