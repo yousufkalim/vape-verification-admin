@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useEffect, useState } from 'react';
-import { Store } from 'StoreContext';
+import { useEffect, useState } from "react";
+import { Store } from "StoreContext";
 // reactstrap components
 import {
   Modal,
@@ -40,39 +40,39 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from 'reactstrap';
-import FilePicker from 'components/FilePicker/FilePicker';
-import { toast } from 'react-toastify';
-import api from 'api';
-import { mediaUrl } from '../../config';
+} from "reactstrap";
+import FilePicker from "components/FilePicker/FilePicker";
+import { toast } from "react-toastify";
+import api from "api";
+import { mediaUrl } from "../../config";
 
 const AdminNavbar = ({ brandText, getUser }) => {
   const { user } = Store();
   const [profile, setProfile] = useState();
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log('User ', user);
-    if (user && user.role === 'brand') {
+    console.log("User ", user);
+    if (user && user.role === "brand") {
       setProfile({
         name: user?.name,
         email: user?.email,
         logo: user?.preferences?.logo,
-        websiteLink: user.websiteLink ? user.websiteLink : '',
-        logoWidth: user.logoWidth ? user.logoWidth : '',
+        websiteLink: user.websiteLink ? user.websiteLink : "",
+        logoWidth: user.logoWidth ? user.logoWidth : "",
         preferences: user?.preferences,
-        password: '',
-        confirmPassword: '',
+        password: "",
+        confirmPassword: "",
       });
 
-      setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : '');
-    } else if (user && user.role === 'admin') {
+      setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : "");
+    } else if (user && user.role === "admin") {
       setProfile({
         name: user?.name,
         email: user?.email,
-        password: '',
-        confirmPassword: '',
+        password: "",
+        confirmPassword: "",
       });
     }
   }, [user]);
@@ -81,7 +81,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
     setOpen((prev) => !prev);
   };
 
-  console.log('File name ', fileName);
+  console.log("File name ", fileName);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -101,7 +101,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const handleDeleteImage = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    setFileName('');
+    setFileName("");
     setProfile((prev) => ({ ...prev, logo: null }));
   };
 
@@ -115,25 +115,28 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (profile.name === '') {
+    if (profile.name === "") {
       return toast.error("Please enter user's name");
     }
 
-    if (profile.email === '') {
-      return toast.error('Please enter email');
+    if (profile.email === "") {
+      return toast.error("Please enter email");
     }
     if (profile.password) {
       if (!profile?.confirmPassword) {
-        return toast.error('Please enter confirm password');
+        return toast.error("Please enter confirm password");
       }
-      if (profile?.password.length < 8 || profile?.confirmPassword?.length < 8) {
-        return toast.error('Password should contains at least 8 characters');
+      if (
+        profile?.password.length < 8 ||
+        profile?.confirmPassword?.length < 8
+      ) {
+        return toast.error("Password should contains at least 8 characters");
       } else if (profile?.password !== profile?.confirmPassword) {
-        return toast.error('Password and Confirm Password are not matching');
+        return toast.error("Password and Confirm Password are not matching");
       }
     }
 
-    if (user.role === 'brand') {
+    if (user.role === "brand") {
       updateBrand();
     } else {
       updateAdmin();
@@ -144,16 +147,18 @@ const AdminNavbar = ({ brandText, getUser }) => {
     let formData = new FormData();
 
     for (let key in profile) {
-      if (key === 'preferences') {
+      if (key === "preferences") {
         formData.append(key, JSON.stringify(profile[key]));
       } else {
-        profile[key] && key !== 'confirmPassword' && formData.append(key, profile[key]);
+        profile[key] &&
+          key !== "confirmPassword" &&
+          formData.append(key, profile[key]);
       }
     }
 
-    api('put', `/users/brand/${user._id}`, formData).then((res) => {
+    api("put", `/users/brand/${user._id}`, formData).then((res) => {
       getUser();
-      toast.success('Brand updated successfully');
+      toast.success("Brand updated successfully");
       handleModal();
     });
   };
@@ -164,46 +169,48 @@ const AdminNavbar = ({ brandText, getUser }) => {
       email: profile.email,
     };
     if (profile?.password) {
-      data['password'] = profile?.password;
+      data["password"] = profile?.password;
     }
-    api('put', `/users/admin`, data).then((res) => {
+    api("put", `/users/admin`, data).then((res) => {
       getUser();
-      toast.success('Profile updated successfully');
+      toast.success("Profile updated successfully");
       handleModal();
     });
   };
 
   const handleLogout = () => {
-    localStorage.setItem('token', '');
-    window.location = '/auth/login';
+    localStorage.setItem("token", "");
+    window.location = "/auth/login";
   };
 
   return (
     <>
-      <Navbar className='navbar-top navbar-dark' expand='md' id='navbar-main'>
+      <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
           <div
-            className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block'
+            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
             // to='/admin/index'
           >
             {brandText}
           </div>
-          <Nav className='align-items-center d-none d-md-flex' navbar>
+          <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
-              <DropdownToggle className='pr-0' nav>
-                <Media className='align-items-center'>
-                  <Media className='ml-2 d-none d-lg-block'>
-                    <span className='mb-0 text-sm font-weight-bold'>{user?.name}</span>
+              <DropdownToggle className="pr-0" nav>
+                <Media className="align-items-center">
+                  <Media className="ml-2 d-none d-lg-block">
+                    <span className="mb-0 text-sm font-weight-bold">
+                      {user?.name}
+                    </span>
                   </Media>
                 </Media>
               </DropdownToggle>
-              <DropdownMenu className='dropdown-menu-arrow' right>
-                <DropdownItem href='#pablo' onClick={handleModal}>
-                  <i className='ni ni-single-02' />
+              <DropdownMenu className="dropdown-menu-arrow" right>
+                <DropdownItem href="#pablo" onClick={handleModal}>
+                  <i className="ni ni-single-02" />
                   <span>Profile</span>
                 </DropdownItem>
-                <DropdownItem href='#pablo' onClick={handleLogout}>
-                  <i className='ni ni-user-run' />
+                <DropdownItem href="#pablo" onClick={handleLogout}>
+                  <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
               </DropdownMenu>
@@ -212,185 +219,189 @@ const AdminNavbar = ({ brandText, getUser }) => {
         </Container>
       </Navbar>
       {/*     PROFILE MODAL     */}
-      <Modal isOpen={open} size='md' centered>
-        <ModalHeader charCode='X' toggle={handleModal}>
+      <Modal isOpen={open} size="md" centered>
+        <ModalHeader charCode="X" toggle={handleModal}>
           Profile
         </ModalHeader>
         <ModalBody>
           <Row>
             <Col>
               <Form>
-                <div className='px-lg-2'>
+                <div className="px-lg-2">
                   <Row>
-                    <Col lg='12' style={{ margin: 'auto' }}>
+                    <Col lg="12" style={{ margin: "auto" }}>
                       <FormGroup>
-                        <label className='form-control-label'>
-                          <span style={{ color: 'red' }}>{profile?.name ? '' : '*'} </span>
+                        <label className="form-control-label">
+                          <span style={{ color: "red" }}>
+                            {profile?.name ? "" : "*"}{" "}
+                          </span>
                           Name
                         </label>
                         <Input
-                          className='form-control-alternative text-default'
+                          className="form-control-alternative text-default"
                           required={true}
                           placeholder="Enter user's name"
-                          type='text'
+                          type="text"
                           value={profile?.name}
-                          name='name'
+                          name="name"
                           onChange={handleInput}
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg='12' style={{ margin: 'auto' }}>
+                    <Col lg="12" style={{ margin: "auto" }}>
                       <FormGroup>
-                        <label className='form-control-label'>
-                          <span style={{ color: 'red' }}>{profile?.email ? '' : '*'} </span>
+                        <label className="form-control-label">
+                          <span style={{ color: "red" }}>
+                            {profile?.email ? "" : "*"}{" "}
+                          </span>
                           Email
                         </label>
                         <Input
-                          className='form-control-alternative text-default'
+                          className="form-control-alternative text-default"
                           required={true}
-                          placeholder='Enter user email'
-                          type='text'
+                          placeholder="Enter user email"
+                          type="text"
                           disabled
                           value={profile?.email}
-                          name='email'
+                          name="email"
                           onChange={handleInput}
                         />
                       </FormGroup>
                     </Col>
 
-                    <Col lg='12' style={{ margin: 'auto' }}>
+                    <Col lg="12" style={{ margin: "auto" }}>
                       <FormGroup>
-                        <InputGroup className='input-group-alternative'>
-                          <InputGroupAddon addonType='prepend'>
+                        <InputGroup className="input-group-alternative">
+                          <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                              <i className='ni ni-lock-circle-open' />
+                              <i className="ni ni-lock-circle-open" />
                             </InputGroupText>
                           </InputGroupAddon>
                           <Input
-                            placeholder='Password'
-                            type='password'
-                            name='password'
+                            placeholder="Password"
+                            type="password"
+                            name="password"
                             value={profile?.password}
-                            autoComplete='new-password'
+                            autoComplete="new-password"
                             onChange={handleInput}
                           />
                         </InputGroup>
                       </FormGroup>
                     </Col>
-                    <Col lg='12' style={{ margin: 'auto' }}>
+                    <Col lg="12" style={{ margin: "auto" }}>
                       <FormGroup>
-                        <InputGroup className='input-group-alternative'>
-                          <InputGroupAddon addonType='prepend'>
+                        <InputGroup className="input-group-alternative">
+                          <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                              <i className='ni ni-lock-circle-open' />
+                              <i className="ni ni-lock-circle-open" />
                             </InputGroupText>
                           </InputGroupAddon>
                           <Input
-                            placeholder='Confirm Password'
-                            type='password'
-                            name='confirmPassword'
+                            placeholder="Confirm Password"
+                            type="password"
+                            name="confirmPassword"
                             value={profile?.confirmPassword}
-                            autoComplete='new-password'
+                            autoComplete="new-password"
                             onChange={handleInput}
                           />
                         </InputGroup>
                       </FormGroup>
                     </Col>
                   </Row>
-                  {user?.role === 'brand' && (
+                  {/* {user?.role === "brand" && (
                     <>
                       <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
+                        <Col lg="12" style={{ margin: "auto" }}>
                           <FormGroup>
-                            <label className='form-control-label'>Logo</label>
+                            <label className="form-control-label">Logo</label>
                             <FilePicker
-                              accept='image/*'
+                              accept="image/*"
                               fileName={fileName}
                               isDelete={true}
                               handleDelete={handleDeleteImage}
-                              type='file'
+                              type="file"
                               onChange={handleFile}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
+                        <Col lg="12" style={{ margin: "auto" }}>
                           <FormGroup>
-                            <label className='form-control-label'>
-                              {' '}
-                              {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                            <label className="form-control-label">
+                              {" "}
                               Website Link
-                            </label>{' '}
+                            </label>{" "}
                             <Input
-                              className='form-control-alternative text-default'
-                              placeholder='Enter website Link'
-                              type='text'
+                              className="form-control-alternative text-default"
+                              placeholder="Enter website Link"
+                              type="text"
                               value={profile?.websiteLink}
-                              name='websiteLink'
+                              name="websiteLink"
                               onChange={handleInput}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
-                        <Col lg='12' style={{ margin: 'auto' }}>
+                        <Col lg="12" style={{ margin: "auto" }}>
                           <FormGroup>
-                            <label className='form-control-label'>
-                              {' '}
-                              {/* <span style={{ color: 'red' }}>{user.logoWidth ? '' : '*'} </span> */}
+                            <label className="form-control-label">
+                              {" "}
                               Logo Width (Px)
-                            </label>{' '}
+                            </label>{" "}
                             <Input
-                              className='form-control-alternative text-default'
-                              placeholder='Enter Logo Width'
-                              type='number'
+                              className="form-control-alternative text-default"
+                              placeholder="Enter Logo Width"
+                              type="number"
                               value={profile?.logoWidth}
-                              name='logoWidth'
+                              name="logoWidth"
                               onChange={handleInput}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
-                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                        <Col lg="6" style={{ marginRight: "auto" }}>
                           <FormGroup>
-                            <label className='form-control-label'>Color</label>
+                            <label className="form-control-label">Color</label>
                             <Input
-                              className='form-control-alternative text-default color_field'
-                              type='color'
+                              className="form-control-alternative text-default color_field"
+                              type="color"
                               value={profile?.preferences?.color}
-                              name='color'
+                              name="color"
                               onChange={handleColor}
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg='6' style={{ marginRight: 'auto' }}>
+                        <Col lg="6" style={{ marginRight: "auto" }}>
                           <FormGroup>
-                            <label className='form-control-label'>Secondary Color</label>
+                            <label className="form-control-label">
+                              Secondary Color
+                            </label>
                             <Input
-                              className='form-control-alternative text-default color_field'
-                              type='color'
+                              className="form-control-alternative text-default color_field"
+                              type="color"
                               value={
                                 profile?.preferences?.secondaryColor
                                   ? profile?.preferences?.secondaryColor
-                                  : ''
+                                  : ""
                               }
-                              name='secondaryColor'
+                              name="secondaryColor"
                               onChange={handleColor}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                     </>
-                  )}
+                  )} */}
                 </div>
               </Form>
             </Col>
           </Row>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSubmit}>
+          <Button color="primary" onClick={handleSubmit}>
             Save
           </Button>
 

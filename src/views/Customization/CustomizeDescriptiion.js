@@ -30,6 +30,7 @@ const CustomizeButton = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [favIcon, setFavicon] = useState(null);
   const [description, setDescription] = useState(null);
+  const [favIcons, setFavicons] = useState([]);
 
   const store = Store();
   const updateStore = UpdateStore();
@@ -46,6 +47,12 @@ const CustomizeButton = () => {
       });
   };
   useEffect(() => {
+    getUser();
+  }, []);
+  useEffect(() => {
+    if (user) {
+      setFavicons(user?.favIcons);
+    }
     getUser();
   }, []);
   const handleIconChange = (e) => {
@@ -96,6 +103,22 @@ const CustomizeButton = () => {
       .catch(() => {
         console.log("error");
       });
+  };
+  console.log("useruser", user);
+  const handledelete = (icon) => {
+    const newfav = favIcons.filter((fav) => fav !== icon);
+    setFavicons(newfav);
+    api("put", `/users/brand/delfavicon/${user?._id}`, { icon })
+      .then((res) => {
+        toast.success("Deleted successfully");
+
+        // setFavicon(null);
+        // setPreviewImage(null);
+      })
+      .catch(() => {
+        console.log("error");
+      });
+    console.log("icon", icon);
   };
 
   return (
@@ -179,11 +202,16 @@ const CustomizeButton = () => {
           <Col xs={12} style={{ margin: "10px 0px", padding: "0" }}>
             <h4>Recent Icon</h4>
             <div className="favIconDiv">
-              {user.favIcons?.length !== 0 &&
-                user.favIcons
-                  .slice(user.favIcons.length - 5, user.favIcons.length)
-                  .map((icon) => (
-                    <>
+              {favIcons?.length !== 0 &&
+                favIcons.map((icon) => (
+                  <>
+                    <div className="favIconSubDiv">
+                      <div
+                        className="favDeleteIcon"
+                        onClick={() => handledelete(icon)}
+                      >
+                        X
+                      </div>
                       <img
                         src={`${mediaUrl + icon}`}
                         alt="logo"
@@ -193,8 +221,9 @@ const CustomizeButton = () => {
                           setFavicon(icon);
                         }}
                       />
-                    </>
-                  ))}
+                    </div>
+                  </>
+                ))}
             </div>
           </Col>
         </Row>

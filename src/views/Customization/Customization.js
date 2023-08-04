@@ -25,6 +25,7 @@ import { ReactComponent as Instagram } from "../../assets/img/Instagram.svg";
 import { ReactComponent as LinkedIn } from "../../assets/img/LinkedIn.svg";
 import { ReactComponent as Reddit } from "../../assets/img/Reddit.svg";
 import { ReactComponent as Telegram } from "../../assets/img/Telegram.svg";
+import BgIcon from "../../assets/img/bg_icon.svg";
 import { mediaUrl } from "../../config";
 import CustomizeButton from "./CustomizeButtons";
 import CustomizeDescriptiion from "./CustomizeDescriptiion";
@@ -552,32 +553,35 @@ const Customization = () => {
                   </FormGroup>
                 </Col>
               </Row>
-              {/* <Row>
-                <Col xs={10} lg='5' style={{ margin: 'auto' }}>
+              <Row>
+                <Col xs={10} lg="5" style={{ margin: "auto" }}>
                   <FormGroup>
-                    <label className='form-control-label'> Primary Color</label>{' '}
+                    <label className="form-control-label"> Primary Color</label>{" "}
                     <Input
-                      className='form-control-alternative text-default color_field'
-                      type='color'
+                      className="form-control-alternative text-default color_field"
+                      type="color"
                       value={customeForm.preferences.color}
-                      name='color'
+                      name="color"
                       onChange={handleColor}
                     />
                   </FormGroup>
                 </Col>
-                <Col xs={10} lg='5' style={{ margin: 'auto' }}>
+                <Col xs={10} lg="5" style={{ margin: "auto" }}>
                   <FormGroup>
-                    <label className='form-control-label'> Secondary Color</label>{' '}
+                    <label className="form-control-label">
+                      {" "}
+                      Secondary Color
+                    </label>{" "}
                     <Input
-                      className='form-control-alternative text-default color_field'
-                      type='color'
+                      className="form-control-alternative text-default color_field"
+                      type="color"
                       value={customeForm.preferences.secondaryColor}
-                      name='secondaryColor'
+                      name="secondaryColor"
                       onChange={handleColor}
                     />
                   </FormGroup>
                 </Col>
-              </Row> */}
+              </Row>
               <Row
                 style={{
                   justifyContent: "end",
@@ -920,6 +924,7 @@ const Customization = () => {
                     }`}
                     onClick={() => handleBackgroundImg("NoBG", "")}
                   >
+                    <img src={BgIcon} alt="icon" />
                     No Background
                   </div>
                 </div>

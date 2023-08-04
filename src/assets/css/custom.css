@@ -159,6 +159,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   cursor: pointer;
 }
 .uploadedBackgroundImg1 {
@@ -174,6 +175,23 @@
 .favIconDiv {
   display: flex;
   overflow-x: scroll;
+}
+.favIconSubDiv {
+  position: relative;
+}
+.favDeleteIcon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: red;
+  font-size: 12px;
+  right: 10%;
+  top: 2%;
 }
 .recentFavIcon {
   width: 100px;
