@@ -25,6 +25,7 @@ import { ReactComponent as Instagram } from "../../assets/img/Instagram.svg";
 import { ReactComponent as LinkedIn } from "../../assets/img/LinkedIn.svg";
 import { ReactComponent as Reddit } from "../../assets/img/Reddit.svg";
 import { ReactComponent as Telegram } from "../../assets/img/Telegram.svg";
+import ColorSelect from "../../assets/img/icons/common/colorSelector.svg";
 import BgIcon from "../../assets/img/bg_icon.svg";
 import { mediaUrl } from "../../config";
 import CustomizeButton from "./CustomizeButtons";
@@ -144,6 +145,7 @@ const Customization = () => {
     img: "",
     color: "",
   });
+  console.log("backgroundImg", backgroundImg);
   const [socialLinks, setSocialLinks] = useState({
     facebook: {
       link: "",
@@ -191,6 +193,10 @@ const Customization = () => {
         },
       });
       setFileName(user?.logo ? `${mediaUrl}${user?.logo}` : "");
+      setBackgroundImg({
+        ...backgroundImg,
+        color: user?.background?.color ? user?.background?.color : "",
+      });
     }
   }, []);
   useEffect(() => {
@@ -1038,13 +1044,24 @@ const Customization = () => {
                 <div className="colorDivWidth2">
                   <Input
                     type="color"
-                    value={backgroundImg.color}
+                    value={backgroundImg?.color}
                     className={`backgroungImgColor ${
                       background == "color" ? "selectedBackground" : ""
                     }`}
                     onChange={(e) => handleBackgroundColor(e)}
                   />
-                  {/* <h4>Add color</h4> */}
+
+                  <div
+                    className="bgGradient"
+                    style={{
+                      background: backgroundImg?.color
+                        ? `linear-gradient(to right,#0017fb, ${backgroundImg?.color})`
+                        : "linear-gradient(147deg,#0017fb 0%, #8100fb 10.94%, #b000fb 21.88%,#e500fb 33.85%, #fb0099 43.75%, #fb006f 51.04%, #fb0038 60.94%,#fb4a00 70.83%, #fb6600 79.69%, #fb8300 85.94%,#fb7e00 93.75%,#fba900 98.44%)",
+                    }}
+                  >
+                    <img src={ColorSelect} alt="colorSelector" />
+                    <p>Add color</p>
+                  </div>
                 </div>
               </Row>
               <Row style={{ justifyContent: "end", marginRight: "20px" }}>
@@ -1236,10 +1253,21 @@ const Customization = () => {
                   <div className="colorDiv1">
                     <Input
                       type="color"
-                      // value={backgroundImg.color}
+                      value={btnColor}
                       className="btnColorDiv"
                       onChange={(e) => handleSocialMediaColor(e.target.value)}
                     />
+                    <div
+                      className="IconGradient"
+                      style={{
+                        background: btnColor
+                          ? `linear-gradient(to right,#0017fb, ${btnColor})`
+                          : "linear-gradient(147deg,#0017fb 0%, #8100fb 10.94%, #b000fb 21.88%,#e500fb 33.85%, #fb0099 43.75%, #fb006f 51.04%, #fb0038 60.94%,#fb4a00 70.83%, #fb6600 79.69%, #fb8300 85.94%,#fb7e00 93.75%,#fba900 98.44%)",
+                      }}
+                    >
+                      <img src={ColorSelect} alt="colorSelector" />
+                      <p>Add color</p>
+                    </div>
                   </div>
                 </div>
               </div>
