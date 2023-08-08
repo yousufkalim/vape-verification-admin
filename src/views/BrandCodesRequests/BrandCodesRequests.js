@@ -103,11 +103,11 @@ const BrandCodesRequests = () => {
         if (res.codes?.length > 0) {
           const codesToExport = res?.codes;
           if (codesToExport?.length > 0) {
-            const currentDate = moment().format('MM DD yyyy');
-            const fileName = `${user?.name} ${currentDate}`;
-            handleExportCodes(codesToExport, fileName);
+              const currentDate = moment().format('MM_DD_yyyy');
+              const fileName = `${user?.name.replace(/ /g, "_")}_${currentDate}`;
+              handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No code exists');
+              toast.error('No code exists');
           }
           setLoading(false);
         } else {
