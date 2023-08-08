@@ -149,11 +149,11 @@ const BrandCodes = () => {
         if (res.codes?.length > 0) {
           const codesToExport = res?.codes;
           if (codesToExport?.length > 0) {
-            const currentDate = moment().format('MM DD yyyy hh mm');
-            const fileName = `veriscan export ${currentDate}`;
-            handleExportCodes(codesToExport, fileName);
+              const currentDate = moment().format('MM_DD_yyyy_hh_mm');
+              const fileName = `veriscan_admin_export_${currentDate}`.replace(/ /g, "_");
+              handleExportCodes(codesToExport, fileName);
           } else {
-            toast.error('No code exists');
+              toast.error('No code exists');
           }
           setLoading(false);
         } else {
