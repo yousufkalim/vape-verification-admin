@@ -19,6 +19,8 @@ import Select from "react-select";
 
 // import {ReactComponent as Facebook} from '../../assets/img/Facebook.svg';
 import { mediaUrl } from "../../config";
+import ColorSelect from "../../assets/img/icons/common/colorSelector.svg";
+
 // core components
 import { toast } from "react-toastify";
 import Loader from "components/Spinner/Spinner";
@@ -342,10 +344,21 @@ const CustomizeButton = () => {
             <div className="colorDiv1">
               <Input
                 type="color"
-                // value={backgroundImg.color}
+                value={btnColor}
                 className="btnColorDiv"
                 onChange={(e) => setBtnColor(e.target.value)}
               />
+              <div
+                className="IconGradient"
+                style={{
+                  background: btnColor
+                    ? `linear-gradient(to right,#0017fb, ${btnColor})`
+                    : "linear-gradient(147deg,#0017fb 0%, #8100fb 10.94%, #b000fb 21.88%,#e500fb 33.85%, #fb0099 43.75%, #fb006f 51.04%, #fb0038 60.94%,#fb4a00 70.83%, #fb6600 79.69%, #fb8300 85.94%,#fb7e00 93.75%,#fba900 98.44%)",
+                }}
+              >
+                <img src={ColorSelect} alt="colorSelector" />
+                <p>Add color</p>
+              </div>
             </div>
           </div>
         </div>

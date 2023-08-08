@@ -127,6 +127,36 @@
 }
 .colorDivWidth2 {
   width: 12%;
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.colorDivWidth2 > .form-control {
+  /* width: 12%; */
+  /* padding: 1px; */
+  height: 100px;
+  margin: 0.5px;
+  border-radius: 5px;
+}
+.bgGradient {
+  width: 100%;
+  height: 100px;
+  top: 0;
+  position: absolute;
+  border-radius: 10px;
+  border: 3px solid var(--basic-territory, #e1e1e1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  font-weight: 600;
+}
+.bgGradient p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .selectedBackground {
   border: 2px solid #219de3 !important;
@@ -149,6 +179,9 @@
   padding: 5px;
   margin: 0px;
   width: 100%;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
 }
 .defaultDiv {
   width: 100%;
@@ -192,6 +225,7 @@
   font-size: 12px;
   right: 10%;
   top: 2%;
+  cursor: pointer;
 }
 .recentFavIcon {
   width: 100px;
@@ -304,6 +338,28 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  position: relative;
+}
+.colorDiv1 > .form-control {
+  padding: 0;
+}
+.IconGradient {
+  width: 100%;
+  height: 50px;
+  top: 0;
+  position: absolute;
+  border-radius: 10px;
+  border: 3px solid var(--basic-territory, #e1e1e1);
+  display: flex;
+  align-items: center !important;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+}
+.IconGradient p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .colorDiv2 {
   height: 50px;
@@ -332,8 +388,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px;
+  /* padding: 2px; */
   cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
   /* background: red; */
 }
 .descriptionInput {
@@ -463,7 +522,7 @@
 }
 .HPimgprofiile label {
   width: 100%;
-  height: 100%;
+  height: 100px;
 }
 @media screen and (min-width: 1200px) and (max-width: 1600px) {
   .colorDivWidth {
@@ -493,6 +552,15 @@
   }
   .selectedBackground1 {
     /* width: 120px; */
+    height: 80px;
+  }
+  .colorDivWidth2 {
+    height: 80px;
+  }
+  .colorDivWidth2 > .form-control {
+    height: 80px;
+  }
+  .bgGradient {
     height: 80px;
   }
 }
