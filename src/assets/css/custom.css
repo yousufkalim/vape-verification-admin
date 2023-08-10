@@ -423,6 +423,24 @@
   padding: 10px 0px;
   cursor: pointer;
 }
+
+.showFeedbackBtun {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3% 0;
+}
+.showFeedbackBtun button {
+  width: 90%;
+  border-radius: 5px;
+  padding: 2% 0;
+  border: none;
+}
+
+.addFeedback_Mobile {
+  display: none !important;
+}
 .labelInput {
   border: none;
   padding: 0px;
@@ -657,6 +675,14 @@
     /* text-align: left; */
     /* font-size: 20px; */
     /* margin: 10px 0px; */
+  }
+}
+@media screen and (max-width: 576px) {
+  .addFeedback_Desktop {
+    display: none !important;
+  }
+  .addFeedback_Mobile {
+    display: block !important;
   }
 }
 @media screen and (max-width: 520px) {
