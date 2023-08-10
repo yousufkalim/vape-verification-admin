@@ -37,7 +37,12 @@ const FeedBackForm = () => {
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
   };
+  const [showAll, setShowAll] = useState(false);
 
+  const visibleForms = showAll ? feedbackForms : feedbackForms.slice(0, 1);
+  const toggleShowAll = () => {
+    setShowAll((prevState) => !prevState);
+  };
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
@@ -140,7 +145,7 @@ const FeedBackForm = () => {
             </h3>
           </Col>
         </Row>
-        <Row style={{ margin: "0px 20px" }}>
+        <Row className="addFeedback_Desktop" style={{ margin: "0px 20px" }}>
           {!loading ? (
             feedbackForms.length !== 0 &&
             feedbackForms.map((feedbackForm, i) => (
@@ -243,6 +248,120 @@ const FeedBackForm = () => {
               />
             </div>
           </Col>
+        </Row>
+        <Row className="addFeedback_Mobile" style={{ margin: "0px 20px" }}>
+          {!loading ? (
+            <>
+              {visibleForms.map((feedbackForm, i) => (
+                <>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    style={{
+                      margin: "5px 0px",
+                      fontWeight: 900,
+                    }}
+                  >
+                    <FormGroup style={{ margin: "0 0 -20px 0" }}>
+                      <div className="SwitchDiv">
+                        <Input
+                          className="labelInput"
+                          required={true}
+                          type="text"
+                          placeholder="Enter Label"
+                          value={feedbackForm.label}
+                          name="label"
+                          onChange={(e) => handleChangeinput(e, i, "label")}
+                        />
+                        <Switch
+                          onChange={(value) =>
+                            handleChangeActive(value, i, "isActive")
+                          }
+                          checked={feedbackForm.isActive}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          onColor="#219de3"
+                          className="react-switch"
+                        />
+                      </div>
+                      <Input
+                        className="text-default inpuFiledfeedback"
+                        required={true}
+                        type="text"
+                        placeholder="Add placeholder"
+                        value={feedbackForm.placeholder}
+                        name="placeholder"
+                        onChange={(e) => handleChangeinput(e, i, "placeholder")}
+                        //   onBlur={(e) => handleonBlurinput(e, i, 'placeholder')}
+                        //   onClick={(e) => handleonClickinput(e, i, 'placeholder')}
+                      />
+
+                      <img
+                        src={Delete}
+                        alt="Delete"
+                        className="deleteIcon"
+                        onClick={() => handleDeleteFeedback(feedbackForm?._id)}
+                      />
+                    </FormGroup>
+                    <div
+                      className="custom-control custom-control-alternative custom-checkbox"
+                      style={{ padding: "0px" }}
+                    >
+                      <input
+                        className="checkboxInput"
+                        id=" customCheckLogin"
+                        type="checkbox"
+                        name="isRequired"
+                        checked={feedbackForm.isRequired}
+                        onClick={(e) =>
+                          handleChangeActive(e.target.checked, i, "isRequired")
+                        }
+                      />
+                      <label
+                        style={{ marginBottom: "0" }}
+                        htmlFor=" customCheckLogin"
+                      >
+                        <p>Required</p>
+                      </label>
+                    </div>
+                  </Col>
+                </>
+              ))}
+              {feedbackForms.length >= 2 && (
+                <div className="showFeedbackBtun">
+                  <button onClick={toggleShowAll}>
+                    {showAll ? "Show Less" : "Load More"}
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div>Loading...</div>
+          )}
+          {showAll || feedbackForms.length < 2 ? (
+            <Col
+              xs={12}
+              sm={6}
+              lg={4}
+              style={{
+                fontWeight: 900,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <div className="addFeedbackForm">
+                <img
+                  src={Addfeedbackbtn}
+                  alt="Addfeedbackbtn"
+                  className="addfeedbackimg"
+                  onClick={handleCreateFeedback}
+                />
+              </div>
+            </Col>
+          ) : (
+            ""
+          )}
         </Row>
         <Row style={{ justifyContent: "end", marginRight: "20px" }}>
           <Col
