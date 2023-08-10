@@ -89,6 +89,7 @@ const CustomizeButton = () => {
   const [loading, setLoading] = useState(false);
   const [btnColor, setBtnColor] = useState("");
   const [btnRadius, setBtnRadius] = useState("");
+  const [btnText, setBtnText] = useState("");
 
   const [buttonType, setButtonType] = useState("solid");
   const [typography, setTypography] = useState({
@@ -101,6 +102,20 @@ const CustomizeButton = () => {
   const updateStore = UpdateStore();
   const { user } = store;
 
+  const getUser = () => {
+    api("get", `/users/${user?._id}`)
+      .then((res) => {
+        setBtnText(res?.user?.customizeButton?.btnText?res?.user?.customizeButton?.btnText:"");
+        setBtnColor(res?.user?.customizeButton?.bgColor?res?.user?.customizeButton?.bgColor:"");
+        //   toast.success('Background Updated');
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
   const handleSubmitCustomizeButton = (e) => {
     e.preventDefault();
     let customizeButton = {};
@@ -109,15 +124,13 @@ const CustomizeButton = () => {
       btnType: buttonType,
       radius: btnRadius,
       bgColor: btnColor,
+      btnText:btnText
     };
     // if type is Outline then bg color is border
     api("put", `/users/brand/description/${user?._id}`, { customizeButton })
       .then((res) => {
         toast.success("Updated successfully");
-        setTypography({ fontName: "", fontWeight: "", fontSize: "" });
-        setButtonType("solid");
-        setBtnRadius("");
-        setBtnColor("");
+  
       })
       .catch(() => {
         console.log("error");
@@ -322,6 +335,28 @@ const CustomizeButton = () => {
               />
             </FormGroup>
           </Col>
+        </Row>
+        <Row style={{ margin: "5px 10px" }}>
+        <Col xs={10} lg="12" style={{ margin: "auto" }}>
+                  <FormGroup>
+                    <label className="form-control-label">
+                      {" "}
+                      <span style={{ color: "red" }}>
+                        {user.name ? "" : "*"}{" "}
+                      </span>
+                      Button Text
+                    </label>{" "}
+                    <Input
+                      className="form-control-alternative text-default"
+                      required={true}
+                      placeholder="Add button text"
+                      type="text"
+                      value={btnText}
+                      name="btnText"
+                      onChange={(e)=>setBtnText(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
         </Row>
         <div style={{ padding: "0px 50px" }}>
           <p>Select Color</p>
