@@ -28,7 +28,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import Logo from '../../assets/img/transparent_logo.png';
+import Logo from '../../assets/img/veriscan-white.png';
 
 const AdminNavbar = () => {
   return (
@@ -78,7 +78,7 @@ const AdminNavbar = () => {
               <NavItem>
                 <NavLink className='nav-link-icon' href='https://getveriscan.com/schedule-a-demo/' target="_blank" rel="noopener noreferrer">
                   <i className='ni ni-badge' />
-                  <span className='nav-link-inner--text'>Inquiry for company account</span>
+                  <span className='nav-link-inner--text'>No Account? Start Here.</span>
                 </NavLink>
               </NavItem>
             </Nav>
