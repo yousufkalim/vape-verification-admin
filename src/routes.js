@@ -57,7 +57,7 @@ var routes = [
   },
   {
     path: '/map',
-    name: 'Vector Map',
+    name: 'Activity Map',
     icon: 'fas fa-plus-square text-primary',
     component: VectorMap,
     layout: '/admin',
@@ -106,7 +106,7 @@ var routes = [
   },
   {
     path: '/map',
-    name: 'Vector Map',
+    name: 'Activity Map',
     icon: 'fas fa-plus-square text-primary',
     component: VectorMap,
     layout: '/brand',
