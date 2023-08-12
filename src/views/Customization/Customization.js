@@ -155,21 +155,30 @@ const Customization = () => {
       isOpen: false,
       haveData: false,
     },
-    reddit: { link: "", platform: "reddit", isOpen: false, haveData: false },
+    reddit: {
+      link: "",
+      platform: "reddit",
+      isOpen: false,
+      haveData: false,
+    },
     linkedIn: {
       link: "",
       platform: "linkedIn",
       isOpen: false,
       haveData: false,
     },
-    snapchat: { link: "", platform: "snapchat", isOpen: false, haveData: false },
-    linkedIn: {
+    snapchat: {
       link: "",
-      platform: "linkedIn",
+      platform: "snapchat",
       isOpen: false,
       haveData: false,
     },
-    twitter: { link: "", platform: "twitter", isOpen: false, haveData: false },
+    twitter: {
+      link: "",
+      platform: "twitter",
+      isOpen: false,
+      haveData: false,
+    },
     telegram: {
       link: "",
       platform: "telegram",
@@ -182,8 +191,13 @@ const Customization = () => {
       isOpen: false,
       haveData: false,
     },
-    youtube: { link: "", platform: "youtube", isOpen: false, haveData: false },
-  });
+    youtube: {
+      link: "",
+      platform: "youtube",
+      isOpen: false,
+      haveData: false,
+    },
+  });  
 
   useEffect(() => {
     if (user) {
