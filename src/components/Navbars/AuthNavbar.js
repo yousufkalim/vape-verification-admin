@@ -48,7 +48,7 @@ const AdminNavbar = () => {
                   <Link to='/'>
                     <img
                       alt='...'
-                      src={require('../../assets/img/brand/argon-react.png').default}
+                      src={require('../../assets/img/brand/veriscan-black.png').default}
                     />
                   </Link>
                 </Col>
