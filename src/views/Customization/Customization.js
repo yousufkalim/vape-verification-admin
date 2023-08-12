@@ -25,6 +25,7 @@ import { ReactComponent as Instagram } from "../../assets/img/Instagram.svg";
 import { ReactComponent as LinkedIn } from "../../assets/img/LinkedIn.svg";
 import { ReactComponent as Reddit } from "../../assets/img/Reddit.svg";
 import { ReactComponent as Telegram } from "../../assets/img/Telegram.svg";
+import { ReactComponent as Snapchat } from "../../assets/img/Snapchat.svg";
 import ColorSelect from "../../assets/img/icons/common/colorSelector.svg";
 import BgIcon from "../../assets/img/bg_icon.svg";
 import { mediaUrl } from "../../config";
@@ -97,6 +98,7 @@ const fontSizes = [
 const socialMediaArray = [
   { name: "facebook", Icon: Facebook, defaultColor: "#1877F2" },
   { name: "reddit", Icon: Reddit, defaultColor: "#FF4500" },
+  { name: "snapchat", Icon: Snapchat, defaultColor: "#f7f400" },
   { name: "linkedIn", Icon: LinkedIn, defaultColor: "#0A66C2" },
   { name: "twitter", Icon: Twitter, defaultColor: "#919B9B" },
   { name: "telegram", Icon: Telegram, defaultColor: "#919B9B" },
@@ -154,6 +156,13 @@ const Customization = () => {
       haveData: false,
     },
     reddit: { link: "", platform: "reddit", isOpen: false, haveData: false },
+    linkedIn: {
+      link: "",
+      platform: "linkedIn",
+      isOpen: false,
+      haveData: false,
+    },
+    snapchat: { link: "", platform: "snapchat", isOpen: false, haveData: false },
     linkedIn: {
       link: "",
       platform: "linkedIn",
