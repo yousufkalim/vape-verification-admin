@@ -15,6 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
 import React from 'react';
 import { useLocation, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 // reactstrap components
@@ -66,7 +67,10 @@ const Auth = (props) => {
             <div className='header-body text-center mb-7'>
               <Row className='justify-content-center'>
                 <Col lg='5' md='6'>
-                  <h1 className='text-white'>Welcome!</h1>
+                    <h1 className='text-white'>Client Login</h1>
+                    <p className='text-white'>
+                        This page is meant for brands to login to VeriScan's brand portal so they can manage product codes and check their account status.
+                    </p>
                 </Col>
               </Row>
             </div>
