@@ -28,7 +28,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import Logo from '../../assets/img/veriscan-white.png';
+import Logo from '../../assets/img/brand/veriscan-white.png';
 
 const AdminNavbar = () => {
   return (
