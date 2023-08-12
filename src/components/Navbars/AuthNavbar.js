@@ -35,7 +35,7 @@ const AdminNavbar = () => {
     <>
       <Navbar className='navbar-top navbar-horizontal navbar-dark' expand='md'>
         <Container className='px-4'>
-          <NavbarBrand to='/auth/login' tag={Link}>
+          <NavbarBrand href='https://getveriscan.com'>
             <img src={Logo} alt='logo' style={{ height: '4rem', maxWidth: '100%' }} />
           </NavbarBrand>
           <button className='navbar-toggler' id='navbar-collapse-main'>
@@ -48,7 +48,7 @@ const AdminNavbar = () => {
                   <Link to='/'>
                     <img
                       alt='...'
-                      src={require('../../assets/img/brand/veriscan-black.png').default}
+                      src={require('../../assets/img/brand/veriscan-color.png').default}
                     />
                   </Link>
                 </Col>
@@ -61,16 +61,24 @@ const AdminNavbar = () => {
               </Row>
             </div>
             <Nav className='ml-auto' navbar>
-              {/* <NavItem>
+              {/* 
+              <NavItem>
                 <NavLink className='nav-link-icon' to='/auth/register' tag={Link}>
                   <i className='ni ni-circle-08' />
                   <span className='nav-link-inner--text'>Register</span>
                 </NavLink>
-              </NavItem> */}
+              </NavItem>
               <NavItem>
                 <NavLink className='nav-link-icon' to='/auth/login' tag={Link}>
                   <i className='ni ni-key-25' />
                   <span className='nav-link-inner--text'>Login</span>
+                </NavLink>
+              </NavItem> 
+              */}
+              <NavItem>
+                <NavLink className='nav-link-icon' href='https://getveriscan.com/schedule-a-demo/' target="_blank" rel="noopener noreferrer">
+                  <i className='ni ni-badge' />
+                  <span className='nav-link-inner--text'>Inquiry for company account</span>
                 </NavLink>
               </NavItem>
             </Nav>
