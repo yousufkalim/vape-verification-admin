@@ -72,7 +72,7 @@ const MapWrapper = () => {
         {
           featureType: 'water',
           elementType: 'all',
-          stylers: [{ color: '#5e72e4' }, { visibility: 'on' }],
+          stylers: [{ color: '#362fd9' }, { visibility: 'on' }],
         },
       ],
     };
