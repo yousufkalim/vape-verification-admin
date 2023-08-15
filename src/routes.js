@@ -42,7 +42,7 @@ var routes = [
   {
     path: '/index',
     name: 'Dashboard',
-    icon: 'ni ni-tv-2 text-red',
+    icon: 'fas fa-home text-primary',
     component: Index,
     layout: '/admin',
     isChild: false,
@@ -75,7 +75,7 @@ var routes = [
   {
     path: '/index',
     name: 'Dashboard',
-    icon: 'ni ni-tv-2 text-red',
+    icon: 'fas fa-home text-primary',
     component: BrandDashboard,
     layout: '/brand',
     isChild: false,
@@ -99,7 +99,7 @@ var routes = [
   {
     path: '/customization',
     name: 'Customization',
-    icon: 'fa fa-list-alt text-primary',
+    icon: 'fas fa-paint-brush text-primary',
     component: Customization,
     layout: '/brand',
     isChild: false,
