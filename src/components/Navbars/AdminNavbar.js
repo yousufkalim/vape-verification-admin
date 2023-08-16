@@ -15,7 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useState from "react-usestateref";
 import { Store } from "StoreContext";
 // reactstrap components
 import {
@@ -48,9 +49,16 @@ import { mediaUrl } from "../../config";
 
 const AdminNavbar = ({ brandText, getUser }) => {
   const { user } = Store();
-  const [profile, setProfile] = useState();
+  const [profile, setProfile,ref] = useState({});
   const [fileName, setFileName] = useState("");
   const [open, setOpen] = useState(false);
+  let [password1validation, setPassword1validation, ref2] = useState({
+    eightchrachter: false,
+    symbles: false,
+    upperCase: false,
+    lowerCase: false,
+    containNumber: false,
+  });
 
   useEffect(() => {
     console.log("User ", user);
@@ -83,78 +91,76 @@ const AdminNavbar = ({ brandText, getUser }) => {
 
   console.log("File name ", fileName);
 
+ 
   const handleInput = (e) => {
     const { name, value } = e.target;
     setProfile((prof) => ({ ...prof, [name]: value }));
-  };
+  
+    const containsNumber = /[0-9]/.test(ref.current.password);
+    const containsSymbol = /[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]/.test(
+      ref.current.password
+    );
+    const containsUppercase = /[A-Z]/.test(ref.current.password);
+    const containsLowercase = /[a-z]/.test(ref.current.password);
 
-  const handleFile = (e) => {
-    if (e.target.files[0]) {
-      setProfile((prev) => ({
-        ...prev,
-        logo: e.target.files[0],
-      }));
-      setFileName(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
-  const handleDeleteImage = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setFileName("");
-    setProfile((prev) => ({ ...prev, logo: null }));
-  };
-
-  const handleColor = (e) => {
-    setProfile((prev) => ({
-      ...prev,
-      preferences: { ...prev.preferences, [e.target.name]: e.target.value },
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (profile.name === "") {
-      return toast.error("Please enter user's name");
-    }
-
-    if (profile.email === "") {
-      return toast.error("Please enter email");
-    }
-    if (profile.password) {
-      if (!profile?.confirmPassword) {
-        return toast.error("Please enter confirm password");
-      }
-      if (
-        profile?.password.length < 8 ||
-        profile?.confirmPassword?.length < 8
-      ) {
-        return toast.error("Password should contains at least 8 characters");
-      } else if (profile?.password !== profile?.confirmPassword) {
-        return toast.error("Password and Confirm Password are not matching");
-      }
-    }
-
-    if (user.role === "brand") {
-      updateBrand();
+    if (ref.current.password?.length >= 8) {
+      setPassword1validation({ ...ref2.current, eightchrachter: true });
     } else {
-      updateAdmin();
+      setPassword1validation({ ...ref2.current, eightchrachter: false });
+    }
+  
+    if (containsSymbol) {
+      setPassword1validation({ ...ref2.current, symbles: true });
+    } else {
+      setPassword1validation({ ...ref2.current, symbles: false });
+    }
+    if (containsUppercase) {
+      setPassword1validation({ ...ref2.current, upperCase: true });
+    } else {
+      setPassword1validation({ ...ref2.current, upperCase: false });
+    }
+    if (containsLowercase) {
+      setPassword1validation({ ...ref2.current, lowerCase: true });
+    } else {
+      setPassword1validation({ ...ref2.current, lowerCase: false });
+    }
+    if (containsNumber) {
+      setPassword1validation({ ...ref2.current, containNumber: true });
+    } else {
+      setPassword1validation({ ...ref2.current, containNumber: false });
     }
   };
+
+
+  let token = localStorage.getItem('token');
+  const handleSubmit = () => {
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>\/?])(?=.*[A-Z])(?=.*[a-z]).{8,}$/;
+
+if (!passwordRegex.test(ref.current.password)) {
+ return  toast.error("Please enter a valid password");
+}
+    
+    if (profile.password !== profile.confirmPassword) {
+      toast.error("Your passwords do not match");
+    } else {
+      api("put", `/auth/reset-password/${token}`, { password: profile?.password })
+        .then((res) => {
+          setProfile({ password: "", confirmPassword: "" });
+          toast.success("Password Updated successfully");
+          handleModal();
+         
+        })
+        .catch((err) => {
+          console.log("Error ", err);
+        });
+    }
+  };
+
 
   const updateBrand = () => {
     let formData = new FormData();
 
-    for (let key in profile) {
-      if (key === "preferences") {
-        formData.append(key, JSON.stringify(profile[key]));
-      } else {
-        profile[key] &&
-          key !== "confirmPassword" &&
-          formData.append(key, profile[key]);
-      }
-    }
+    
 
     api("put", `/users/brand/${user._id}`, formData).then((res) => {
       getUser();
@@ -182,6 +188,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
     localStorage.setItem("token", "");
     window.location = "/auth/login";
   };
+
 
   return (
     <>
@@ -244,6 +251,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
                           type="text"
                           value={profile?.name}
                           name="name"
+                          disabled
                           onChange={handleInput}
                         />
                       </FormGroup>
@@ -395,6 +403,65 @@ const AdminNavbar = ({ brandText, getUser }) => {
                       </Row>
                     </>
                   )} */}
+                    <div>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.eightchrachter ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        Minimum length of 8-12 charachters.
+                      </p>
+                    
+
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.upperCase ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least 1 uppercase letter.
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.lowerCase ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least 1 lowercase letter.
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {!password1validation.containNumber ? (
+                          <span style={{ fontSize: "10px" }}>❌ </span>
+                        ) : (
+                          <span style={{ fontSize: "13px" }}>✅</span>
+                        )}{" "}
+                        At least one digit (0-9).
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.symbles ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least one special charachter (!@#$%^&*).
+                      </p>
+                    </div>
                 </div>
               </Form>
             </Col>
