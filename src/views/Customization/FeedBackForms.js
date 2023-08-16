@@ -150,9 +150,10 @@ const FeedBackForm = () => {
             feedbackForms.length !== 0 &&
             feedbackForms.map((feedbackForm, i) => (
               <>
+                {console.log("i", i)}
                 <Col
                   xs={12}
-                  sm={6}
+                  sm={6} 
                   // md={6}
                   lg={4}
                   style={{
@@ -169,18 +170,21 @@ const FeedBackForm = () => {
                         placeholder="Enter Label"
                         value={feedbackForm.label}
                         name="label"
+                        disabled={i == 0 || i == 1}
                         onChange={(e) => handleChangeinput(e, i, "label")}
                       />
-                      <Switch
-                        onChange={(value) =>
-                          handleChangeActive(value, i, "isActive")
-                        }
-                        checked={feedbackForm.isActive}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        onColor="#219de3"
-                        className="react-switch"
-                      />
+                      {i != 0 && i != 1 && (
+                        <Switch
+                          onChange={(value) =>
+                            handleChangeActive(value, i, "isActive")
+                          }
+                          checked={feedbackForm.isActive}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          onColor="#219de3"
+                          className="react-switch"
+                        />
+                      )}
                     </div>
                     <Input
                       className="text-default inpuFiledfeedback"
@@ -189,39 +193,43 @@ const FeedBackForm = () => {
                       placeholder="Add placeholder"
                       value={feedbackForm.placeholder}
                       name="placeholder"
+                      disabled={i == 0 || i == 1}
                       onChange={(e) => handleChangeinput(e, i, "placeholder")}
                       //   onBlur={(e) => handleonBlurinput(e, i, 'placeholder')}
                       //   onClick={(e) => handleonClickinput(e, i, 'placeholder')}
                     />
-
-                    <img
-                      src={Delete}
-                      alt="Delete"
-                      className="deleteIcon"
-                      onClick={() => handleDeleteFeedback(feedbackForm?._id)}
-                    />
+                    {i != 0 && i != 1 && (
+                      <img
+                        src={Delete}
+                        alt="Delete"
+                        className="deleteIcon"
+                        onClick={() => handleDeleteFeedback(feedbackForm?._id)}
+                      />
+                    )}
                   </FormGroup>
-                  <div
-                    className="custom-control custom-control-alternative custom-checkbox"
-                    style={{ padding: "0px" }}
-                  >
-                    <input
-                      className="checkboxInput"
-                      id=" customCheckLogin"
-                      type="checkbox"
-                      name="isRequired"
-                      checked={feedbackForm.isRequired}
-                      onClick={(e) =>
-                        handleChangeActive(e.target.checked, i, "isRequired")
-                      }
-                    />
-                    <label
-                      style={{ marginBottom: "0" }}
-                      htmlFor=" customCheckLogin"
+                  {i != 0 && i != 1 && (
+                    <div
+                      className="custom-control custom-control-alternative custom-checkbox"
+                      style={{ padding: "0px" }}
                     >
-                      <p>Required</p>
-                    </label>
-                  </div>
+                      <input
+                        className="checkboxInput"
+                        id=" customCheckLogin"
+                        type="checkbox"
+                        name="isRequired"
+                        checked={feedbackForm.isRequired}
+                        onClick={(e) =>
+                          handleChangeActive(e.target.checked, i, "isRequired")
+                        }
+                      />
+                      <label
+                        style={{ marginBottom: "0" }}
+                        htmlFor=" customCheckLogin"
+                      >
+                        <p>Required</p>
+                      </label>
+                    </div>
+                  )}
                 </Col>
               </>
             ))
@@ -271,10 +279,11 @@ const FeedBackForm = () => {
                           type="text"
                           placeholder="Enter Label"
                           value={feedbackForm.label}
+                          disabled={i == 0 || i == 1}
                           name="label"
                           onChange={(e) => handleChangeinput(e, i, "label")}
                         />
-                        <Switch
+                          {i != 0 && i != 1 &&  <Switch
                           onChange={(value) =>
                             handleChangeActive(value, i, "isActive")
                           }
@@ -283,7 +292,8 @@ const FeedBackForm = () => {
                           checkedIcon={false}
                           onColor="#219de3"
                           className="react-switch"
-                        />
+                        />}
+                      
                       </div>
                       <Input
                         className="text-default inpuFiledfeedback"
@@ -292,23 +302,25 @@ const FeedBackForm = () => {
                         placeholder="Add placeholder"
                         value={feedbackForm.placeholder}
                         name="placeholder"
+                        disabled={i == 0 || i == 1}
                         onChange={(e) => handleChangeinput(e, i, "placeholder")}
                         //   onBlur={(e) => handleonBlurinput(e, i, 'placeholder')}
                         //   onClick={(e) => handleonClickinput(e, i, 'placeholder')}
                       />
-
-                      <img
+   {i != 0 && i != 1 &&   <img
                         src={Delete}
                         alt="Delete"
                         className="deleteIcon"
                         onClick={() => handleDeleteFeedback(feedbackForm?._id)}
-                      />
+                      />}
+                    
                     </FormGroup>
                     <div
                       className="custom-control custom-control-alternative custom-checkbox"
                       style={{ padding: "0px" }}
                     >
-                      <input
+                       {i != 0 && i != 1 &&<>
+                        <input
                         className="checkboxInput"
                         id=" customCheckLogin"
                         type="checkbox"
@@ -324,6 +336,8 @@ const FeedBackForm = () => {
                       >
                         <p>Required</p>
                       </label>
+                       </>}
+                    
                     </div>
                   </Col>
                 </>

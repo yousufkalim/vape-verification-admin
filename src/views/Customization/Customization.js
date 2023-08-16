@@ -448,6 +448,7 @@ const Customization = () => {
     e.preventDefault();
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
+    console.log("textTypography",textTypography)
 
     api("put", `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
@@ -648,14 +649,14 @@ const Customization = () => {
                   sm={12}
                   md={12}
                   lg={6}
-                  xl={8}
+                  xl={6}
                   // style={{ margin: "auto", marginLeft: 0 }}
                 >
                   <h3 className="mb-0 heading22" style={{ fontWeight: "600" }}>
                     Typography
                   </h3>
                 </Col>
-                <Col xs={6} sm={5} lg={3} xl={2}>
+                <Col xs={8} sm={3} lg={2} xl={2}>
                   {typographyTitle == "Heading" ? (
                     <h5
                       size="sm"
@@ -689,7 +690,41 @@ const Customization = () => {
                     </h5>
                   )}
                 </Col>
-                <Col xs={6} sm={5} lg={3} xl={2}>
+                <Col xs={8} sm={3} lg={2} xl={2}>
+                  {typographyTitle == "Body" ? (
+                    <h5
+                      size="sm"
+                      style={{
+                        background: "#0397EB1A",
+                        color: "#219DE3",
+                        borderRadius: "10px",
+                        padding: "5px",
+                        margin: "7px 0px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setTypographyTitle("Body")}
+                    >
+                      Pagargraph 
+                    </h5>
+                  ) : (
+                    <h5
+                      style={{
+                        borderRadius: "10px",
+                        border: ".5px solid #e5e3e3",
+                        color: "#b6afaf",
+                        margin: "7px 0px",
+                        cursor: "pointer",
+                        padding: "5px",
+                        textAlign: "center",
+                      }}
+                      onClick={() => setTypographyTitle("Body")}
+                    >
+                      Pagargraph 
+                    </h5>
+                  )}
+                </Col>
+                <Col xs={8} sm={3} lg={2} xl={2}>
                   {typographyTitle == "Paragraph" ? (
                     <h5
                       size="sm"
@@ -723,7 +758,8 @@ const Customization = () => {
                     </h5>
                   )}
                 </Col>
-                {/* <Col md={1} xs={10} lg={1} xl={2}>
+                
+                {/* <Col xs={6} sm={3} lg={2} xl={2}>
                   {typographyTitle == 'Body' ? (
                     <h5
                       size='sm'

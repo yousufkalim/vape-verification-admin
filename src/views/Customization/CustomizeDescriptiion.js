@@ -90,9 +90,7 @@ const CustomizeButton = () => {
 
   const handleSubmitDescription = (e) => {
     e.preventDefault();
-    if (!description) {
-      return toast.error("Please add description");
-    }
+   
 
     api("put", `/users/brand/description/${user?._id}`, { description })
       .then((res) => {
