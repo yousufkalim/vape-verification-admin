@@ -25,7 +25,7 @@ const FilePicker = (props) => {
         <div
           style={{
             alignItems: "center",
-          }}
+          }} 
           className="download_icon_div"
         >
           {fileName ? (
@@ -39,7 +39,7 @@ const FilePicker = (props) => {
                   alt="cross"
                 />
               )}
-              <p>Upload</p>
+              <p className="upload">Upload</p>
             </div>
           ) : (
             <>
