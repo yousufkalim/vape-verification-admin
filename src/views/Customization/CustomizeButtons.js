@@ -337,7 +337,7 @@ const CustomizeButton = () => {
           </Col>
         </Row>
         <Row style={{ margin: "5px 10px" }}>
-        <Col xs={10} lg="12" style={{ margin: "auto" }}>
+        <Col xs={10} lg="5" style={{ margin: "" }}>
                   <FormGroup>
                     <label className="form-control-label">
                       {" "}

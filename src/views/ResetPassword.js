@@ -17,9 +17,9 @@
 */
 
 // reactstrap components
-import React from 'react';
-import useState from 'react-usestateref';
-import api from 'api';
+import React from "react";
+import useState from "react-usestateref";
+import api from "api";
 import {
   Button,
   Card,
@@ -32,24 +32,24 @@ import {
   InputGroup,
   Row,
   Col,
-  Container
-} from 'reactstrap';
-import AuthNavbar from '../components/Navbars/AuthNavbar';
-import '../assets/css/custom.css';
-import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { baseUrl } from '../config';
+  Container,
+} from "reactstrap";
+import AuthNavbar from "../components/Navbars/AuthNavbar";
+import "../assets/css/custom.css";
+import { useHistory, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { baseUrl } from "../config";
 
 const ResetPassword = () => {
   let [user, setUser, ref] = useState({});
   let [userInfo, setUserInfo] = useState();
   let [password1validation, setPassword1validation, ref2] = useState({
-    passStregth: false,
-    containName: true,
     eightchrachter: false,
     symbles: false,
-    upperCase: false
+    upperCase: false,
+    lowerCase: false,
+    containNumber: false,
   });
   const mainContent = React.useRef(null);
   const history = useHistory();
@@ -61,25 +61,22 @@ const ResetPassword = () => {
     // userInfo.name
     // userInfo.email
     const containsEmailOrName =
-      ref.current.password.includes('john') ||
-      ref.current.password.includes('john@');
+      ref.current.password.includes("john") ||
+      ref.current.password.includes("john@");
     const containsNumber = /[0-9]/.test(ref.current.password);
     const containsSymbol = /[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]/.test(
       ref.current.password
     );
     const containsUppercase = /[A-Z]/.test(ref.current.password);
+    const containsLowercase = /[a-z]/.test(ref.current.password);
 
     if (ref.current.password?.length >= 8) {
       setPassword1validation({ ...ref2.current, eightchrachter: true });
     } else {
       setPassword1validation({ ...ref2.current, eightchrachter: false });
     }
-    if (containsEmailOrName) {
-      setPassword1validation({ ...ref2.current, containName: false });
-    } else {
-      setPassword1validation({ ...ref2.current, containName: true });
-    }
-    if (containsNumber && containsSymbol) {
+  
+    if (containsSymbol) {
       setPassword1validation({ ...ref2.current, symbles: true });
     } else {
       setPassword1validation({ ...ref2.current, symbles: false });
@@ -89,38 +86,38 @@ const ResetPassword = () => {
     } else {
       setPassword1validation({ ...ref2.current, upperCase: false });
     }
-    if (
-      containsNumber &&
-      containsSymbol &&
-      containsUppercase &&
-      ref.current.password?.length > 8
-    ) {
-      setPassword1validation({ ...ref2.current, passStregth: true });
+    if (containsLowercase) {
+      setPassword1validation({ ...ref2.current, lowerCase: true });
     } else {
-      setPassword1validation({ ...ref2.current, passStregth: false });
+      setPassword1validation({ ...ref2.current, lowerCase: false });
+    }
+    if (containsNumber) {
+      setPassword1validation({ ...ref2.current, containNumber: true });
+    } else {
+      setPassword1validation({ ...ref2.current, containNumber: false });
     }
   };
   const verifyUser = () => {
-    console.log('verify 1');
+    console.log("verify 1");
     const url = baseUrl;
     axios
       .get(`${url}/auth/verify-token/${token}`)
       .then((res) => {
         setUserInfo(res?.userId);
-        console.log('verify 2', res);
+        console.log("verify 2", res);
       })
       .catch((err) => {
-        console.log('verify 3');
-        toast.error('Your link is expired');
-        history.push('/auth/login');
+        console.log("verify 3");
+        toast.error("Your link is expired");
+        history.push("/auth/login");
       });
   };
 
   React.useEffect(() => {
     verifyUser();
-    document.body.classList.add('bg-default');
+    document.body.classList.add("bg-default");
     return () => {
-      document.body.classList.remove('bg-default');
+      document.body.classList.remove("bg-default");
     };
   }, []);
   React.useEffect(() => {
@@ -133,23 +130,23 @@ const ResetPassword = () => {
     const checkPassword = new RegExp(
       /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
     );
-   if (user.password !== user.confirmPassword) {
-      toast.error('Your passwords do not match');
+    if (user.password !== user.confirmPassword) {
+      toast.error("Your passwords do not match");
     } else {
-      api('put', `/auth/reset-password/${token}`, { password: user?.password })
+      api("put", `/auth/reset-password/${token}`, { password: user?.password })
         .then((res) => {
-          setUser({ password: '', confirmPassword: '' });
-          toast.success('Password reset successfully');
+          setUser({ password: "", confirmPassword: "" });
+          toast.success("Password reset successfully");
           setTimeout(() => {
-            history.push('/login');
+            history.push("/login");
           }, 2000);
         })
         .catch((err) => {
-          console.log('Error ', err);
+          console.log("Error ", err);
         });
     }
   };
-  console.log('password1validation', password1validation);
+  console.log("password1validation", password1validation);
 
   return (
     <>
@@ -226,59 +223,61 @@ const ResetPassword = () => {
 
                     <div>
                       <p
-                        style={{ margin: '3px 0px 3px 10px', fontSize: '14px' }}
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
                       >
-                        {' '}
-                        {password1validation.passStregth ? (
-                          <span style={{ fontSize: '13px' }}> ✅ </span>
-                        ) : (
-                          <span style={{ fontSize: '10px' }}>❌</span>
-                        )}{' '}
-                        Password strength weak
-                      </p>
-                      <p
-                        style={{ margin: '3px 0px 3px 10px', fontSize: '14px' }}
-                      >
-                        {' '}
-                        {!password1validation.containName ? (
-                          <span style={{ fontSize: '10px' }}>❌ </span>
-                        ) : (
-                          <span style={{ fontSize: '13px' }}>✅</span>
-                        )}{' '}
-                        Cannot contain your name or email address
-                      </p>
-                      <p
-                        style={{ margin: '3px 0px 3px 10px', fontSize: '14px' }}
-                      >
-                        {' '}
+                        {" "}
                         {password1validation.eightchrachter ? (
-                          <span style={{ fontSize: '13px' }}>✅ </span>
+                          <span style={{ fontSize: "13px" }}>✅ </span>
                         ) : (
-                          <span style={{ fontSize: '10px' }}>❌</span>
-                        )}{' '}
-                        At least 8 characters
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        Minimum length of 8-12 charachters.
                       </p>
+                    
+
                       <p
-                        style={{ margin: '3px 0px 3px 10px', fontSize: '14px' }}
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
                       >
-                        {' '}
-                        {password1validation.symbles ? (
-                          <span style={{ fontSize: '13px' }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: '10px' }}>❌</span>
-                        )}{' '}
-                        Contain a number or symbol
-                      </p>
-                      <p
-                        style={{ margin: '3px 0px 3px 10px', fontSize: '14px' }}
-                      >
-                        {' '}
+                        {" "}
                         {password1validation.upperCase ? (
-                          <span style={{ fontSize: '13px' }}>✅ </span>
+                          <span style={{ fontSize: "13px" }}>✅ </span>
                         ) : (
-                          <span style={{ fontSize: '10px' }}>❌</span>
-                        )}{' '}
-                        At least 1 uppercase
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least 1 uppercase letter.
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.lowerCase ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least 1 lowercase letter.
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {!password1validation.containNumber ? (
+                          <span style={{ fontSize: "10px" }}>❌ </span>
+                        ) : (
+                          <span style={{ fontSize: "13px" }}>✅</span>
+                        )}{" "}
+                        At least one digit (0-9).
+                      </p>
+                      <p
+                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
+                      >
+                        {" "}
+                        {password1validation.symbles ? (
+                          <span style={{ fontSize: "13px" }}>✅ </span>
+                        ) : (
+                          <span style={{ fontSize: "10px" }}>❌</span>
+                        )}{" "}
+                        At least one special charachter (!@#$%^&*).
                       </p>
                     </div>
 
@@ -296,11 +295,13 @@ const ResetPassword = () => {
                         type="button"
                         onClick={handleSubmit}
                         disabled={
-                          !password1validation.passStregth ||
-                          !password1validation.containName ||
                           !password1validation.symbles ||
                           !password1validation.eightchrachter ||
-                          !password1validation.upperCase
+                          !password1validation.upperCase ||
+                          !password1validation.lowerCase ||
+                          !password1validation.containNumber 
+
+                          
                         }
                       >
                         Save Changes

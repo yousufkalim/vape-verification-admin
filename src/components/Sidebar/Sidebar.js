@@ -175,15 +175,9 @@ const Sidebar = (props) => {
   const updateBrand = () => {
     let formData = new FormData();
 
-    for (let key in profile) {
-      if (key === 'preferences') {
-        formData.append(key, JSON.stringify(profile[key]));
-      } else {
-        profile[key] && key !== 'confirmPassword' && formData.append(key, profile[key]);
-      }
-    }
+  
 
-    api('put', `/users/brand/${user._id}`, formData).then((res) => {
+    api('put', `/users/brand/${user._id}`, profile).then((res) => {
       getUser();
       toast.success('Brand updated successfully');
       handleModal();

@@ -17,7 +17,7 @@
 */
 
 // reactstrap components
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Cookies from 'js-cookie';
 import api from 'api';
 import {
@@ -41,8 +41,11 @@ const VerifyOtp = () => {
   const [code, setCode] = useState('');
   
   const [loading, setLoading] = useState(false);
+  const [timeLoader, setTimeLoader] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(60);
 
   const param = useParams();
+  let timeInterval;
 
 
 
@@ -92,6 +95,18 @@ const VerifyOtp = () => {
         });
     }
   };
+  useEffect(()=>{
+    timeInterval = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+  
+    setTimeout(() => {
+      clearInterval(timeInterval);
+      setTimeLeft(60);
+      setTimeLoader(false);
+    }, 60000);
+  
+  },[])
   const handleResend = () => {
     if (!param.email) {
       toast.error('No email provided. Please provide an email to proceed.');
@@ -101,6 +116,8 @@ const VerifyOtp = () => {
       api('post', '/auth/resendotp', data)
         .then((res) => {
           setLoading(false);
+          setTimeLoader(true);
+          setTimeLeft(61)
           toast.success(res?.message);
         })
         .catch((err) => {
@@ -121,7 +138,7 @@ const VerifyOtp = () => {
             <div className="text-center text-muted mb-4">
               <small>
                 Please check your email for the One-Time Password code and enter
-                it below.
+                it below.The code will become expire after a duration of ten minutes.
               </small>
             </div>
             <Form role="form">
@@ -147,10 +164,10 @@ const VerifyOtp = () => {
                   className="my-4"
                   color="primary"
                   type="button"
-                  disabled={loading }
+                  disabled={loading || timeLoader }
                   onClick={handleResend}
                 >
-                  Resend
+               {timeLoader && timeLeft!==61 && timeLeft}   Resend
                 </Button>
                 <Button
                 disabled={loading}
