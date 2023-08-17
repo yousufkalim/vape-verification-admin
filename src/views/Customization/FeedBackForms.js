@@ -202,7 +202,7 @@ const FeedBackForm = () => {
                 className="text-default inpuFiledfeedback"
                 required={true}
                 type="text"
-                placeholder="(999) 999+999"
+                placeholder="(999) 999-999"
                 name="placeholder"
                 disabled
               />
@@ -368,7 +368,7 @@ const FeedBackForm = () => {
                 className="text-default inpuFiledfeedback staticmobileview2"
                 required={true}
                 type="text"
-                placeholder="(999) 999+999"
+                placeholder="(999) 999-999"
                 name="placeholder"
                 disabled
               />
