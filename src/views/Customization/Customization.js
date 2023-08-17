@@ -401,6 +401,7 @@ const Customization = () => {
     }
     api("put", `/users/brand/bgImg/${user?._id}`, formData)
       .then((res) => {
+        getUser()
         setPreviewImage(null);
         toast.success("Background Updated");
       })
@@ -484,6 +485,8 @@ const Customization = () => {
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
+  
+
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Store, UpdateStore } from "../../StoreContext";
 import uploadfevicon from "../../assets/img/uploadfevicon.svg";
+import ColorSelect from "../../assets/img/icons/common/colorSelector.svg";
 
 import api from "api";
 import {
@@ -31,6 +32,7 @@ const CustomizeButton = () => {
   const [favIcon, setFavicon] = useState(null);
   const [description, setDescription] = useState(null);
   const [favIcons, setFavicons] = useState([]);
+  const [descriptionColor, setdescriptionColor] = useState("");
 
   const store = Store();
   const updateStore = UpdateStore();
@@ -40,6 +42,7 @@ const CustomizeButton = () => {
     api("get", `/users/${user?._id}`)
       .then((res) => {
         setDescription(res?.user?.description);
+        setdescriptionColor(res?.user?.descriptionColor)
         //   toast.success('Background Updated');
       })
       .catch(() => {
@@ -82,6 +85,7 @@ const CustomizeButton = () => {
         toast.success("Icon added successfully");
         setFavicon(null);
         setPreviewImage(null);
+        getUser()
       })
       .catch(() => {
         console.log("error");
@@ -90,9 +94,9 @@ const CustomizeButton = () => {
 
   const handleSubmitDescription = (e) => {
     e.preventDefault();
-   
+   console.log("descriptionColor",descriptionColor)
 
-    api("put", `/users/brand/description/${user?._id}`, { description })
+    api("put", `/users/brand/description/${user?._id}`, { description,descriptionColor })
       .then((res) => {
         toast.success("updated successfully");
         setFavicon(null);
@@ -143,6 +147,30 @@ const CustomizeButton = () => {
             </FormGroup>
           </Col>
         </Row>
+        <div style={{ padding: "0px 50px" }}>
+          <p>Select Color</p>
+          <div className="colorDiv">
+            <div className="colorDiv1">
+              <Input
+                type="color"
+                value={descriptionColor}
+                className="btnColorDiv"
+                onChange={(e) => setdescriptionColor(e.target.value)}
+              />
+              <div
+                className="IconGradient"
+                style={{
+                  background: descriptionColor
+                    ? `linear-gradient(to right,#0017fb, ${descriptionColor})`
+                    : "linear-gradient(147deg,#0017fb 0%, #8100fb 10.94%, #b000fb 21.88%,#e500fb 33.85%, #fb0099 43.75%, #fb006f 51.04%, #fb0038 60.94%,#fb4a00 70.83%, #fb6600 79.69%, #fb8300 85.94%,#fb7e00 93.75%,#fba900 98.44%)",
+                }}
+              >
+                <img src={ColorSelect} alt="colorSelector" />
+                <p>Add color</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <Row style={{ justifyContent: "end", marginRight: "20px" }}>
           {/* <Col xs={5} lg="9" style={{ margin: "20px 10px", textAlign: "end" }}>
@@ -225,7 +253,7 @@ const CustomizeButton = () => {
             </div>
           </Col>
         </Row>
-
+    
         <Row style={{ justifyContent: "end", marginRight: "20px" }}>
           {/* <Col xs={5} lg="9" style={{ margin: "20px 10px", textAlign: "end" }}>
             <Button color="secondary" onClick={handleDeleteIcon}>
