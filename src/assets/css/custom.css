@@ -470,7 +470,12 @@
 .inpuFiledfeedback:disabled{
   background-color: transparent;
 }
-
+.staticmobileview1{
+  margin-bottom: 20px;
+}
+.staticmobileview2{
+  margin-bottom: 40px;
+}
 
 .map_legend_color {
   width: 10px;
@@ -633,6 +638,7 @@
   }
 }
 @media screen and (max-width: 768px) {
+ 
   .colorDiv1 {
     width: 47%;
   }
