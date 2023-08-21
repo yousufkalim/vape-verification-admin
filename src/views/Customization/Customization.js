@@ -359,9 +359,9 @@ const Customization = () => {
     setBackground(type);
     setBackgroundImg((prev) => ({
       ...prev,
-      type,
-      selectedImg,
-      img: "",
+      type: "img",
+      selectedImg: "",
+      img: selectedImg,
       color: "",
     }));
   };
@@ -395,6 +395,7 @@ const Customization = () => {
     if (!backgroundImg.type) {
       toast.success("Please Select");
     }
+    console.log("backgroundImg",backgroundImg)
     let formData = new FormData();
     for (let key in backgroundImg) {
       formData.append(key, backgroundImg[key]);
@@ -998,14 +999,7 @@ const Customization = () => {
                 </div>
                 <div className="colorDivWidth">
                   <img
-                    src={`${
-                      user?.backgroundimages[user?.backgroundimages.length - 3]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 3
-                          ]
-                        : selected1
-                    }`}
+                    src={selected1}
                     alt="logo"
                     className={`${
                       background == "selected1"
@@ -1015,9 +1009,7 @@ const Customization = () => {
                     onClick={() =>
                       handleBackgroundImg(
                         "selected1",
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 3
-                        ]
+                        selected1
                       )
                     }
                   />

@@ -33,6 +33,8 @@ const FeedBackForm = () => {
   const [checked, setChecked] = useState(false);
   const [isRequired, setRequired] = useState(false);
   const [feedbackForms, setFeedbackForms] = useState([]);
+  const [toggleEmail, setToogleEmail] = useState(false);
+  const [phoneToggle, setPhoneToggle] = useState(false);
   const [formInputs, setFormInputs] = useState([]);
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
@@ -60,6 +62,12 @@ const FeedBackForm = () => {
   };
   useEffect(() => {
     getFeedbackForms();
+    if(user){
+      setToogleEmail(user.emailToggle?user.emailToggle:false)
+      setPhoneToggle(user.phoneToggle?user.phoneToggle:false)
+      
+    }
+    console.log("user1111",user)
   }, []);
 
   const handleChangeinput = (e, i, field) => {
@@ -82,6 +90,31 @@ const FeedBackForm = () => {
     });
     setFeedbackForms(updatedForm);
   };
+  const handleToggleEmail = (value) => {
+    setToogleEmail(value)
+    api("put", `/users/brand/description/${user?._id}`, { emailToggle:value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+   
+  
+  };
+  const handleTogglePhone = (value) => {
+    setPhoneToggle(value)
+    api("put", `/users/brand/description/${user?._id}`, { phoneToggle:value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+   
+  
+  };
+  
   const handleCreateFeedback = () => {
     console.log("placeholder", placeholder);
     console.log("label", label);
@@ -166,6 +199,16 @@ const FeedBackForm = () => {
                   name="label"
                   disabled
                 />
+                  <Switch
+                        onChange={(value) =>
+                          handleToggleEmail(value)
+                        }
+                        checked={toggleEmail}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        onColor="#219de3"
+                        className="react-switch"
+                      />
               </div>
               <Input
                 className="text-default inpuFiledfeedback"
@@ -197,6 +240,16 @@ const FeedBackForm = () => {
                   name="label"
                   disabled
                 />
+                  <Switch
+                        onChange={(value) =>
+                          handleTogglePhone(value)
+                        }
+                        checked={phoneToggle}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        onColor="#219de3"
+                        className="react-switch"
+                      />
               </div>
               <Input
                 className="text-default inpuFiledfeedback"
@@ -332,6 +385,16 @@ const FeedBackForm = () => {
                   name="label"
                   disabled
                 />
+                    <Switch
+                        onChange={(value) =>
+                          handleToggleEmail(value)
+                        }
+                        checked={toggleEmail}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        onColor="#219de3"
+                        className="react-switch"
+                      />
               </div>
               <Input
                 className="text-default inpuFiledfeedback staticmobileview1"
@@ -363,6 +426,16 @@ const FeedBackForm = () => {
                   name="label"
                   disabled
                 />
+                     <Switch
+                        onChange={(value) =>
+                          handleTogglePhone(value)
+                        }
+                        checked={phoneToggle}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        onColor="#219de3"
+                        className="react-switch"
+                      />
               </div>
               <Input
                 className="text-default inpuFiledfeedback staticmobileview2"
