@@ -359,9 +359,9 @@ const Customization = () => {
     setBackground(type);
     setBackgroundImg((prev) => ({
       ...prev,
-      type: "img",
-      selectedImg: "",
-      img: selectedImg,
+      type,
+      selectedImg,
+      img: "",
       color: "",
     }));
   };
