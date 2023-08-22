@@ -197,7 +197,7 @@ const Customization = () => {
       isOpen: false,
       haveData: false,
     },
-  });  
+  });
 
   useEffect(() => {
     if (user) {
@@ -395,14 +395,14 @@ const Customization = () => {
     if (!backgroundImg.type) {
       toast.success("Please Select");
     }
-    console.log("backgroundImg",backgroundImg)
+    console.log("backgroundImg", backgroundImg);
     let formData = new FormData();
     for (let key in backgroundImg) {
       formData.append(key, backgroundImg[key]);
     }
     api("put", `/users/brand/bgImg/${user?._id}`, formData)
       .then((res) => {
-        getUser()
+        getUser();
         setPreviewImage(null);
         toast.success("Background Updated");
       })
@@ -450,7 +450,7 @@ const Customization = () => {
     e.preventDefault();
     let textTypography = {};
     textTypography = { [typographyTitle]: typography };
-    console.log("textTypography",textTypography)
+    console.log("textTypography", textTypography);
 
     api("put", `/users/brand/typography/${user?._id}`, { textTypography })
       .then((res) => {
@@ -486,9 +486,13 @@ const Customization = () => {
   const store = Store();
   const updateStore = UpdateStore();
   const { user } = store;
-  
 
-
+  const img1 =
+    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621455234%20-%20%20richard-horvath-cPccYbPrF-A-unsplash.jpg";
+  const img2 =
+    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621488863%20-%20%20milad-fakurian-u8Jn2rzYIps-unsplash.jpg";
+  const img3 =
+    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621638672%20-%20%20milad-fakurian-E8Ufcyxz514-unsplash.jpg";
   return (
     <>
       <Container className="mt--7" fluid>
@@ -709,7 +713,7 @@ const Customization = () => {
                       }}
                       onClick={() => setTypographyTitle("Body")}
                     >
-                      Pagargraph 
+                      Pagargraph
                     </h5>
                   ) : (
                     <h5
@@ -724,7 +728,7 @@ const Customization = () => {
                       }}
                       onClick={() => setTypographyTitle("Body")}
                     >
-                      Pagargraph 
+                      Pagargraph
                     </h5>
                   )}
                 </Col>
@@ -762,7 +766,7 @@ const Customization = () => {
                     </h5>
                   )}
                 </Col>
-                
+
                 {/* <Col xs={6} sm={3} lg={2} xl={2}>
                   {typographyTitle == 'Body' ? (
                     <h5
@@ -999,71 +1003,38 @@ const Customization = () => {
                 </div>
                 <div className="colorDivWidth">
                   <img
-                    src={selected1}
+                    src={img3}
                     alt="logo"
                     className={`${
                       background == "selected1"
                         ? "selectedBackground1"
                         : "uploadedBackgroundImg1"
                     }`}
-                    onClick={() =>
-                      handleBackgroundImg(
-                        "selected1",
-                        selected1
-                      )
-                    }
+                    onClick={() => handleBackgroundImg("selected1", img3)}
                   />
                 </div>
                 <div className="colorDivWidth">
                   <img
-                    src={`${
-                      user?.backgroundimages[user?.backgroundimages.length - 2]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 2
-                          ]
-                        : selected2
-                    }`}
+                    src={img1}
                     alt="logo"
                     className={`${
                       background == "selected2"
                         ? "selectedBackground1"
                         : "uploadedBackgroundImg1"
                     }`}
-                    onClick={() =>
-                      handleBackgroundImg(
-                        "selected2",
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 2
-                        ]
-                      )
-                    }
+                    onClick={() => handleBackgroundImg("selected2", img1)}
                   />
                 </div>
                 <div className="colorDivWidth">
                   <img
-                    src={`${
-                      user?.backgroundimages[user?.backgroundimages.length - 1]
-                        ? mediaUrl +
-                          user?.backgroundimages[
-                            user?.backgroundimages.length - 1
-                          ]
-                        : ""
-                    }`}
+                    src={img2}
                     alt="logo"
                     className={`${
                       background == "selected3"
                         ? "selectedBackground1"
                         : "uploadedBackgroundImg1"
                     }`}
-                    onClick={() =>
-                      handleBackgroundImg(
-                        "selected3",
-                        user?.backgroundimages[
-                          user?.backgroundimages.length - 1
-                        ]
-                      )
-                    }
+                    onClick={() => handleBackgroundImg("selected3", img2)}
                   />
                 </div>
                 <div className="colorDivWidth">
