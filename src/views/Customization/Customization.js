@@ -488,11 +488,11 @@ const Customization = () => {
   const { user } = store;
 
   const img1 =
-    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621455234%20-%20%20richard-horvath-cPccYbPrF-A-unsplash.jpg";
+    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770329730%20-%20%20Background%202.png";
   const img2 =
-    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621488863%20-%20%20milad-fakurian-u8Jn2rzYIps-unsplash.jpg";
+    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770367395%20-%20%20Background%203.png";
   const img3 =
-    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692621638672%20-%20%20milad-fakurian-E8Ufcyxz514-unsplash.jpg";
+  "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770175578%20-%20%20Background%201.png";
   return (
     <>
       <Container className="mt--7" fluid>
