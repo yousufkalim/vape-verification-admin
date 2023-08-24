@@ -41,27 +41,6 @@ import { Store } from 'StoreContext';  // Context for accessing user data
 import moment from 'moment';  // Library for date and time manipulation
 import { useLocation } from 'react-router-dom';  // Hook to access the current route location
 
-const aggregateDataByCountry = (data) => {
-  const aggregated = {};
-  data.forEach((location) => {
-    if (location.country in aggregated) {
-      aggregated[location.country] += 1;
-    } else {
-      aggregated[location.country] = 1;
-    }
-  });
-  return aggregated;
-};
-
-const normalizeData = (data) => {
-  const maxVal = Math.max(...Object.values(data));
-  const normalized = {};
-  for (const country in data) {
-    normalized[country] = data[country] / maxVal;
-  }
-  return normalized;
-};
-
 // The main component for displaying the Vector Map for brands
 const VectorMaps = () => {
   // Using useState to define and manage state variables
@@ -69,7 +48,7 @@ const VectorMaps = () => {
   const [locations, setLocations] = useState([]);  // State to store fetched locations
   const [statusFilter, setStatusFilter] = useState('');  // State for status-based filtering
   const [durationFilter, setDurationFilter] = useState('day');  // State for duration-based filtering
-
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   // Accessing the user context to get current user data
   const { user } = Store();
 
@@ -79,6 +58,14 @@ const VectorMaps = () => {
   // useEffect hook to fetch user locations once the component mounts
   useEffect(() => {
     getUserLocations();
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Function to fetch locations based on user ID or all locations for admin
@@ -125,7 +112,7 @@ const VectorMaps = () => {
     setStatusFilter(check);
   };
 
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 900;
 
   // Function to handle duration-based filtering on the map
   const handleDurationFilter = (duration) => {
@@ -168,9 +155,6 @@ const VectorMaps = () => {
     ? subtract?.filter((item) => item.status === statusFilter)
     : subtract;
 
-  const aggregatedData = aggregateDataByCountry(filteredData);
-  const normalizedData = normalizeData(aggregatedData);
-
   // Return statement to render the component UI
   return (
     // JSX layout for the map component
@@ -187,7 +171,7 @@ const VectorMaps = () => {
 
                     {/* Filter controls */}
                     <div className="d-flex align-items-center">
-                      <span className="mr-2">Duration:</span>
+                      <span className="mr-2" style={{ display: screenWidth <= 768 ? 'none' : 'inline' }}>Duration:</span>
                       <div className="btn-group">
                         <button
                           onClick={() => handleDurationFilter('day')}
@@ -256,6 +240,7 @@ const VectorMaps = () => {
                   backgroundColor="#FFFFFF" // Sets the background color of the map.
                   hoverOpacity="0.7" // Opacity for regions/markers on hover.
                   zoomMax={200} // Maximum zoom level the user can zoom in to.
+                  zoomButtons={false}
                   containerStyle={{
                     width: '100%',
                     height: '100%'
@@ -263,7 +248,8 @@ const VectorMaps = () => {
                   markerStyle={{
                     initial: {
                       fill: '#F8E23B', // Initial color for markers.
-                      stroke: '#383f47' // Initial border color for markers.
+                      stroke: '#383f47', // Initial border color for markers.
+                      r: isMobile ? 10 : 5  // Increase the radius of the marker on mobile
                     }
                   }}
                   markers={filteredData?.filter(location => location.country !== 'undefined').map((location) => ({
@@ -276,7 +262,7 @@ const VectorMaps = () => {
                   }))}
                   regionStyle={{
                     initial: {
-                      fill: '#e4e4e4', // Initial color for map regions.
+                      fill: '#85cdfd ', // Initial color for map regions.
                       'fill-opacity': 1,
                       stroke: 'none',
                       'stroke-width': 0,
@@ -284,18 +270,11 @@ const VectorMaps = () => {
                     }
                   }}
                   series={{
-                    regions: [
-                      {
-                        values: normalizedData,
-                        scale: ['#C8EEFF', '#0071A4'],  // Light blue to dark blue
-                        normalizeFunction: 'polynomial'
-                      }
-                    ],
                     markers: [
                       {
                         attribute: 'fill',
-                        scale: ['#ff0000', '#00ff00'], // Color scale for markers.
-                        normalizeFunction: 'polynomial' // Function to normalize marker data values to a range of colors.
+                        scale: ['#ff0000', '#00ff00'],
+                        normalizeFunction: 'polynomial'
                       }
                     ]
                   }}
