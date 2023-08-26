@@ -222,7 +222,7 @@ const ResetPassword = () => {
                     </FormGroup>
 
                     {user?.password?.length > 0 && (
-                      <div style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f7f7f7", marginTop: "15px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.05)" }}>
+                      <div style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f7fafc", marginTop: "15px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.05)" }}>
                         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                           <i className={`fa ${user.password === user.confirmPassword ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
                           <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
