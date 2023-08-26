@@ -42,14 +42,36 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from "reactstrap";
-import FilePicker from "components/FilePicker/FilePicker";
 import { toast } from "react-toastify";
 import api from "api";
 import { mediaUrl } from "../../config";
 
+const PasswordInput = ({ placeholder, name, value, onChange }) => (
+  <FormGroup>
+    <InputGroup className="input-group-alternative">
+      <InputGroupAddon addonType="prepend">
+        <InputGroupText>
+          <i className="ni ni-lock-circle-open" />
+        </InputGroupText>
+      </InputGroupAddon>
+      <Input
+        style={{ border: "1px solid #e0e0e0", borderRadius: "5px", padding: "10px 12px" }}
+        placeholder={placeholder}
+        type="password"
+        name={name}
+        value={value}
+        autoComplete="new-password"
+        onChange={onChange}
+      />
+
+    </InputGroup>
+  </FormGroup>
+);
+
+
 const AdminNavbar = ({ brandText, getUser }) => {
   const { user } = Store();
-  const [profile, setProfile,ref] = useState({});
+  const [profile, setProfile, ref] = useState({});
   const [fileName, setFileName] = useState("");
   const [open, setOpen] = useState(false);
   let [password1validation, setPassword1validation, ref2] = useState({
@@ -87,15 +109,20 @@ const AdminNavbar = ({ brandText, getUser }) => {
 
   const handleModal = () => {
     setOpen((prev) => !prev);
+    if (open) {
+      setProfile((prevProfile) => ({ ...prevProfile, password: "", confirmPassword: "" }));
+    }
   };
+
+
 
   console.log("File name ", fileName);
 
- 
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setProfile((prof) => ({ ...prof, [name]: value }));
-  
+
     const containsNumber = /[0-9]/.test(ref.current.password);
     const containsSymbol = /[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]/.test(
       ref.current.password
@@ -108,7 +135,7 @@ const AdminNavbar = ({ brandText, getUser }) => {
     } else {
       setPassword1validation({ ...ref2.current, eightchrachter: false });
     }
-  
+
     if (containsSymbol) {
       setPassword1validation({ ...ref2.current, symbles: true });
     } else {
@@ -136,10 +163,10 @@ const AdminNavbar = ({ brandText, getUser }) => {
   const handleSubmit = () => {
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>\/?])(?=.*[A-Z])(?=.*[a-z]).{8,}$/;
 
-if (!passwordRegex.test(ref.current.password)) {
- return  toast.error("Please enter a valid password");
-}
-    
+    if (!passwordRegex.test(ref.current.password)) {
+      return toast.error("Please enter a valid password");
+    }
+
     if (profile.password !== profile.confirmPassword) {
       toast.error("Your passwords do not match");
     } else {
@@ -148,7 +175,7 @@ if (!passwordRegex.test(ref.current.password)) {
           setProfile({ password: "", confirmPassword: "" });
           toast.success("Password Updated successfully");
           handleModal();
-         
+
         })
         .catch((err) => {
           console.log("Error ", err);
@@ -160,7 +187,7 @@ if (!passwordRegex.test(ref.current.password)) {
   const updateBrand = () => {
     let formData = new FormData();
 
-    
+
 
     api("put", `/users/brand/${user._id}`, formData).then((res) => {
       getUser();
@@ -196,7 +223,7 @@ if (!passwordRegex.test(ref.current.password)) {
         <Container fluid>
           <div
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            // to='/admin/index'
+          // to='/admin/index'
           >
             {brandText}
           </div>
@@ -276,45 +303,21 @@ if (!passwordRegex.test(ref.current.password)) {
                         />
                       </FormGroup>
                     </Col>
+                    <Col lg="12" style={{ margin: "auto" }}>
+                      <PasswordInput
+                        placeholder="Password"
+                        name="password"
+                        value={profile?.password}
+                        onChange={handleInput}
+                      />
+                      <PasswordInput
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        value={profile?.confirmPassword}
+                        onChange={handleInput}
+                      />
+                    </Col>
 
-                    <Col lg="12" style={{ margin: "auto" }}>
-                      <FormGroup>
-                        <InputGroup className="input-group-alternative">
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="ni ni-lock-circle-open" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Password"
-                            type="password"
-                            name="password"
-                            value={profile?.password}
-                            autoComplete="new-password"
-                            onChange={handleInput}
-                          />
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                    <Col lg="12" style={{ margin: "auto" }}>
-                      <FormGroup>
-                        <InputGroup className="input-group-alternative">
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="ni ni-lock-circle-open" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Confirm Password"
-                            type="password"
-                            name="confirmPassword"
-                            value={profile?.confirmPassword}
-                            autoComplete="new-password"
-                            onChange={handleInput}
-                          />
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
                   </Row>
                   {/* {user?.role === "brand" && (
                     <>
@@ -403,65 +406,49 @@ if (!passwordRegex.test(ref.current.password)) {
                       </Row>
                     </>
                   )} */}
-                    <div>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.eightchrachter ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        Minimum length of 8-12 charachters.
-                      </p>
-                    
-
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.upperCase ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least 1 uppercase letter.
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.lowerCase ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least 1 lowercase letter.
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {!password1validation.containNumber ? (
-                          <span style={{ fontSize: "10px" }}>❌ </span>
-                        ) : (
-                          <span style={{ fontSize: "13px" }}>✅</span>
-                        )}{" "}
-                        At least one digit (0-9).
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.symbles ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least one special charachter (!@#$%^&*).
-                      </p>
+                  {profile?.password?.length > 0 && (
+                    <div style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f7f7f7", marginTop: "15px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.05)" }}>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${profile.password === profile.confirmPassword ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          Passwords must match.
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${password1validation.eightchrachter ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          Minimum length of 8 characters.
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${password1validation.symbles ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          At least one special character (!@#$%^&*).
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${password1validation.upperCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          At least one uppercase letter.
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${password1validation.lowerCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          At least one lowercase letter.
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <i className={`fa ${password1validation.containNumber ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                        <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                          At least one number.
+                        </p>
+                      </div>
                     </div>
+                  )}
+
+
+
                 </div>
               </Form>
             </Col>
