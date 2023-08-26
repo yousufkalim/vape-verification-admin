@@ -175,7 +175,7 @@ const Sidebar = (props) => {
   const updateBrand = () => {
     let formData = new FormData();
 
-  
+
 
     api('put', `/users/brand/${user._id}`, profile).then((res) => {
       getUser();
@@ -286,7 +286,27 @@ const Sidebar = (props) => {
             </div>
             {/* Navigation */}
             <Nav navbar>
+              {/* Existing links */}
               {createLinks(routes)}
+
+              {/* Divider */}
+              <hr className="my-3" />
+              {/* Heading */}
+              <h6 className="navbar-heading text-muted" style={{ paddingLeft: '15px' }}>Documentation</h6>
+              {/* Links */}
+              <NavItem>
+                <NavLink href="https://getveriscan.com/docs/" target="_blank">
+                  <i className="ni ni-books" style={{ color: 'blue' }} />
+                  Documentation
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://getveriscan.com/contact/" target="_blank">
+                  <i className="ni ni-support-16" style={{ color: 'blue' }} />
+                  Support
+                </NavLink>
+              </NavItem>
+
               {/* {user.role === 'brand' && (
                 <a className='view_brand' target='_blank'>
                   <i className='ni ni-key-25 text-info' />

@@ -88,14 +88,14 @@ var routes = [
     layout: '/brand',
     isChild: false,
   },
-  {
-    path: '/codes',
-    name: 'All Codes',
-    icon: 'fas fa-barcode text-primary',
-    component: BrandCodes,
-    layout: '/brand',
-    isChild: false,
-  },
+  /*   {
+      path: '/codes',
+      name: 'All Codes',
+      icon: 'fas fa-barcode text-primary',
+      component: BrandCodes,
+      layout: '/brand',
+      isChild: false,
+    }, */
   {
     path: '/customization',
     name: 'Customization',
