@@ -75,7 +75,7 @@ const ResetPassword = () => {
     } else {
       setPassword1validation({ ...ref2.current, eightchrachter: false });
     }
-  
+
     if (containsSymbol) {
       setPassword1validation({ ...ref2.current, symbles: true });
     } else {
@@ -221,65 +221,47 @@ const ResetPassword = () => {
                       </InputGroup>
                     </FormGroup>
 
-                    <div>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.eightchrachter ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        Minimum length of 8-12 charachters.
-                      </p>
-                    
+                    {user?.password?.length > 0 && (
+                      <div style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f7f7f7", marginTop: "15px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.05)" }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${user.password === user.confirmPassword ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            Passwords must match.
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${password1validation.eightchrachter ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            Minimum length of 8 characters.
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${password1validation.symbles ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            At least one special character (!@#$%^&*).
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${password1validation.upperCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            At least one uppercase letter.
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${password1validation.lowerCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            At least one lowercase letter.
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <i className={`fa ${password1validation.containNumber ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}`} />
+                          <p style={{ margin: "0px 0px 0px 10px", fontSize: "14px" }}>
+                            At least one number.
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.upperCase ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least 1 uppercase letter.
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.lowerCase ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least 1 lowercase letter.
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {!password1validation.containNumber ? (
-                          <span style={{ fontSize: "10px" }}>❌ </span>
-                        ) : (
-                          <span style={{ fontSize: "13px" }}>✅</span>
-                        )}{" "}
-                        At least one digit (0-9).
-                      </p>
-                      <p
-                        style={{ margin: "3px 0px 3px 10px", fontSize: "14px" }}
-                      >
-                        {" "}
-                        {password1validation.symbles ? (
-                          <span style={{ fontSize: "13px" }}>✅ </span>
-                        ) : (
-                          <span style={{ fontSize: "10px" }}>❌</span>
-                        )}{" "}
-                        At least one special charachter (!@#$%^&*).
-                      </p>
-                    </div>
 
                     <div className="custom-control custom-control-alternative custom-checkbox">
                       <input
@@ -299,9 +281,9 @@ const ResetPassword = () => {
                           !password1validation.eightchrachter ||
                           !password1validation.upperCase ||
                           !password1validation.lowerCase ||
-                          !password1validation.containNumber 
+                          !password1validation.containNumber
 
-                          
+
                         }
                       >
                         Save Changes
