@@ -58,169 +58,160 @@ const Header = () => {
       >
         {(window.location.pathname === "/brand/index" ||
           window.location.pathname === "/admin/index") && (
-          <Container fluid>
-            <div className="header-body">
-              {/* Card stats */}
-              <Row>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        {user?.role === "brand" ? (
-                          <div className="col">
-                            <CardTitle
-                              tag="h5"
-                              className="text-uppercase text-muted mb-0"
-                            >
-                              Codes
-                            </CardTitle>
-                            <span className="h2 font-weight-bold mb-0">
-                              {stats?.allCodesCount ?? 0}
-                            </span>
-                          </div>
-                        ) : (
-                          <div className="col">
-                            <CardTitle
-                              tag="h5"
-                              className="text-uppercase text-muted mb-0"
-                            >
-                              Codes
-                            </CardTitle>
-                            <span className="h2 font-weight-bold mb-0">
-                              {stats?.codesCount ?? 0}
-                            </span>
-                          </div>
-                        )}
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-primary text-white rounded-circle shadow">
-                            <i className="fas fa-barcode" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i />
-                        </span>{" "}
-                        <span className="text-nowrap" />
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Validated Codes
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">
-                            {stats?.validatedCodesCount ?? 0}
-                          </span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-success text-white rounded-circle shadow">
-                            <i class="fas fa-barcode" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        {renderGrowth()}
-                        <span className="text-nowrap">Since last month</span>
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        {user?.role === "brand" ? (
-                          <>
+            <Container fluid>
+              <div className="header-body">
+                {/* Card stats */}
+                <Row>
+                  <Col lg="6" xl="3">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody>
+                        <Row>
+                          {user?.role === "brand" ? (
                             <div className="col">
                               <CardTitle
                                 tag="h5"
                                 className="text-uppercase text-muted mb-0"
                               >
-                                Invalidated Codes
+                                Amount of Codes
                               </CardTitle>
                               <span className="h2 font-weight-bold mb-0">
-                                {stats?.invalidatedCodesCount ?? 0}
+                                {stats?.allCodesCount ?? 0}
                               </span>
                             </div>
-                            <Col className="col-auto">
-                              <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                <i className="fas fa-users" />
-                              </div>
-                            </Col>
-                          </>
-                        ) : (
-                          <>
+                          ) : (
                             <div className="col">
                               <CardTitle
                                 tag="h5"
                                 className="text-uppercase text-muted mb-0"
                               >
-                                Brands
+                                Codes
                               </CardTitle>
                               <span className="h2 font-weight-bold mb-0">
-                                {stats?.brandCount ?? 0}
+                                {stats?.codesCount ?? 0}
                               </span>
                             </div>
-                            <Col className="col-auto">
-                              <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                                <i className="fas fa-users" />
-                              </div>
-                            </Col>
-                          </>
-                        )}
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i />
-                        </span>{" "}
-                        <span className="text-nowrap" />
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Batch Requests
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">
-                            {stats?.requestCount ?? 0}
-                          </span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-info text-white rounded-circle shadow">
-                            <i className="fas fa-plus" />
+                          )}
+                          <Col className="col-auto">
+                            <div className="icon icon-shape bg-primary text-white rounded-circle shadow">
+                              <i className="fas fa-barcode" />
+                            </div>
+                          </Col>
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          <span className="text-nowrap">All time amount</span>
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col lg="6" xl="3">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody>
+                        <Row>
+                          <div className="col">
+                            <CardTitle
+                              tag="h5"
+                              className="text-uppercase text-muted mb-0"
+                            >
+                              Validated Codes
+                            </CardTitle>
+                            <span className="h2 font-weight-bold mb-0">
+                              {stats?.validatedCodesCount ?? 0}
+                            </span>
                           </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i />
-                        </span>{" "}
-                        <span className="text-nowrap" />
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-            </div>
-          </Container>
-        )}
+                          <Col className="col-auto">
+                            <div className="icon icon-shape bg-success text-white rounded-circle shadow">
+                              <i class="fas fa-check" />
+                            </div>
+                          </Col>
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          {renderGrowth()}
+                          <span className="text-nowrap">Since last month</span>
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col lg="6" xl="3">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody>
+                        <Row>
+                          {user?.role === "brand" ? (
+                            <>
+                              <div className="col">
+                                <CardTitle
+                                  tag="h5"
+                                  className="text-uppercase text-muted mb-0"
+                                >
+                                  Invalidated Codes
+                                </CardTitle>
+                                <span className="h2 font-weight-bold mb-0">
+                                  {stats?.invalidatedCodesCount ?? 0}
+                                </span>
+                              </div>
+                              <Col className="col-auto">
+                                <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                  <i className="fa fa-times" />
+                                </div>
+                              </Col>
+                            </>
+                          ) : (
+                            <>
+                              <div className="col">
+                                <CardTitle
+                                  tag="h5"
+                                  className="text-uppercase text-muted mb-0"
+                                >
+                                  Brands
+                                </CardTitle>
+                                <span className="h2 font-weight-bold mb-0">
+                                  {stats?.brandCount ?? 0}
+                                </span>
+                              </div>
+                              <Col className="col-auto">
+                                <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                  <i className="fas fa-users" />
+                                </div>
+                              </Col>
+                            </>
+                          )}
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          <span className="text-nowrap">All time amount</span>
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col lg="6" xl="3">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody>
+                        <Row>
+                          <div className="col">
+                            <CardTitle
+                              tag="h5"
+                              className="text-uppercase text-muted mb-0"
+                            >
+                              Batch Requests
+                            </CardTitle>
+                            <span className="h2 font-weight-bold mb-0">
+                              {stats?.requestCount ?? 0}
+                            </span>
+                          </div>
+                          <Col className="col-auto">
+                            <div className="icon icon-shape bg-info text-white rounded-circle shadow">
+                              <i className="fas fa-plus" />
+                            </div>
+                          </Col>
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          <span className="text-nowrap">All time amount</span>
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            </Container>
+          )}
       </div>
     </>
   );

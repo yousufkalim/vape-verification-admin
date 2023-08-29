@@ -17,7 +17,7 @@
 */
 
 // reactstrap components
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import api from 'api';
 import {
@@ -35,11 +35,10 @@ import {
 import { toast } from 'react-toastify';
 import Loader from 'components/Spinner/Spinner';
 import { useParams } from 'react-router-dom';
-import reactSelect from 'react-select';
 
 const VerifyOtp = () => {
   const [code, setCode] = useState('');
-  
+
   const [loading, setLoading] = useState(false);
   const [timeLoader, setTimeLoader] = useState(true);
   const [timeLeft, setTimeLeft] = useState(60);
@@ -95,18 +94,18 @@ const VerifyOtp = () => {
         });
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     timeInterval = setInterval(() => {
       setTimeLeft(prev => prev - 1);
     }, 1000);
-  
+
     setTimeout(() => {
       clearInterval(timeInterval);
       setTimeLeft(60);
       setTimeLoader(false);
     }, 60000);
-  
-  },[])
+
+  }, [])
   const handleResend = () => {
     if (!param.email) {
       toast.error('No email provided. Please provide an email to proceed.');
@@ -137,8 +136,7 @@ const VerifyOtp = () => {
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
               <small>
-                Please check your email for the One-Time Password code and enter
-                it below.The code will become expire after a duration of ten minutes.
+                An OTP has been sent to your email. Please ensure you enter it below within the next fifteen minutes.
               </small>
             </div>
             <Form role="form">
@@ -164,13 +162,12 @@ const VerifyOtp = () => {
                   className="my-4"
                   color="primary"
                   type="button"
-                  disabled={loading || timeLoader }
+                  disabled={loading || timeLoader}
                   onClick={handleResend}
                 >
-               {timeLoader && timeLeft!==61 && timeLeft}   Resend
-                </Button>
+                  Resend {timeLoader && timeLeft !== 61 && <span>({timeLeft})</span>}                </Button>
                 <Button
-                disabled={loading}
+                  disabled={loading}
                   className="my-4"
                   color="primary"
                   type="button"
