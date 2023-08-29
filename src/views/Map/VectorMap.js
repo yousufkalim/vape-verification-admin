@@ -106,19 +106,15 @@ const VectorMaps = () => {
     }
   };
 
-
   // Function to handle status-based filtering on the map
   const handleFilterWithStatus = (check) => {
     setStatusFilter(check);
   };
-
   const isMobile = window.innerWidth <= 900;
-
   // Function to handle duration-based filtering on the map
   const handleDurationFilter = (duration) => {
     setDurationFilter(duration);
   };
-
   // Function to get locations based on the duration filter (e.g., week, month, year)
   const getLocationsByDuration = () => {
     if (durationFilter) {
