@@ -487,12 +487,11 @@ const Customization = () => {
   const updateStore = UpdateStore();
   const { user } = store;
 
-  const img1 =
-    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770329730%20-%20%20Background%202.png";
+  const img1 = "https://api.getveriscan.com/uploads/backgroundImages/Background-1.png";
   const img2 =
-    "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770367395%20-%20%20Background%203.png";
+    "https://api.getveriscan.com/uploads/backgroundImages/Background-2.png";
   const img3 =
-  "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1692770175578%20-%20%20Background%201.png";
+  "https://api.getveriscan.com/uploads/backgroundImages/Background-3.png";
   return (
     <>
       <Container className="mt--7" fluid>
