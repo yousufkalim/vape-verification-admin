@@ -487,11 +487,15 @@ const Customization = () => {
   const updateStore = UpdateStore();
   const { user } = store;
 
-  const img1 = "https://api.getveriscan.com/uploads/backgroundImages/Background-1.png";
-  const img2 =
-    "https://api.getveriscan.com/uploads/backgroundImages/Background-2.png";
-  const img3 =
-  "https://api.getveriscan.com/uploads/backgroundImages/Background-3.png";
+  // const img1 = "https://api.getveriscan.com/uploads/backgroundImages/Background-1.png";
+  // const img2 =
+  //   "https://api.getveriscan.com/uploads/backgroundImages/Background-2.png";
+  // const img3 =
+  // "https://api.getveriscan.com/uploads/backgroundImages/Background-3.png";
+  
+const img1="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389173489%20-%20%20Background%202.png";
+const img2="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389323964%20-%20%20Background%203.png";
+const img3= "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389070846%20-%20%20Background%201.png";
   return (
     <>
       <Container className="mt--7" fluid>
