@@ -30,6 +30,9 @@ import PendingRequests from 'components/PendingRequests/PendingRequests';
 
 export const options = {
   responsive: true,
+  animation: {
+    duration: 2500
+  },
   datasets: {
     bar: {
       barThickness: 22,
@@ -82,7 +85,7 @@ const BrandDashboard = () => {
       {
         label: 'Total Requests',
         data: stats?.stats ? Object.values(stats?.stats) : [],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: 'rgba(54, 47, 217, 1)',
         // minBarLength: 20,
       },
     ],

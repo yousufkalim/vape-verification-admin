@@ -30,6 +30,9 @@ import PendingRequests from 'components/PendingRequests/PendingRequests';
 
 export const options = {
   responsive: true,
+  animation: {
+    duration: 2500
+  },
   datasets: {
     bar: {
       barThickness: 22,
@@ -60,6 +63,7 @@ export const options = {
           stepSize: 5,
         },
       },
+
     },
   },
   plugins: {
@@ -84,7 +88,7 @@ const Index = (props) => {
       {
         label: 'Total Requests',
         data: stats?.stats ? Object.values(stats?.stats) : [],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: 'rgba(54, 47, 217, 1)',
         // minBarLength: 20,
       },
     ],
@@ -99,7 +103,7 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data('data' + index);
   };
-  console.log("stats2",stats)
+  console.log("stats2", stats)
   return (
     <>
       <Container className='mt--7' fluid>
