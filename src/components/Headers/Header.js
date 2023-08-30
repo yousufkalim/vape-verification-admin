@@ -19,6 +19,7 @@ x
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { Store } from "StoreContext";
+import CountUp from 'react-countup';
 
 const Header = () => {
   const store = Store();
@@ -75,7 +76,7 @@ const Header = () => {
                                 Amount of Codes
                               </CardTitle>
                               <span className="h2 font-weight-bold mb-0">
-                                {stats?.allCodesCount ?? 0}
+                                <CountUp start={0} end={stats?.allCodesCount ?? 0} duration={2.5} separator="," />
                               </span>
                             </div>
                           ) : (
@@ -87,7 +88,8 @@ const Header = () => {
                                 Codes
                               </CardTitle>
                               <span className="h2 font-weight-bold mb-0">
-                                {stats?.codesCount ?? 0}
+                                <CountUp start={0} end={stats?.codesCount ?? 0} duration={2.5} separator="," />
+
                               </span>
                             </div>
                           )}
@@ -115,7 +117,7 @@ const Header = () => {
                               Validated Codes
                             </CardTitle>
                             <span className="h2 font-weight-bold mb-0">
-                              {stats?.validatedCodesCount ?? 0}
+                              <CountUp start={0} end={stats?.validatedCodesCount ?? 0} duration={2.5} separator="," />
                             </span>
                           </div>
                           <Col className="col-auto">
@@ -145,7 +147,8 @@ const Header = () => {
                                   Invalidated Codes
                                 </CardTitle>
                                 <span className="h2 font-weight-bold mb-0">
-                                  {stats?.invalidatedCodesCount ?? 0}
+                                  <CountUp start={0} end={stats?.invalidatedCodesCount ?? 0} duration={2.5} separator="," />
+
                                 </span>
                               </div>
                               <Col className="col-auto">
@@ -164,7 +167,8 @@ const Header = () => {
                                   Brands
                                 </CardTitle>
                                 <span className="h2 font-weight-bold mb-0">
-                                  {stats?.brandCount ?? 0}
+                                  <CountUp start={0} end={stats?.brandCount ?? 0} duration={2.5} separator="," />
+
                                 </span>
                               </div>
                               <Col className="col-auto">
@@ -193,7 +197,8 @@ const Header = () => {
                               Batch Requests
                             </CardTitle>
                             <span className="h2 font-weight-bold mb-0">
-                              {stats?.requestCount ?? 0}
+                              <CountUp start={0} end={stats?.requestCount ?? 0} duration={2.5} separator="," />
+
                             </span>
                           </div>
                           <Col className="col-auto">
