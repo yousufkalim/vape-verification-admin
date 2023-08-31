@@ -28,7 +28,7 @@ import { ReactComponent as Snapchat } from "../../assets/img/Snapchat.svg";
 import { ReactComponent as Telegram } from "../../assets/img/Telegram.svg";
 import ColorSelect from "../../assets/img/icons/common/colorSelector.svg";
 import BgIcon from "../../assets/img/bg_icon.svg";
-import { mediaUrl } from "../../config";
+import { baseUrl, mediaUrl } from "../../config";
 import CustomizeButton from "./CustomizeButtons";
 import CustomizeDescriptiion from "./CustomizeDescriptiion";
 
@@ -493,9 +493,12 @@ const Customization = () => {
   // const img3 =
   // "https://api.getveriscan.com/uploads/backgroundImages/Background-3.png";
   
-const img1="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389173489%20-%20%20Background%202.png";
-const img2="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389323964%20-%20%20Background%203.png";
-const img3= "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389070846%20-%20%20Background%201.png";
+// const img1="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389173489%20-%20%20Background%202.png";
+// const img2="https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389323964%20-%20%20Background%203.png";
+// const img3= "https://vapeverification-api-dev.falconweb.app/uploads/backgroundImages/1693389070846%20-%20%20Background%201.png";
+const img1=`${mediaUrl}uploads/backgroundImages/1693389173489%20-%20%20Background%202.png`;
+const img2=`${mediaUrl}uploads/backgroundImages/1693389323964%20-%20%20Background%203.png`;
+const img3= `${mediaUrl}uploads/backgroundImages/1693389070846%20-%20%20Background%201.png`;
   return (
     <>
       <Container className="mt--7" fluid>
