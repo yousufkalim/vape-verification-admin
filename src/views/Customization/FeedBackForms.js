@@ -35,6 +35,11 @@ const FeedBackForm = () => {
   const [feedbackForms, setFeedbackForms] = useState([]);
   const [toggleEmail, setToogleEmail] = useState(false);
   const [phoneToggle, setPhoneToggle] = useState(false);
+  const [requireEmail, setRequireEmail] = useState(false);
+  const [requirePhone, setRequirePhone] = useState(false);
+
+  const [emailPlacholder, setEmailPlaceholder] = useState("");
+  const [phonePlacholder, setPhonePlaceholder] = useState("");
   const [formInputs, setFormInputs] = useState([]);
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
@@ -65,7 +70,10 @@ const FeedBackForm = () => {
     if(user){
       setToogleEmail(user.emailToggle?user.emailToggle:false)
       setPhoneToggle(user.phoneToggle?user.phoneToggle:false)
-      
+      setRequireEmail(user.emailRequire?user.emailRequire:false)
+      setRequirePhone(user.phoneRequire?user.phoneRequire:false)
+      setEmailPlaceholder(user.emailPlaceholder?user.emailPlaceholder:"")
+      setPhonePlaceholder(user.phonePlaceholder?user.phonePlaceholder:"")  
     }
     console.log("user1111",user)
   }, []);
@@ -99,9 +107,50 @@ const FeedBackForm = () => {
     .catch(() => {
       console.log("error");
     });
-   
-  
   };
+  const handleRequireEmail = (value) => {
+    setRequireEmail(value)
+    console.log("reuire email",value)
+    api("put", `/users/brand/description/${user?._id}`, { emailRequire:value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+  };
+  const handleRequirePhone = (value) => {
+    setRequirePhone(value)
+    console.log("reuire phone",value)
+    api("put", `/users/brand/description/${user?._id}`, { phoneRequire:value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+  };
+  const handleonBlurEmail=(e)=>{
+    console.log("email blr",e.target.value)
+    api("put", `/users/brand/description/${user?._id}`, { emailPlaceholder:e.target.value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+  }
+  const handleonBlurPhone=(e)=>{
+    console.log("email blr",e.target.value)
+    api("put", `/users/brand/description/${user?._id}`, { phonePlaceholder:e.target.value })
+    .then((res) => {
+   
+    })
+    .catch(() => {
+      console.log("error");
+    });
+  }
+  
   const handleTogglePhone = (value) => {
     setPhoneToggle(value)
     api("put", `/users/brand/description/${user?._id}`, { phoneToggle:value })
@@ -215,10 +264,39 @@ const FeedBackForm = () => {
                 required={true}
                 type="text"
                 placeholder="example@veriscan.com"
-                name="placeholder"
-                disabled
+                value={emailPlacholder}
+                name="emailPlacholder"
+                onChange={(e) => setEmailPlaceholder(e.target.value)}
+                  onBlur={(e) => handleonBlurEmail(e)}
               />
+               <img
+                      src={Delete}
+                      alt="Delete"
+                      className="deleteIcon"
+                      style={{opacity:0}}
+                    />
             </FormGroup>
+            <div
+                    className="custom-control custom-control-alternative custom-checkbox"
+                    style={{ padding: "0px" }}
+                  >
+                    <input
+                      className="checkboxInput"
+                      id=" customCheckLogin"
+                      type="checkbox"
+                      name="isRequired"
+                      checked={requireEmail}
+                      onClick={(e) =>
+                        handleRequireEmail(e.target.checked)
+                      }
+                    />
+                    <label
+                      style={{ marginBottom: "0" }}
+                      htmlFor=" customCheckLogin"
+                    >
+                      <p>Required</p>
+                    </label>
+                  </div>
           </Col>
           <Col
             xs={12}
@@ -256,16 +334,46 @@ const FeedBackForm = () => {
                 required={true}
                 type="text"
                 placeholder="(999) 999-999"
-                name="placeholder"
-                disabled
+                
+             
+                value={phonePlacholder}
+                name="phonePlacholder"
+                onChange={(e) => setPhonePlaceholder(e.target.value)}
+                  onBlur={(e) => handleonBlurPhone(e)}
               />
+                <img
+                      src={Delete}
+                      alt="Delete"
+                      className="deleteIcon"
+                      style={{opacity:0}}
+                    />
             </FormGroup>
+            <div
+                    className="custom-control custom-control-alternative custom-checkbox"
+                    style={{ padding: "0px" }}
+                  >
+                    <input
+                      className="checkboxInput"
+                      id=" customCheckLogin"
+                      type="checkbox"
+                      name="isRequired"
+                      checked={requirePhone}
+                      onClick={(e) =>
+                        handleRequirePhone(e.target.checked)
+                      }
+                    />
+                    <label
+                      style={{ marginBottom: "0" }}
+                      htmlFor=" customCheckLogin"
+                    >
+                      <p>Required</p>
+                    </label>
+                  </div>
           </Col>
           {!loading ? (
             feedbackForms.length !== 0 &&
             feedbackForms.map((feedbackForm, i) => (
               <>
-                {console.log("i", i)}
                 <Col
                   xs={12}
                   sm={6}
@@ -401,10 +509,33 @@ const FeedBackForm = () => {
                 required={true}
                 type="text"
                 placeholder="example@veriscan.com"
-                name="placeholder"
-                disabled
+                value={emailPlacholder}
+                name="emailPlacholder"
+                onChange={(e) => setEmailPlaceholder(e.target.value)}
+                  onBlur={(e) => handleonBlurEmail(e)}
               />
             </FormGroup>
+            <div
+                    className="custom-control custom-control-alternative custom-checkbox"
+                    style={{ padding: "10px 0px 0px 0px" }}
+                  >
+                    <input
+                      className="checkboxInput"
+                      id=" customCheckLogin"
+                      type="checkbox"
+                      name="isRequired"
+                      checked={requireEmail}
+                      onClick={(e) =>
+                        handleRequireEmail(e.target.checked)
+                      }
+                    />
+                    <label
+                      style={{ marginBottom: "0" }}
+                      htmlFor=" customCheckLogin"
+                    >
+                      <p>Required</p>
+                    </label>
+                  </div>
           </Col>
           <Col
             xs={12}
@@ -442,10 +573,33 @@ const FeedBackForm = () => {
                 required={true}
                 type="text"
                 placeholder="(999) 999-999"
-                name="placeholder"
-                disabled
+                value={phonePlacholder}
+                name="phonePlacholder"
+                onChange={(e) => setPhonePlaceholder(e.target.value)}
+                  onBlur={(e) => handleonBlurPhone(e)}
               />
             </FormGroup>
+            <div
+                    className="custom-control custom-control-alternative custom-checkbox"
+                    style={{ padding: "0px" }}
+                  >
+                    <input
+                      className="checkboxInput"
+                      id=" customCheckLogin"
+                      type="checkbox"
+                      name="isRequired"
+                      checked={requirePhone}
+                      onClick={(e) =>
+                        handleRequirePhone(e.target.checked)
+                      }
+                    />
+                    <label
+                      style={{ marginBottom: "0" }}
+                      htmlFor=" customCheckLogin"
+                    >
+                      <p>Required</p>
+                    </label>
+                  </div>
           </Col>
           {!loading ? (
             <>
